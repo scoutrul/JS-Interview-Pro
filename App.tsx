@@ -50,6 +50,7 @@ const App: React.FC = () => {
   const [selectedTopicId, setSelectedTopicId] = useState<string>('var-let-const');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all');
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [userAnswer, setUserAnswer] = useState('');
   const [aiFeedback, setAiFeedback] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,20 +61,35 @@ const App: React.FC = () => {
     flatTopics.find(t => t.id === selectedTopicId) || flatTopics[0],
   [selectedTopicId, flatTopics]);
 
+  const popularTags = [
+    'this', 'closure', 'async', 'promise', 'hoisting', 'scope', 'const', 'let', 'event loop', 'microtasks', 'prototype', 'immutability'
+  ];
+
   const filteredCategories = useMemo(() => {
     return KNOWLEDGE_BASE.map(cat => ({
       ...cat,
       topics: cat.topics.filter(t => {
+        // Текстовый поиск
         const matchesSearch = !searchQuery || 
           t.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-          t.description.toLowerCase().includes(searchQuery.toLowerCase());
+          t.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.keyPoints.some(kp => kp.toLowerCase().includes(searchQuery.toLowerCase()));
         
+        // Фильтр по сложности
         const matchesDifficulty = selectedDifficulty === 'all' || t.difficulty === selectedDifficulty;
         
-        return matchesSearch && matchesDifficulty;
+        // Фильтр по тегам (тема должна содержать ХОТЯ БЫ ОДИН из выбранных тегов, если они выбраны)
+        const matchesTags = selectedTags.length === 0 || selectedTags.some(tag => {
+            const lowTag = tag.toLowerCase();
+            return t.title.toLowerCase().includes(lowTag) || 
+                   t.description.toLowerCase().includes(lowTag) ||
+                   t.keyPoints.some(kp => kp.toLowerCase().includes(lowTag));
+        });
+        
+        return matchesSearch && matchesDifficulty && matchesTags;
       })
     })).filter(cat => cat.topics.length > 0);
-  }, [searchQuery, selectedDifficulty]);
+  }, [searchQuery, selectedDifficulty, selectedTags]);
 
   const handleAskInterviewer = async () => {
     if (!userAnswer.trim()) return;
@@ -90,9 +106,23 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags(prev => 
+      prev.includes(tag) 
+        ? prev.filter(t => t !== tag) 
+        : [...prev, tag]
+    );
+  };
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedTags([]);
+    setSelectedDifficulty('all');
+  };
+
   return (
     <div className="flex h-screen flex-col md:flex-row overflow-hidden">
-      {/* Sidebar - ширина увеличена до 96 (384px) и зафиксирована минимальная ширина */}
+      {/* Sidebar */}
       <aside className="w-full md:w-96 md:min-w-[384px] bg-slate-900/50 border-r border-slate-800 flex flex-col p-4 overflow-y-auto">
         <div className="flex items-center gap-3 mb-8 px-2">
           <div className="bg-emerald-500 p-2 rounded-lg">
@@ -111,6 +141,15 @@ const App: React.FC = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-slate-800 border border-slate-700 rounded-lg py-2 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
             />
+            {(searchQuery || selectedTags.length > 0 || selectedDifficulty !== 'all') && (
+              <button 
+                onClick={clearFilters}
+                title="Очистить все фильтры"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-rose-400 transition-colors"
+              >
+                <i className="fa-solid fa-circle-xmark"></i>
+              </button>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-1 bg-slate-800/50 p-1 rounded-lg border border-slate-700">
@@ -128,9 +167,45 @@ const App: React.FC = () => {
               </button>
             ))}
           </div>
+
+          {/* Облако тегов */}
+          <div className="px-1">
+            <div className="flex items-center justify-between mb-2">
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                  <i className="fa-solid fa-tags"></i>
+                  Облако тегов
+                </div>
+                {selectedTags.length > 0 && (
+                  <button 
+                    onClick={() => setSelectedTags([])}
+                    className="text-[9px] text-slate-500 hover:text-emerald-400 uppercase font-bold tracking-tighter"
+                  >
+                    сбросить
+                  </button>
+                )}
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {popularTags.map(tag => {
+                const isActive = selectedTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => handleTagToggle(tag)}
+                    className={`text-[10px] px-2 py-1 rounded border transition-all duration-200 ${
+                      isActive
+                        ? 'bg-emerald-500 border-emerald-400 text-slate-950 font-bold shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                        : 'bg-slate-800/40 border-slate-700 text-slate-500 hover:border-slate-500 hover:text-slate-300'
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
 
-        <nav className="space-y-8">
+        <nav className="space-y-8 mt-4">
           {filteredCategories.length > 0 ? (
             filteredCategories.map(category => (
               <div key={category.id}>
@@ -153,6 +228,12 @@ const App: React.FC = () => {
             <div className="text-center py-10 px-4">
               <i className="fa-solid fa-filter-circle-xmark text-slate-700 text-3xl mb-3"></i>
               <p className="text-slate-500 text-sm italic">Ничего не найдено</p>
+              <button 
+                onClick={clearFilters}
+                className="mt-4 text-emerald-500 text-xs font-bold hover:underline"
+              >
+                Сбросить фильтры
+              </button>
             </div>
           )}
         </nav>
@@ -208,7 +289,7 @@ const App: React.FC = () => {
                   <i className="fa-regular fa-copy mr-1"></i> Копировать
                 </button>
               </div>
-              <div className="bg-[#1e293b] rounded-2xl p-6 overflow-x-auto border border-slate-800 shadow-xl group-hover:border-emerald-500/30 transition-all">
+              <div className="bg-[#1e293b] rounded-2xl p-6 overflow-x-auto border border-slate-800 shadow-xl group-hover:border-emerald-500/30 transition-all duration-300">
                 <pre className="text-emerald-300 text-sm md:text-base leading-relaxed">
                   <code>{currentTopic.codeExample}</code>
                 </pre>
@@ -217,7 +298,7 @@ const App: React.FC = () => {
           )}
 
           {/* AI Interviewer Section */}
-          <div className="bg-gradient-to-br from-indigo-900/20 to-emerald-900/10 border border-slate-800 rounded-2xl p-8 mb-12">
+          <div className="bg-gradient-to-br from-indigo-900/20 to-emerald-900/10 border border-slate-800 rounded-2xl p-8 mb-12 shadow-2xl">
             <div className="flex items-center gap-4 mb-6">
               <div className="bg-emerald-500 w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                 <i className="fa-solid fa-robot text-slate-950 text-xl"></i>

@@ -21,42 +21,78 @@ if (true) {
   var x = 5;
   let y = 10;
 }
-console.log(x); // 5
-console.log(y); // ReferenceError`,
+console.log(x); // 5 (доступна вне блока)
+try {
+  console.log(y); // ReferenceError: y is not defined
+} catch(e) { console.log("y недоступна") }`,
         relatedTopics: ['hoisting', 'scope-chain', 'tdz']
+      },
+      {
+        id: 'scope-chain',
+        title: 'Область видимости и Scope Chain',
+        difficulty: 'beginner',
+        description: 'Механизм поиска переменных: если переменная не найдена в текущем окружении, поиск продолжается во внешнем.',
+        keyPoints: [
+          'Global Scope: самый верхний уровень.',
+          'Function Scope: создается внутри функций.',
+          'Block Scope: создается внутри {}, если используются let/const.',
+          'Поиск идет строго вверх, от вложенных областей к глобальной.'
+        ],
+        codeExample: `const globalVar = "Global";
+
+function outer() {
+  const outerVar = "Outer";
+  
+  function inner() {
+    const innerVar = "Inner";
+    // Видит всё по цепочке вверх
+    console.log(innerVar, outerVar, globalVar);
+  }
+  
+  inner();
+}
+
+outer();`,
+        relatedTopics: ['lexical-env', 'closures-basic']
       },
       {
         id: 'hoisting',
         title: 'Hoisting (Всплытие)',
         difficulty: 'intermediate',
-        description: 'Механизм в JavaScript, при котором объявления переменных и функций перемещаются в начало их области видимости перед выполнением кода.',
+        description: 'Механизм, при котором объявления функций и переменных "поднимаются" в начало области видимости.',
         keyPoints: [
-          'Функции (Function Declaration) всплывают полностью.',
-          'var всплывает со значением undefined.',
-          'let и const всплывают, но попадают в TDZ.'
+          'Function Declaration: всплывает полностью (можно вызвать до объявления).',
+          'var: всплывает только объявление, значение до инициализации — undefined.',
+          'let/const: всплывают, но обращение до строки объявления вызывает ошибку (TDZ).'
         ],
-        codeExample: `console.log(a); // undefined
-var a = 10;
+        codeExample: `// Функции всплывают полностью
+sayHello(); 
 
-foo(); // "Hello"
-function foo() { console.log("Hello"); }`,
+function sayHello() {
+  console.log("Hello!");
+}
+
+// var всплывает частично
+console.log(a); // undefined
+var a = 10;`,
         relatedTopics: ['var-let-const', 'tdz']
       },
       {
         id: 'tdz',
         title: 'Temporal Dead Zone (TDZ)',
         difficulty: 'intermediate',
-        description: 'Временная мертвая зона — период от начала блока до момента объявления переменной через let или const, когда обращение к ней вызывает ошибку.',
+        description: 'Период между входом в область видимости и фактическим объявлением переменной (для let/const).',
         keyPoints: [
-          'Защищает от использования переменных до их инициализации.',
-          'Характерна только для let и const.',
-          'Помогает ловить баги на этапе разработки.'
+          'Обращение к переменной в TDZ вызывает ReferenceError.',
+          'Сделано для безопасности кода и предотвращения использования неинициализированных переменных.',
+          'TDZ заканчивается в момент выполнения строки с объявлением (инициализацией).'
         ],
-        codeExample: `{
-  // Начало TDZ для 'val'
-  console.log(val); // ReferenceError
-  let val = 42; // Конец TDZ
-}`,
+        codeExample: `function checkTDZ() {
+  // console.log(val); // Ошибка: Cannot access 'val' before initialization
+  let val = "I am safe now";
+  console.log(val); // Работает
+}
+checkTDZ();`,
         relatedTopics: ['var-let-const', 'hoisting']
       }
     ]
@@ -69,37 +105,71 @@ function foo() { console.log("Hello"); }`,
         id: 'closures-basic',
         title: 'Замыкания (Closures)',
         difficulty: 'intermediate',
-        description: 'Способность функции запоминать окружение, в котором она была создана, даже после того, как внешняя функция завершила выполнение.',
+        description: 'Функция, которая "помнит" своё лексическое окружение даже после выхода из внешней функции.',
         keyPoints: [
-          'Функция + Лексическое окружение = Замыкание.',
-          'Позволяет создавать приватные данные.',
-          'Используется в фабриках функций и модулях.'
+          'Замыкание создается каждый раз при создании функции.',
+          'Дает доступ к переменным внешней функции.',
+          'Используется для инкапсуляции и создания приватных методов.'
         ],
-        codeExample: `function createCounter() {
-  let count = 0;
-  return () => ++count;
+        codeExample: `function makeAdder(x) {
+  // x замыкается внутри возвращаемой функции
+  return function(y) {
+    return x + y;
+  };
 }
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2`,
+
+const add5 = makeAdder(5);
+console.log(add5(10)); // 15
+console.log(add5(2));  // 7`,
         relatedTopics: ['lexical-env', 'private-state']
+      },
+      {
+        id: 'private-state',
+        title: 'Приватное состояние (Эмуляция)',
+        difficulty: 'intermediate',
+        description: 'Использование замыканий для скрытия данных от прямого доступа извне.',
+        keyPoints: [
+          'Переменные внутри функции недоступны снаружи напрямую.',
+          'Доступ осуществляется только через предоставленные методы.',
+          'Классический паттерн для создания модулей или счетчиков.'
+        ],
+        codeExample: `function createSecretStore(secret) {
+  let _secret = secret; // "Приватная" переменная
+
+  return {
+    getSecret: () => _secret,
+    setSecret: (newSecret) => { _secret = newSecret; }
+  };
+}
+
+const store = createSecretStore("password123");
+console.log(store._secret); // undefined (недоступно напрямую)
+console.log(store.getSecret()); // "password123"`,
+        relatedTopics: ['closures-basic']
       },
       {
         id: 'lexical-env',
         title: 'Лексическое окружение',
         difficulty: 'advanced',
-        description: 'Внутренняя структура данных движка JS, содержащая записи о переменных и ссылку на внешнее окружение.',
+        description: 'Внутренний объект движка, описывающий текущий контекст переменных.',
         keyPoints: [
-          'Environment Record: хранит локальные переменные.',
-          'Outer Reference: ссылка на родительское окружение.',
-          'Создается при вызове функции (или входе в блок).'
+          'Environment Record: объект с локальными переменными.',
+          'Outer reference: ссылка на внешнее окружение.',
+          'Окружение создается в момент вызова функции.'
         ],
-        codeExample: `let global = 'global';
-function outer() {
-  let outerVar = 'outer';
-  // Inner видит global и outerVar через цепочку ссылок
-  return function inner() { console.log(global, outerVar); }
-}`,
+        codeExample: `let name = "Global";
+
+function say() {
+  // Окружение функции say ссылается на Глобальное
+  console.log(name); 
+}
+
+function work() {
+  let name = "Local";
+  say(); // Выведет "Global", так как say была создана в глобальном контексте
+}
+
+work();`,
         relatedTopics: ['closures-basic', 'scope-chain']
       }
     ]
@@ -112,56 +182,92 @@ function outer() {
         id: 'this-basics',
         title: 'this в JavaScript',
         difficulty: 'beginner',
-        description: 'Ключевое слово, значение которого определяется в момент вызова функции (динамический контекст).',
+        description: 'Значение this определяется способом вызова функции, а не местом её создания.',
         keyPoints: [
-          'В методе объекта: this ссылается на сам объект.',
-          'В обычной функции: undefined (strict mode) или window.',
-          'В конструкторе/классе: новый экземпляр объекта.',
-          'В стрелочных функциях: берется из внешнего лексического контекста.'
+          'В методе объекта: this — это сам объект.',
+          'Вне функций: в браузере — window.',
+          'В строгом режиме (strict mode): в обычных функциях — undefined.',
+          'this — динамический контекст, в отличие от лексического окружения.'
         ],
-        codeExample: `const obj = {
-  name: 'Ivan',
-  sayHi() { console.log(this.name); }
+        codeExample: `const user = {
+  name: "Dmitry",
+  greet() {
+    console.log("Hello, I am " + this.name);
+  }
 };
-obj.sayHi(); // Ivan`,
+
+user.greet(); // this === user
+
+const func = user.greet;
+// func(); // Ошибка в strict mode или window.name в обычном`,
         relatedTopics: ['arrow-functions', 'context-loss']
+      },
+      {
+        id: 'arrow-functions',
+        title: 'Стрелочные функции и this',
+        difficulty: 'intermediate',
+        description: 'Стрелочные функции не имеют своего this и берут его из внешнего контекста.',
+        keyPoints: [
+          'this в стрелке определяется в момент создания функции (лексически).',
+          'Стрелки нельзя использовать как конструкторы (нет new).',
+          'Методы call, apply и bind не могут изменить this стрелочной функции.'
+        ],
+        codeExample: `const group = {
+  title: "Devs",
+  students: ["Ivan", "Oleg"],
+  showList() {
+    // Стрелка берет this из showList (объект group)
+    this.students.forEach(s => {
+      console.log(this.title + ": " + s);
+    });
+  }
+};
+
+group.showList();`,
+        relatedTopics: ['this-basics']
       },
       {
         id: 'context-loss',
         title: 'Потеря контекста this',
         difficulty: 'intermediate',
-        description: 'Ситуация, когда метод объекта передается как колбэк, и при вызове он теряет связь с исходным объектом.',
+        description: 'Проблема, возникающая при передаче метода объекта как функции-колбэка.',
         keyPoints: [
-          'Часто случается в setTimeout или Event Listeners.',
-          'Решение 1: использование .bind(this).',
-          'Решение 2: обертка в анонимную функцию.',
-          'Решение 3: стрелочная функция как метод (но осторожно).'
+          'Часто случается в setTimeout, обработчиках событий.',
+          'Функция вызывается без привязки к объекту.',
+          'Решается через bind(), анонимные функции или стрелки.'
         ],
-        codeExample: `const user = {
-  name: 'Alex',
-  greet() { console.log(this.name); }
+        codeExample: `const bot = {
+  phrase: "Beep-boop",
+  say() { console.log(this.phrase); }
 };
-setTimeout(user.greet, 1000); // undefined
-setTimeout(() => user.greet(), 1000); // Alex`,
+
+// setTimeout(bot.say, 100); // Потеря: выведет undefined
+
+// Решение 1: bind
+setTimeout(bot.say.bind(bot), 100);
+
+// Решение 2: обертка
+setTimeout(() => bot.say(), 100);`,
         relatedTopics: ['this-basics', 'bind-call-apply']
       },
       {
         id: 'bind-call-apply',
         title: 'bind, call, apply',
         difficulty: 'intermediate',
-        description: 'Методы функций для явного управления контекстом (принудительная привязка this).',
+        description: 'Методы для явного указания контекста выполнения функции.',
         keyPoints: [
-          'call: вызывает функцию сразу, аргументы через запятую.',
-          'apply: вызывает функцию сразу, аргументы массивом.',
-          'bind: возвращает новую функцию с зафиксированным контекстом.'
+          'call(context, arg1, arg2): вызывает немедленно.',
+          'apply(context, [args]): вызывает немедленно с массивом аргументов.',
+          'bind(context): возвращает новую функцию с "привязанным" контекстом.'
         ],
-        codeExample: `function showInfo(age) {
-  console.log(this.name, age);
+        codeExample: `function introduce(city, hobby) {
+  console.log(\`I'm \${this.name} from \${city}. I like \${hobby}.\`);
 }
-const person = { name: 'Bob' };
-showInfo.call(person, 25); // Bob 25
-const bound = showInfo.bind(person, 30);
-bound(); // Bob 30`,
+
+const me = { name: "Alex" };
+
+introduce.call(me, "Moscow", "JS");
+introduce.apply(me, ["Paris", "Art"]);`,
         relatedTopics: ['this-basics', 'context-loss']
       }
     ]
@@ -174,19 +280,22 @@ bound(); // Bob 30`,
         id: 'prototype-chain',
         title: 'Prototype & prototype chain',
         difficulty: 'intermediate',
-        description: 'Механизм наследования в JavaScript, основанный на делегировании свойств через цепочку прототипов.',
+        description: 'Механизм наследования в JavaScript через скрытую ссылку [[Prototype]].',
         keyPoints: [
-          'Каждый объект имеет скрытую ссылку [[Prototype]] (доступна через __proto__).',
-          'Свойство prototype есть только у функций-конструкторов.',
-          'Поиск свойства идет вверх по цепочке до null.',
-          'Object.create(proto) создает новый объект с указанным прототипом.'
+          '__proto__ — способ доступа к прототипу (устаревший, но наглядный).',
+          'Object.getPrototypeOf() — современный способ.',
+          'Цепочка заканчивается на null.',
+          'Запись свойства всегда идет в сам объект, а не в прототип.'
         ],
         codeExample: `const animal = { eats: true };
-const rabbit = Object.create(animal);
-rabbit.jumps = true;
+const rabbit = { jumps: true };
 
-console.log(rabbit.eats); // true (из прототипа)
-console.log(Object.getPrototypeOf(rabbit) === animal); // true`,
+// Устанавливаем прототип
+Object.setPrototypeOf(rabbit, animal);
+
+console.log(rabbit.eats); // true (из animal)
+console.log(rabbit.hasOwnProperty('eats')); // false
+console.log(rabbit.hasOwnProperty('jumps')); // true`,
         relatedTopics: ['this-basics', 'lexical-env']
       }
     ]
@@ -199,40 +308,44 @@ console.log(Object.getPrototypeOf(rabbit) === animal); // true`,
         id: 'event-loop',
         title: 'Event Loop (Microtasks / Macrotasks)',
         difficulty: 'advanced',
-        description: 'Модель выполнения кода в JS, которая позволяет выполнять "неблокирующие" операции в однопоточном режиме.',
+        description: 'Цикл обработки событий, управляющий порядком выполнения задач.',
         keyPoints: [
-          'Call Stack: текущий стек вызовов.',
-          'Task Queue (Macrotasks): setTimeout, setInterval, I/O.',
-          'Microtask Queue: Promises (.then/catch/finally), queueMicrotask.',
-          'Приоритет: Сначала весь синхронный код -> все микрозадачи -> одна макрозадача -> рендер -> цикл повторяется.'
+          'Stack: текущее выполнение.',
+          'Microtasks: Promise.then, MutationObserver, queueMicrotask.',
+          'Macrotasks: setTimeout, setInterval, Event Listeners, I/O.',
+          'Очередность: Stack -> Microtasks (все) -> Render -> Macrotask (одна).'
         ],
-        codeExample: `console.log('1');
-setTimeout(() => console.log('2'), 0);
-Promise.resolve().then(() => console.log('3'));
-console.log('4');
-// Вывод: 1, 4, 3, 2`,
+        codeExample: `console.log("Start");
+
+setTimeout(() => console.log("Timeout (macro)"), 0);
+
+Promise.resolve().then(() => console.log("Promise (micro)"));
+
+console.log("End");
+
+// Вывод: Start, End, Promise, Timeout`,
         relatedTopics: ['promises-async']
       },
       {
         id: 'promises-async',
         title: 'Async / await и Promise',
         difficulty: 'intermediate',
-        description: 'Современные инструменты для работы с асинхронным кодом, избавляющие от "Callback Hell".',
+        description: 'Способы работы с асинхронными операциями, делающие код читаемым.',
         keyPoints: [
-          'Promise — объект-обещание с 3 состояниями: pending, fulfilled, rejected.',
-          'async/await — синтаксический сахар над промисами для "линейного" вида кода.',
-          'Обработка ошибок через try/catch или .catch().',
-          'Promise.all/race/allSettled для работы с группой промисов.'
+          'Promise: объект-обещание результата.',
+          'async: функция всегда возвращает промис.',
+          'await: приостанавливает выполнение async-функции до завершения промиса.',
+          'Используйте try/catch для обработки ошибок в async/await.'
         ],
-        codeExample: `async function fetchData() {
-  try {
-    const response = await fetch('https://api.example.com');
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    console.error("Ошибка:", err);
-  }
-}`,
+        codeExample: `const wait = (ms) => new Promise(res => setTimeout(res, ms));
+
+async function run() {
+  console.log("Ждем...");
+  await wait(1000);
+  console.log("Прошла 1 секунда");
+}
+
+run();`,
         relatedTopics: ['event-loop']
       }
     ]
@@ -245,20 +358,22 @@ console.log('4');
         id: 'immutability',
         title: 'Иммутабельность и состояние',
         difficulty: 'intermediate',
-        description: 'Принцип неизменяемости данных, критически важный для предсказуемости кода и производительности (особенно в React/Vue).',
+        description: 'Практика создания новых данных вместо изменения старых.',
         keyPoints: [
-          'Примитивы иммутабельны по определению.',
-          'Объекты и массивы мутабельны; для изменения нужно создавать копии ({...obj}, [...arr]).',
-          'Object.freeze() делает объект неглубоко неизменяемым.',
-          'Иммутабельность упрощает отслеживание изменений (change detection).'
+          'Позволяет легко сравнивать состояния по ссылке (быстро для React/Vue).',
+          'Предотвращает неожиданные побочные эффекты.',
+          'Методы массивов (map, filter, concat) способствуют иммутабельности.'
         ],
-        codeExample: `const user = { name: 'Alice', age: 25 };
-// Плохо: мутация
-// user.age = 26;
+        codeExample: `const original = [1, 2, 3];
 
-// Хорошо: иммутабельное обновление
-const updatedUser = { ...user, age: 26 };
-console.log(user === updatedUser); // false`,
+// Мутация (плохо)
+// original.push(4); 
+
+// Иммутабельно (хорошо)
+const next = [...original, 4];
+
+console.log(original); // [1, 2, 3]
+console.log(next); // [1, 2, 3, 4]`,
         relatedTopics: ['closures-basic']
       }
     ]
