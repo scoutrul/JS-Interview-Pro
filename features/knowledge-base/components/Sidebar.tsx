@@ -2,6 +2,7 @@
 import React from 'react';
 import { Category, Difficulty } from '../../../core/types';
 import { Badge } from '../../../components/ui';
+import { POPULAR_TAGS } from '../../../core/constants';
 
 interface SidebarProps {
   categories: Category[];
@@ -16,7 +17,6 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
-  const popularTags = ['this', 'closure', 'async', 'promise', 'hoisting', 'scope', 'const', 'let', 'event loop', 'prototype', 'immutability'];
   
   const renderDifficultyStars = (d: Difficulty | 'all') => {
     if (d === 'all') return 'BCE';
@@ -75,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </div>
 
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {popularTags.slice(0, 11).map(tag => (
+              {POPULAR_TAGS.slice(0, 11).map(tag => (
                 <button
                   key={tag}
                   onClick={() => props.onTagToggle(tag)}
