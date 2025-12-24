@@ -7,9 +7,11 @@ import { useTopicsFilter, useTags } from '../hooks';
 
 interface SidebarProps {
   onTopicSelect: (id: string) => void;
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect }) => {
+const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose }) => {
   const [showAllTags, setShowAllTags] = useState(false);
   const TAGS_LIMIT = 12;
   
@@ -44,10 +46,36 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect }) => {
   };
 
   return (
-    <aside className="w-full md:w-80 h-full bg-slate-900 border-r border-slate-800/80 flex flex-col flex-shrink-0 z-20 transition-colors duration-300">
+    <aside className={`
+      fixed lg:static
+      w-full lg:w-[max(300px,min(25vw,20rem))]
+      h-full
+      bg-slate-900 border-r border-slate-800/80
+      flex flex-col flex-shrink-0
+      z-40 lg:z-20
+      transition-transform duration-300 ease-in-out
+      ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+    `}>
+      <div className="flex items-center justify-between p-5 border-b border-slate-800/80 lg:hidden">
+        <div className="flex items-center gap-3">
+          <div className="bg-emerald-500 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/10">
+            <i className="fa-brands fa-js text-slate-950 text-base"></i>
+          </div>
+          <h1 className="font-bold text-white text-lg tracking-tight">
+            JS Interview <span className="text-emerald-500">Pro</span>
+          </h1>
+        </div>
+        <button
+          onClick={onClose}
+          className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
+        >
+          <i className="fa-solid fa-times text-sm"></i>
+        </button>
+      </div>
+      
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <div className="p-5">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="hidden lg:flex items-center gap-3 mb-6">
             <div className="bg-emerald-500 w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/10">
               <i className="fa-brands fa-js text-slate-950 text-base"></i>
             </div>

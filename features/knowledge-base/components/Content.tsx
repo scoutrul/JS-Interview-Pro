@@ -14,7 +14,7 @@ const Content: React.FC<ContentProps> = (props) => {
   const { topic } = props;
 
   return (
-    <div key={topic.id} className="w-full max-w-4xl mx-auto py-12 px-6 animate-content">
+    <div key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-6 animate-content">
       <header className="mb-10 relative">
         <div className="flex items-start mb-2">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
