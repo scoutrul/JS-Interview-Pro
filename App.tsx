@@ -17,7 +17,13 @@ const App: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const flatTopics = useMemo(() => KNOWLEDGE_BASE.flatMap(c => c.topics), []);
-  const currentTopic = useMemo(() => flatTopics.find(t => t.id === selectedTopicId) || flatTopics[0], [selectedTopicId, flatTopics]);
+  const currentTopic = useMemo(() => {
+    const topic = flatTopics.find(t => t.id === selectedTopicId) || flatTopics[0];
+    if (!topic) {
+      console.error('No topics found in KNOWLEDGE_BASE');
+    }
+    return topic;
+  }, [selectedTopicId, flatTopics]);
 
   const filteredCategories = useMemo(() => {
     return KNOWLEDGE_BASE.map(cat => ({
@@ -38,11 +44,20 @@ const App: React.FC = () => {
   };
 
   const handleGenQuestions = async () => {
+    if (!currentTopic) return;
     setIsGeneratingQuestions(true);
     const questions = await generateSelfTestQuestions(currentTopic.title, currentTopic.keyPoints);
-    setSelfTestQuestions(questions);
+    setSelfTestQuestions(questions || null);
     setIsGeneratingQuestions(false);
   };
+
+  if (!currentTopic) {
+    return (
+      <div className="flex h-screen bg-[#0a0f1d] items-center justify-center">
+        <div className="text-slate-400">Загрузка...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-screen bg-[#0a0f1d] overflow-hidden">

@@ -16,7 +16,7 @@ const Mentor: React.FC<MentorProps> = ({ topicTitle }) => {
     if (!answer.trim()) return;
     setLoading(true);
     const res = await askInterviewer(topicTitle, answer);
-    setFeedback(res);
+    setFeedback(res || null);
     setLoading(false);
   };
 

@@ -1,7 +1,7 @@
 
 import React, { useMemo, useState } from 'react';
 import Prism from 'prismjs';
-import 'https://esm.sh/prismjs@1.29.0/components/prism-javascript';
+import 'prismjs/components/prism-javascript';
 import { Difficulty } from '../../core/types';
 
 // --- Atoms ---
