@@ -3,6 +3,7 @@ import React from 'react';
 import { Topic } from '../../../core/types';
 import { Badge, CodeBlock } from '../../../components/ui';
 import ScopeChainVisualizer from '../visualizers/ScopeChainVisualizer';
+import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
 
 interface ContentProps {
   topic: Topic;
@@ -12,14 +13,34 @@ interface ContentProps {
 
 const Content: React.FC<ContentProps> = (props) => {
   const { topic } = props;
+  const { isLearned, toggleLearned } = useKnowledgeBaseStore();
+  const learned = isLearned(topic.id);
 
   return (
     <div key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-6 animate-content">
       <header className="mb-10 relative">
-        <div className="flex items-start mb-2">
+        <div className="flex items-start justify-between mb-2">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
+          <button
+            onClick={() => toggleLearned(topic.id)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+              learned
+                ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20'
+                : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:bg-slate-700/40 hover:text-slate-300'
+            }`}
+          >
+            <i className={`fa-solid ${learned ? 'fa-check-circle' : 'fa-circle'} text-sm`}></i>
+            <span className="text-xs font-bold">{learned ? 'Изучено' : 'Отметить как изученное'}</span>
+          </button>
         </div>
-        <h2 className="text-4xl font-black text-white mb-4 tracking-tight leading-tight">{topic.title}</h2>
+        <div className="flex items-center gap-3 mb-4">
+          <h2 className="text-4xl font-black text-white tracking-tight leading-tight">{topic.title}</h2>
+          {learned && (
+            <span className="px-2 py-1 bg-emerald-500/20 border border-emerald-500/50 rounded text-emerald-400 text-xs font-bold">
+              ИЗУЧЕНО
+            </span>
+          )}
+        </div>
         <p className="text-slate-400 text-lg font-medium leading-relaxed mb-6">
           {topic.description}
         </p>

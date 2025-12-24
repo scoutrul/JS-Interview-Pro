@@ -22,7 +22,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
     selectedTags,
     setSearchQuery,
     setSelectedDifficulty,
-    toggleTag
+    toggleTag,
+    isLearned,
+    clearAllLearned,
+    learnedTopics
   } = useKnowledgeBaseStore();
   
   const { filteredCategories } = useTopicsFilter();
@@ -143,6 +146,51 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
             </div>
           </div>
 
+          {(() => {
+            const totalTopics = filteredCategories.reduce((sum, cat) => sum + cat.topics.length, 0);
+            const learnedInFiltered = filteredCategories.reduce(
+              (sum, cat) => sum + cat.topics.filter(t => isLearned(t.id)).length,
+              0
+            );
+            const hasLearned = learnedTopics.length > 0;
+            
+            if (totalTopics === 0 && !hasLearned) return null;
+            
+            return (
+              <div className="mb-4 bg-slate-800/20 border border-slate-700/30 rounded-lg p-3">
+                <div className="flex items-center gap-2">
+                  {totalTopics > 0 && (
+                    <>
+                      <span className="text-[10px] text-slate-500 font-bold uppercase whitespace-nowrap">Прогресс</span>
+                      <div className="flex-1 bg-slate-800/40 rounded-full h-1.5 overflow-hidden">
+                        <div 
+                          className="h-full bg-emerald-500 transition-all duration-300"
+                          style={{ width: `${totalTopics > 0 ? (learnedInFiltered / totalTopics) * 100 : 0}%` }}
+                        />
+                      </div>
+                      <span className="text-xs text-emerald-400 font-bold whitespace-nowrap">
+                        {learnedInFiltered}/{totalTopics}
+                      </span>
+                    </>
+                  )}
+                  {hasLearned && (
+                    <button
+                      onClick={() => {
+                        if (confirm('Очистить все отметки об изученных темах?')) {
+                          clearAllLearned();
+                        }
+                      }}
+                      className="w-6 h-6 flex items-center justify-center bg-slate-800/40 border border-slate-700/50 rounded text-slate-400 hover:text-slate-300 hover:bg-slate-700/40 transition-all flex-shrink-0"
+                      title="Очистить изученное"
+                    >
+                      <i className="fa-solid fa-trash text-[10px]"></i>
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
+
           <nav className="pt-4 border-t border-slate-800/40">
             {filteredCategories.length > 0 ? (
               filteredCategories.map(cat => (
@@ -151,6 +199,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                 <div className="space-y-2">
                   {cat.topics.map(topic => {
                     const isActive = selectedTopicId === topic.id;
+                    const topicLearned = isLearned(topic.id);
                     const difficultyColors: Record<Difficulty, { bg: string; border: string; text: string; shadow: string }> = {
                       beginner: {
                         bg: 'bg-emerald-500/5',
@@ -181,12 +230,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                           isActive 
                             ? `${activeColors?.bg} ${activeColors?.border} ${activeColors?.text} ${activeColors?.shadow}` 
                             : 'bg-[#1e293b]/20 border-slate-800/80 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300'
-                        }`}
+                        } ${topicLearned ? 'opacity-60' : ''}`}
                       >
-                        <span className={`text-[11px] font-bold truncate max-w-[140px] ${isActive ? activeColors?.text : 'text-slate-300'}`}>
-                          {topic.title}
-                        </span>
-                        <Badge variant={topic.difficulty} className="h-4 px-1.5" />
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          {topicLearned && (
+                            <i className="fa-solid fa-check-circle text-emerald-500 text-[10px] flex-shrink-0"></i>
+                          )}
+                          <span className={`text-[11px] font-bold truncate ${isActive ? activeColors?.text : 'text-slate-300'}`}>
+                            {topic.title}
+                          </span>
+                        </div>
+                        <Badge variant={topic.difficulty} className="h-4 px-1.5 flex-shrink-0" />
                       </button>
                     );
                   })}
