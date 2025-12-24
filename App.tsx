@@ -21,24 +21,14 @@ const CodeHighlighter: React.FC<{ code: string }> = ({ code }) => {
   };
 
   return (
-    <div className="code-block-container overflow-hidden my-6">
-      <div className="code-header">
-        <div className="flex items-center gap-3">
-          <div className="dot-container">
-            <div className="dot dot-red"></div>
-            <div className="dot dot-yellow"></div>
-            <div className="dot dot-green"></div>
-          </div>
-          <span className="text-[10px] text-slate-400 font-mono">example.js</span>
-        </div>
-        <button 
-          onClick={copyToClipboard}
-          className="text-slate-400 hover:text-white transition-colors text-xs flex items-center gap-1.5"
-        >
-          {copied ? <><i className="fa-solid fa-check text-emerald-500"></i> Снято</> : <><i className="fa-solid fa-copy"></i> Копировать</>}
-        </button>
-      </div>
-      <div className="p-5 overflow-x-auto text-[15px]">
+    <div className="code-block-container overflow-hidden my-6 relative group">
+      <button 
+        onClick={copyToClipboard}
+        className="absolute top-4 right-4 text-slate-500 hover:text-white transition-all text-xs flex items-center gap-1.5 bg-slate-900/50 hover:bg-slate-900 px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 backdrop-blur-sm border border-slate-700/50"
+      >
+        {copied ? <><i className="fa-solid fa-check text-emerald-500"></i> Снято</> : <><i className="fa-solid fa-copy"></i> Копировать</>}
+      </button>
+      <div className="p-6 overflow-x-auto text-[15px]">
         <pre className="language-javascript">
           <code dangerouslySetInnerHTML={{ __html: highlighted }} />
         </pre>
