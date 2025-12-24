@@ -41,7 +41,7 @@ const App: React.FC = () => {
         onClose={() => setIsSidebarOpen(false)}
       />
       
-      <main ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-[#1e293b] relative">
+      <main ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-[#1e293b] bg-gradient-to-br from-[#1e293b] via-[#1a2332] to-[#0f172a] relative">
         {/* Кнопка меню для мобильных */}
         <button
           onClick={() => setIsSidebarOpen(true)}
@@ -50,7 +50,7 @@ const App: React.FC = () => {
           <i className="fa-solid fa-bars text-sm"></i>
         </button>
         
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:clamp(2.5rem,4vw,3rem)_clamp(2.5rem,4vw,3rem)] pointer-events-none"></div>
+        <div className="fixed inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:clamp(2.5rem,4vw,3rem)_clamp(2.5rem,4vw,3rem)] pointer-events-none"></div>
         <Content 
           topic={currentTopic}
           relatedTopics={relatedTopics}

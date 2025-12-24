@@ -79,7 +79,7 @@ const Content: React.FC<ContentProps> = (props) => {
               <div
                 key={relatedTopic.id}
                 onClick={() => props.onTopicJump(relatedTopic.id)}
-                className="text-left bg-[#161b22] border border-slate-800/60 rounded-xl p-5 hover:border-emerald-500/30 transition-all cursor-pointer group"
+                className="text-left bg-[#334155] border border-slate-800/60 rounded-xl p-5 hover:border-emerald-500/30 transition-all cursor-pointer group"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">

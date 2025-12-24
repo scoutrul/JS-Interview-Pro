@@ -207,7 +207,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
             {filteredCategories.length > 0 ? (
               filteredCategories.map(cat => (
               <div key={cat.id} className="mb-8 last:mb-0">
-                <h3 className="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 px-1">{cat.title}</h3>
+                <h3 className="text-[9px] font-black text-blue-500 uppercase tracking-widest mb-3 px-1">{cat.title}</h3>
                 <div className="space-y-2">
                   {cat.topics.map(topic => {
                     const isActive = selectedTopicId === topic.id;
