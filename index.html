@@ -42,6 +42,15 @@
             margin-left: -1.2em;
         }
 
+        /* Анимация появления */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-content {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
         /* Кастомные правки для Prism, чтобы вписаться в дизайн */
         pre[class*="language-"] {
             margin: 0 !important;
@@ -54,20 +63,6 @@
             box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.5);
             border: 1px solid #44475a;
         }
-        .code-header {
-            background: #44475a;
-            padding: 10px 16px;
-            border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .dot-container { display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .dot-red { background: #ff5555; }
-        .dot-yellow { background: #f1fa8c; }
-        .dot-green { background: #50fa7b; }
     </style>
 <script type="importmap">
 {

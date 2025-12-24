@@ -1,16 +1,21 @@
 
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
+export interface CodeExample {
+  title: string;
+  code: string;
+}
+
 export interface Topic {
   id: string;
   title: string;
   description: string;
   difficulty: Difficulty;
-  codeExample?: string;
+  examples?: CodeExample[]; // Теперь массив для подразделов
   keyPoints: string[];
-  tags: string[];         // Ключевые слова для поиска и фильтрации
-  relatedTopics: string[]; // IDs of related topics
-  nextTopicId?: string;    // ID of the logically next topic
+  tags: string[];         
+  relatedTopics: string[]; 
+  nextTopicId?: string;    
 }
 
 export interface Category {
