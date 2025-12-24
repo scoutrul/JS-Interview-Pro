@@ -1,18 +1,14 @@
 
 import React from 'react';
 import { Topic } from '../../../core/types';
-import { Badge, CodeBlock, MarkdownRenderer } from '../../../components/ui/UIComponents';
+import { Badge, CodeBlock } from '../../../components/ui';
 import ScopeChainVisualizer from '../visualizers/ScopeChainVisualizer';
-import Mentor from '../../mentor/components/Mentor';
 
 interface ContentProps {
   topic: Topic;
   nextTopic?: Topic | null;
   relatedTopics: Topic[];
   onTopicJump: (id: string) => void;
-  onGenerateQuestions: () => void;
-  isGeneratingQuestions: boolean;
-  selfTestQuestions: string | null;
 }
 
 const Content: React.FC<ContentProps> = (props) => {
@@ -61,8 +57,6 @@ const Content: React.FC<ContentProps> = (props) => {
       </div>
 
       {topic.id === 'scope-chain' && <ScopeChainVisualizer />}
-
-      <Mentor topicTitle={topic.title} />
 
       <div className="mt-16 text-center">
         <h3 className="text-slate-600 text-[9px] font-black uppercase tracking-[0.3em] mb-6">РЕКОМЕНДУЕМЫЙ СЛЕДУЮЩИЙ ШАГ</h3>

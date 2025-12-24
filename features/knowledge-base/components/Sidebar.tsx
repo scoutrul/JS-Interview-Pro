@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Category, Difficulty } from '../../../core/types';
-import { Badge } from '../../../components/ui/UIComponents';
+import { Badge } from '../../../components/ui';
 
 interface SidebarProps {
   categories: Category[];

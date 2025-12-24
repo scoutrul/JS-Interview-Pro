@@ -2,7 +2,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { KNOWLEDGE_BASE } from './core/constants';
 import { Topic, Difficulty } from './core/types';
-import { generateSelfTestQuestions } from './services/gemini';
 import Sidebar from './features/knowledge-base/components/Sidebar';
 import Content from './features/knowledge-base/components/Content';
 
@@ -11,8 +10,6 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | 'all'>('all');
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selfTestQuestions, setSelfTestQuestions] = useState<string | null>(null);
-  const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
   
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -39,16 +36,7 @@ const App: React.FC = () => {
 
   const handleTopicJump = (id: string) => {
     setSelectedTopicId(id);
-    setSelfTestQuestions(null);
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleGenQuestions = async () => {
-    if (!currentTopic) return;
-    setIsGeneratingQuestions(true);
-    const questions = await generateSelfTestQuestions(currentTopic.title, currentTopic.keyPoints);
-    setSelfTestQuestions(questions || null);
-    setIsGeneratingQuestions(false);
   };
 
   if (!currentTopic) {
@@ -79,9 +67,6 @@ const App: React.FC = () => {
           nextTopic={currentTopic.nextTopicId ? flatTopics.find(t => t.id === currentTopic.nextTopicId) : null}
           relatedTopics={currentTopic.relatedTopics.map(id => flatTopics.find(t => t.id === id)).filter(Boolean) as Topic[]}
           onTopicJump={handleTopicJump}
-          onGenerateQuestions={handleGenQuestions}
-          isGeneratingQuestions={isGeneratingQuestions}
-          selfTestQuestions={selfTestQuestions}
         />
       </main>
     </div>
