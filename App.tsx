@@ -34,6 +34,18 @@ const App: React.FC = () => {
     })).filter(cat => cat.topics.length > 0);
   }, [searchQuery, selectedDifficulty, selectedTags]);
 
+  // Получаем доступные теги из тем выбранного уровня сложности
+  const availableTags = useMemo(() => {
+    const topicsByDifficulty = KNOWLEDGE_BASE.flatMap(cat => cat.topics).filter(t => 
+      selectedDifficulty === 'all' || t.difficulty === selectedDifficulty
+    );
+    const allTags = new Set<string>();
+    topicsByDifficulty.forEach(topic => {
+      topic.tags.forEach(tag => allTags.add(tag));
+    });
+    return Array.from(allTags).sort();
+  }, [selectedDifficulty]);
+
   const handleTopicJump = (id: string) => {
     setSelectedTopicId(id);
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
@@ -59,6 +71,7 @@ const App: React.FC = () => {
         onDifficultyChange={setSelectedDifficulty}
         selectedTags={selectedTags}
         onTagToggle={(tag) => setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag])}
+        availableTags={availableTags}
       />
       <main ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-[#0a0f1d] relative">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:44px_44px] pointer-events-none"></div>

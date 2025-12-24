@@ -12,7 +12,7 @@ export const Badge: React.FC<{
   const styles: Record<string, string> = {
     beginner: "bg-emerald-500/5 text-emerald-500 border-emerald-500/20",
     intermediate: "bg-amber-500/5 text-amber-500 border-amber-500/20",
-    advanced: "bg-rose-500/5 text-rose-500 border-rose-500/20",
+    advanced: "bg-purple-500/5 text-purple-500 border-purple-500/20",
     tag: "bg-slate-800/40 text-slate-500 border-slate-700/30 hover:border-slate-500 hover:text-slate-300 cursor-pointer",
     "active-tag": "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.1)] cursor-pointer",
     status: "bg-slate-900/60 text-slate-500 border-slate-800"

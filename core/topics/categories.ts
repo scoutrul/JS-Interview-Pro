@@ -18,6 +18,11 @@ export const KNOWLEDGE_BASE: Category[] = [
       getTopic('comparison'),
       getTopic('operators'),
       getTopic('functions-types'),
+      getTopic('arrays-basic'),
+      getTopic('objects-basic'),
+      getTopic('destructuring-basic'),
+      getTopic('strings-methods'),
+      getTopic('conditions-loops'),
     ].filter((t): t is NonNullable<typeof t> => t !== undefined)
   },
   { 
@@ -26,8 +31,7 @@ export const KNOWLEDGE_BASE: Category[] = [
     topics: [
       getTopic('var-let-const'),
       getTopic('hoisting-basic'),
-      getTopic('hoisting'),
-      getTopic('tdz'),
+      getTopic('tdz-basic'),
       getTopic('scope-chain'),
     ].filter((t): t is NonNullable<typeof t> => t !== undefined)
   },
@@ -72,6 +76,36 @@ export const KNOWLEDGE_BASE: Category[] = [
     title: 'Функциональные концепции', 
     topics: [
       getTopic('immutability'),
+    ].filter((t): t is NonNullable<typeof t> => t !== undefined)
+  },
+  { 
+    id: 'collections', 
+    title: 'Коллекции и структуры данных', 
+    topics: [
+      getTopic('arrays-advanced'),
+      getTopic('map-set'),
+      getTopic('weakmap-weakset'),
+    ].filter((t): t is NonNullable<typeof t> => t !== undefined)
+  },
+  { 
+    id: 'oop-modules', 
+    title: 'ООП и Модули', 
+    topics: [
+      getTopic('classes'),
+      getTopic('modules'),
+      getTopic('symbol'),
+    ].filter((t): t is NonNullable<typeof t> => t !== undefined)
+  },
+  { 
+    id: 'advanced-features', 
+    title: 'Продвинутые возможности', 
+    topics: [
+      getTopic('destructuring-advanced'),
+      getTopic('error-handling'),
+      getTopic('proxy-reflect'),
+      getTopic('iterators-iterables'),
+      getTopic('memory-management'),
+      getTopic('regexp-advanced'),
     ].filter((t): t is NonNullable<typeof t> => t !== undefined)
   }
 ];

@@ -14,6 +14,7 @@ interface SidebarProps {
   onDifficultyChange: (val: Difficulty | 'all') => void;
   selectedTags: string[];
   onTagToggle: (tag: string) => void;
+  availableTags: string[];
 }
 
 const Sidebar: React.FC<SidebarProps> = (props) => {
@@ -24,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
     const colors: Record<string, string> = {
       beginner: 'text-emerald-500',
       intermediate: 'text-amber-500',
-      advanced: 'text-rose-500'
+      advanced: 'text-purple-500'
     };
     return (
       <div className="flex gap-0.5">
@@ -75,46 +76,82 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
             </div>
 
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {POPULAR_TAGS.slice(0, 11).map(tag => (
-                <button
-                  key={tag}
-                  onClick={() => props.onTagToggle(tag)}
-                  className={`text-[9px] px-2 py-0.5 rounded border transition-all ${
-                    props.selectedTags.includes(tag) 
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-                      : 'bg-transparent border-slate-800/60 text-slate-600 hover:border-slate-700'
-                  }`}
-                >
-                  {tag}
-                </button>
-              ))}
+              {props.availableTags.length > 0 ? (
+                props.availableTags.slice(0, 11).map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => props.onTagToggle(tag)}
+                    className={`text-[9px] px-2 py-0.5 rounded border transition-all ${
+                      props.selectedTags.includes(tag) 
+                        ? 'bg-transparent border-slate-700 text-white' 
+                        : 'bg-transparent border-slate-800/60 text-slate-600 hover:border-slate-700'
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                ))
+              ) : (
+                <div className="text-[9px] text-slate-600 italic">Нет доступных тегов</div>
+              )}
             </div>
           </div>
 
           <nav className="pt-4 border-t border-slate-800/40">
-            {props.categories.map(cat => (
+            {props.categories.length > 0 ? (
+              props.categories.map(cat => (
               <div key={cat.id} className="mb-8 last:mb-0">
                 <h3 className="text-[9px] font-black text-slate-600 uppercase tracking-widest mb-3 px-1">{cat.title}</h3>
                 <div className="space-y-2">
-                  {cat.topics.map(topic => (
-                    <button
-                      key={topic.id}
-                      onClick={() => props.onTopicSelect(topic.id)}
-                      className={`w-full text-left px-3 py-2.5 rounded-lg transition-all border flex items-center justify-between group ${
-                        props.selectedTopicId === topic.id 
-                          ? 'bg-emerald-500/5 border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.05)]' 
-                          : 'bg-[#1e293b]/20 border-slate-800/80 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300'
-                      }`}
-                    >
-                      <span className={`text-[11px] font-bold truncate max-w-[140px] ${props.selectedTopicId === topic.id ? 'text-emerald-400' : 'text-slate-300'}`}>
-                        {topic.title}
-                      </span>
-                      <Badge variant={topic.difficulty} className="h-4 px-1.5" />
-                    </button>
-                  ))}
+                  {cat.topics.map(topic => {
+                    const isActive = props.selectedTopicId === topic.id;
+                    const difficultyColors: Record<Difficulty, { bg: string; border: string; text: string; shadow: string }> = {
+                      beginner: {
+                        bg: 'bg-emerald-500/5',
+                        border: 'border-emerald-500',
+                        text: 'text-emerald-400',
+                        shadow: 'shadow-[0_0_15px_rgba(16,185,129,0.05)]'
+                      },
+                      intermediate: {
+                        bg: 'bg-amber-500/5',
+                        border: 'border-amber-500',
+                        text: 'text-amber-400',
+                        shadow: 'shadow-[0_0_15px_rgba(245,158,11,0.05)]'
+                      },
+                      advanced: {
+                        bg: 'bg-purple-500/5',
+                        border: 'border-purple-500',
+                        text: 'text-purple-400',
+                        shadow: 'shadow-[0_0_15px_rgba(168,85,247,0.05)]'
+                      }
+                    };
+                    const activeColors = isActive ? difficultyColors[topic.difficulty] : null;
+                    
+                    return (
+                      <button
+                        key={topic.id}
+                        onClick={() => props.onTopicSelect(topic.id)}
+                        className={`w-full text-left px-3 py-2.5 rounded-lg transition-all border flex items-center justify-between group ${
+                          isActive 
+                            ? `${activeColors?.bg} ${activeColors?.border} ${activeColors?.text} ${activeColors?.shadow}` 
+                            : 'bg-[#1e293b]/20 border-slate-800/80 text-slate-400 hover:bg-slate-800/40 hover:text-slate-300'
+                        }`}
+                      >
+                        <span className={`text-[11px] font-bold truncate max-w-[140px] ${isActive ? activeColors?.text : 'text-slate-300'}`}>
+                          {topic.title}
+                        </span>
+                        <Badge variant={topic.difficulty} className="h-4 px-1.5" />
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            ))}
+              ))
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-slate-600 text-sm mb-2">Темы не найдены</div>
+                <div className="text-slate-700 text-[11px]">Попробуйте изменить фильтры</div>
+              </div>
+            )}
           </nav>
         </div>
       </div>
@@ -123,3 +160,4 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 };
 
 export default Sidebar;
+
