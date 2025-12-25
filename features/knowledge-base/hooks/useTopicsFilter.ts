@@ -51,7 +51,14 @@ export const useTopicsFilter = () => {
           // Изученные темы в конец списка
           if (aLearned && !bLearned) return 1;
           if (!aLearned && bLearned) return -1;
-          return 0; // Сохраняем исходный порядок для тем с одинаковым статусом
+          
+          // Сортировка по сложности: beginner → intermediate → advanced
+          const difficultyOrder: Record<Difficulty, number> = {
+            beginner: 1,
+            intermediate: 2,
+            advanced: 3
+          };
+          return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
         })
     })).filter(cat => cat.topics.length > 0);
   }, [searchQuery, selectedDifficulty, selectedTags, isLearned, knowledgeBase, selectedMetaCategory]);

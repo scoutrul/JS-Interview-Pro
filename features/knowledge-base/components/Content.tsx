@@ -45,7 +45,7 @@ const Content: React.FC<ContentProps> = (props) => {
             </span>
           )}
         </div>
-        <p className="text-slate-400 text-lg font-medium leading-relaxed mb-6">
+        <p className="text-slate-400 text-base font-medium leading-relaxed mb-6">
           {highlightQuery ? highlightText(topic.description, highlightQuery) : topic.description}
         </p>
       </header>
