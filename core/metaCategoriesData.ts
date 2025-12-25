@@ -1,5 +1,6 @@
 import { Category, Topic, Difficulty } from './types';
 import { MetaCategoryId } from './metaCategories';
+import { BEGINNER_TOPICS, INTERMEDIATE_TOPICS, ADVANCED_TOPICS } from './topics';
 
 // Простые темы для каждой категории (для начала)
 const createSimpleTopic = (
@@ -57,37 +58,192 @@ const MARKUP_TOPICS: Topic[] = [
   )
 ];
 
+// Вспомогательные функции для получения темы по ID
+const getTopicById = (id: string): Topic | undefined => {
+  return BEGINNER_TOPICS.find(t => t.id === id) ||
+         INTERMEDIATE_TOPICS.find(t => t.id === id) ||
+         ADVANCED_TOPICS.find(t => t.id === id);
+};
+
 // TOOLS категория
 const TOOLS_TOPICS: Topic[] = [
+  // Git - используем полные темы из всех уровней
+  // Beginner
+  getTopicById('git-init-clone'),
+  getTopicById('git-add-commit'),
+  getTopicById('git-status-log'),
+  getTopicById('git-branches'),
+  getTopicById('git-merge'),
+  getTopicById('git-remote'),
+  // Intermediate
+  getTopicById('git-conflicts'),
+  getTopicById('git-rebase'),
+  getTopicById('git-reset-revert'),
+  getTopicById('git-history'),
+  getTopicById('git-stash'),
+  getTopicById('git-remote-advanced'),
+  // Advanced
+  getTopicById('git-cherry-pick'),
+  getTopicById('git-reflog'),
+  getTopicById('git-hooks'),
+  getTopicById('git-submodules'),
+  getTopicById('git-workflow'),
+].filter((t): t is Topic => t !== undefined).concat([
+  // Terminal
   createSimpleTopic(
-    'git-basics',
-    'Основы Git',
-    'Коммиты, ветки, merge, rebase, работа с удаленными репозиториями',
+    'terminal-basics',
+    'Основы Terminal',
+    'Навигация: cd, ls, pwd. Файлы: cat, touch, mkdir, rm. Поиск: find, grep',
     'beginner',
-    ['git', 'version-control', 'basics']
+    ['terminal', 'cli', 'bash', 'shell', 'basics', 'tools', 'productivity']
   ),
   createSimpleTopic(
-    'git-advanced',
-    'Продвинутый Git',
-    'Cherry-pick, stash, reflog, работа с историей',
+    'terminal-intermediate',
+    'Terminal средний уровень',
+    'Перенаправление: >, >>, |. Переменные окружения: export, PATH. Пакетные менеджеры: apt/yum, brew',
     'intermediate',
-    ['git', 'advanced', 'workflow']
+    ['terminal', 'cli', 'bash', 'shell', 'pipes', 'environment', 'tools', 'productivity']
   ),
+  createSimpleTopic(
+    'terminal-advanced',
+    'Продвинутый Terminal',
+    'Bash скрипты, alias, процессы: ps, kill, jobs, bg/fg. SSH, rsync, sed/awk',
+    'advanced',
+    ['terminal', 'cli', 'bash', 'shell', 'scripting', 'ssh', 'tools', 'productivity']
+  ),
+  // npm
+  createSimpleTopic(
+    'npm-basics',
+    'Основы npm',
+    'Установка: npm install, npm i. package.json: зависимости, scripts. Команды: npm start, npm run',
+    'beginner',
+    ['npm', 'package-manager', 'node', 'basics', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'npm-intermediate',
+    'npm средний уровень',
+    'Версионирование: ^, ~, семантическое версионирование. Глобальные vs локальные пакеты. npm audit, npm outdated',
+    'intermediate',
+    ['npm', 'package-manager', 'node', 'versioning', 'dependencies', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'npm-advanced',
+    'Продвинутый npm',
+    'npm workspaces, монорепозитории, npm link, создание пакетов, package-lock.json, разрешение конфликтов',
+    'advanced',
+    ['npm', 'package-manager', 'node', 'workspaces', 'monorepo', 'tools', 'productivity']
+  ),
+  // Docker
+  createSimpleTopic(
+    'docker-basics',
+    'Основы Docker',
+    'docker run, docker build. Dockerfile: FROM, RUN, COPY. Образы и контейнеры: images, containers',
+    'beginner',
+    ['docker', 'containers', 'devops', 'basics', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'docker-intermediate',
+    'Docker средний уровень',
+    'Docker Compose: docker-compose.yml. Volumes, networks. Многоэтапная сборка (multi-stage)',
+    'intermediate',
+    ['docker', 'containers', 'devops', 'compose', 'volumes', 'networks', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'docker-advanced',
+    'Продвинутый Docker',
+    'Оптимизация образов, .dockerignore. Docker Swarm, Kubernetes основы. CI/CD интеграция',
+    'advanced',
+    ['docker', 'containers', 'devops', 'kubernetes', 'optimization', 'cicd', 'tools', 'productivity']
+  ),
+  // DevTools
+  createSimpleTopic(
+    'devtools-basics',
+    'Основы DevTools',
+    'Console: логи, ошибки. Elements: инспектор, стили. Network: запросы, статусы',
+    'beginner',
+    ['devtools', 'debugging', 'browser', 'console', 'basics', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'devtools-intermediate',
+    'DevTools средний уровень',
+    'Sources: отладка, breakpoints. Performance: профилирование. Application: Storage, Cookies',
+    'intermediate',
+    ['devtools', 'debugging', 'browser', 'performance', 'profiling', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'devtools-advanced',
+    'Продвинутый DevTools',
+    'Memory leaks, heap snapshots. Lighthouse, аудит производительности. Remote debugging, мобильная отладка',
+    'advanced',
+    ['devtools', 'debugging', 'browser', 'performance', 'memory', 'lighthouse', 'tools', 'productivity']
+  ),
+  // Cursor
+  createSimpleTopic(
+    'cursor-basics',
+    'Основы Cursor',
+    'Интерфейс, настройка, базовое использование AI. Автодополнение, быстрые команды, чат с AI',
+    'beginner',
+    ['cursor', 'editor', 'ai', 'basics', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'cursor-intermediate',
+    'Cursor средний уровень',
+    'Продвинутые AI возможности: рефакторинг, генерация кода, объяснение кода. Настройка промптов, контекстные команды',
+    'intermediate',
+    ['cursor', 'editor', 'ai', 'refactoring', 'code-generation', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'cursor-advanced',
+    'Продвинутый Cursor',
+    'Кастомные AI модели, интеграции, расширения. Оптимизация workflow, продвинутые промпты, работа с большими проектами',
+    'advanced',
+    ['cursor', 'editor', 'ai', 'custom-models', 'integrations', 'workflow', 'tools', 'productivity']
+  ),
+  // AI Tools
+  createSimpleTopic(
+    'ai-tools-basics',
+    'Основы AI инструментов',
+    'ChatGPT, Copilot, базовое использование AI. Промпты: формулировка задач. GitHub Copilot: автодополнение',
+    'beginner',
+    ['ai', 'chatgpt', 'copilot', 'prompts', 'basics', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'ai-tools-intermediate',
+    'AI инструменты средний уровень',
+    'Продвинутые промпты: few-shot, chain-of-thought. Рефакторинг с AI. Генерация тестов, документации',
+    'intermediate',
+    ['ai', 'prompts', 'refactoring', 'testing', 'documentation', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'ai-tools-advanced',
+    'Продвинутые AI инструменты',
+    'Fine-tuning моделей. AI в CI/CD: авторевью, автотесты. Локальные модели: Ollama, LM Studio',
+    'advanced',
+    ['ai', 'fine-tuning', 'cicd', 'local-models', 'ollama', 'tools', 'productivity']
+  ),
+  // Testing
   createSimpleTopic(
     'testing-basics',
     'Основы тестирования',
-    'Unit тесты, интеграционные тесты, Jest, Vitest',
+    'Unit тесты, интеграционные тесты, Jest, Vitest. Настройка, базовые матчеры, describe/it, beforeEach/afterEach',
     'beginner',
-    ['testing', 'jest', 'unit-tests']
+    ['testing', 'jest', 'vitest', 'unit-tests', 'basics', 'tools', 'productivity']
   ),
   createSimpleTopic(
-    'ai-tools',
-    'AI инструменты',
-    'ChatGPT, Copilot, использование AI в разработке',
-    'beginner',
-    ['ai', 'tools', 'productivity']
+    'testing-intermediate',
+    'Тестирование средний уровень',
+    'Mocking, spies, stubs. Тестирование асинхронного кода, промисов, async/await. Snapshot тесты, покрытие кода',
+    'intermediate',
+    ['testing', 'jest', 'vitest', 'mocking', 'async', 'snapshots', 'coverage', 'tools', 'productivity']
+  ),
+  createSimpleTopic(
+    'testing-advanced',
+    'Продвинутое тестирование',
+    'E2E тесты: Playwright, Cypress. Тестирование производительности, нагрузочное тестирование. TDD/BDD подходы, тестирование архитектуры',
+    'advanced',
+    ['testing', 'e2e', 'playwright', 'cypress', 'performance', 'tdd', 'bdd', 'architecture', 'tools', 'productivity']
   )
-];
+]);
 
 // TYPESCRIPT категория
 const TYPESCRIPT_TOPICS: Topic[] = [
@@ -296,14 +452,39 @@ export const META_CATEGORIES_DATA: Record<MetaCategoryId, Category[]> = {
       topics: TOOLS_TOPICS.filter(t => t.id.startsWith('git'))
     },
     {
-      id: 'testing',
-      title: 'Тестирование',
-      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('testing'))
+      id: 'terminal',
+      title: 'Terminal',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('terminal'))
+    },
+    {
+      id: 'npm',
+      title: 'npm',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('npm'))
+    },
+    {
+      id: 'docker',
+      title: 'Docker',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('docker'))
+    },
+    {
+      id: 'devtools',
+      title: 'DevTools',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('devtools'))
+    },
+    {
+      id: 'cursor',
+      title: 'Cursor',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('cursor'))
     },
     {
       id: 'ai',
       title: 'AI инструменты',
-      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('ai'))
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('ai-tools'))
+    },
+    {
+      id: 'testing',
+      title: 'Тестирование',
+      topics: TOOLS_TOPICS.filter(t => t.id.startsWith('testing'))
     }
   ],
   typescript: [

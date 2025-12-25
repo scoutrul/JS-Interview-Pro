@@ -5,6 +5,7 @@ import { Badge, CodeBlock } from '../../../components/ui';
 import ScopeChainVisualizer from '../visualizers/ScopeChainVisualizer';
 import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
 import { KNOWLEDGE_BASE } from '../../../core/constants';
+import { highlightText } from '../utils/highlightText';
 
 interface ContentProps {
   topic: Topic;
@@ -13,12 +14,18 @@ interface ContentProps {
   contentSearchQuery: string | null;
   setContentSearchQuery: (query: string | null) => void;
   searchResults: Topic[];
+  savedSearchQuery: string | null;
 }
 
 const Content: React.FC<ContentProps> = (props) => {
-  const { topic, contentSearchQuery, searchResults } = props;
+  const { topic, contentSearchQuery, searchResults, savedSearchQuery } = props;
   const { isLearned, toggleLearned, selectedMetaCategory } = useKnowledgeBaseStore();
   const learned = isLearned(topic.id, selectedMetaCategory);
+
+  // Используем сохраненный запрос для выделения, если есть
+  const highlightQuery = savedSearchQuery && savedSearchQuery.trim() 
+    ? savedSearchQuery 
+    : (contentSearchQuery && contentSearchQuery.trim() ? contentSearchQuery : null);
 
   const relevantTopics = contentSearchQuery && contentSearchQuery.trim() 
     ? searchResults 
@@ -39,7 +46,7 @@ const Content: React.FC<ContentProps> = (props) => {
           )}
         </div>
         <p className="text-slate-400 text-lg font-medium leading-relaxed mb-6">
-          {topic.description}
+          {highlightQuery ? highlightText(topic.description, highlightQuery) : topic.description}
         </p>
       </header>
 
@@ -52,7 +59,7 @@ const Content: React.FC<ContentProps> = (props) => {
           {topic.keyPoints.map((point, i) => (
             <li key={i} className="flex gap-3 text-slate-300 text-sm leading-relaxed group">
               <span className="text-emerald-500 font-bold">•</span>
-              <span>{point}</span>
+              <span>{highlightQuery ? highlightText(point, highlightQuery) : point}</span>
             </li>
           ))}
         </ul>

@@ -6,11 +6,14 @@ import ContentSearch from './features/knowledge-base/components/ContentSearch';
 import KnowledgePath from './features/knowledge-base/components/KnowledgePath';
 import { useCurrentTopic, useContentSearch } from './features/knowledge-base/hooks';
 import { useKnowledgeBaseStore } from './store/knowledgeBaseStore';
+import { getKnowledgeBaseByCategory } from './core/constants';
+import { MetaCategoryId } from './core/metaCategories';
 
 const App: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { selectedTopicId, setSelectedTopicId } = useKnowledgeBaseStore();
+  const [savedSearchQuery, setSavedSearchQuery] = useState<string | null>(null);
+  const { selectedTopicId, setSelectedTopicId, setSelectedMetaCategory } = useKnowledgeBaseStore();
   const { currentTopic, relatedTopics } = useCurrentTopic();
   
   const {
@@ -20,7 +23,44 @@ const App: React.FC = () => {
     searchAreaRef
   } = useContentSearch(currentTopic?.id);
 
-  const handleTopicJump = (id: string) => {
+  // Найти категорию для темы по ID
+  const findTopicCategory = (topicId: string): MetaCategoryId | null => {
+    const allCategories: MetaCategoryId[] = [
+      'javascript',
+      'markup',
+      'frameworks',
+      'typescript',
+      'architecture',
+      'security',
+      'tools',
+      'network',
+      'optimization'
+    ];
+
+    for (const categoryId of allCategories) {
+      const categories = getKnowledgeBaseByCategory(categoryId);
+      const topic = categories.flatMap(cat => cat.topics).find(t => t.id === topicId);
+      if (topic) {
+        return categoryId;
+      }
+    }
+    return null;
+  };
+
+  const handleTopicJump = (id: string, fromSearch: boolean = false) => {
+    // Найти категорию для выбранной темы
+    const topicCategory = findTopicCategory(id);
+    if (topicCategory) {
+      setSelectedMetaCategory(topicCategory);
+    }
+    
+    // Если переход из поиска - сохранить запрос, иначе - очистить
+    if (fromSearch && contentSearchQuery) {
+      setSavedSearchQuery(contentSearchQuery);
+    } else {
+      setSavedSearchQuery(null);
+    }
+    
     setSelectedTopicId(id);
     scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     setIsSidebarOpen(false);
@@ -74,7 +114,7 @@ const App: React.FC = () => {
           setContentSearchQuery={setContentSearchQuery}
           searchResults={searchResults}
           searchAreaRef={searchAreaRef}
-          onTopicSelect={handleTopicJump}
+          onTopicSelect={(id) => handleTopicJump(id, true)}
         />
         
         <div className="fixed inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:clamp(2.5rem,4vw,3rem)_clamp(2.5rem,4vw,3rem)] pointer-events-none"></div>
@@ -86,6 +126,7 @@ const App: React.FC = () => {
             contentSearchQuery={contentSearchQuery}
             setContentSearchQuery={setContentSearchQuery}
             searchResults={searchResults}
+            savedSearchQuery={savedSearchQuery}
           />
         </div>
       </main>

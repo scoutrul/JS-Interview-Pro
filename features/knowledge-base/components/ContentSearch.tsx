@@ -1,6 +1,7 @@
 import React from 'react';
 import { Topic } from '../../../core/types';
 import { Badge } from '../../../components/ui';
+import { highlightText } from '../utils/highlightText';
 
 interface ContentSearchProps {
   contentSearchQuery: string | null;
@@ -79,7 +80,9 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
                         {resultTopic.title}
                       </h4>
                     </div>
-                    <p className="text-slate-400 text-xs line-clamp-2">{resultTopic.description}</p>
+                    <p className="text-slate-400 text-xs line-clamp-2">
+                      {contentSearchQuery ? highlightText(resultTopic.description, contentSearchQuery) : resultTopic.description}
+                    </p>
                   </div>
                   <div className="w-6 h-6 rounded-full bg-slate-800/40 flex items-center justify-center text-slate-500 group-hover:bg-emerald-500 group-hover:text-slate-950 transition-all flex-shrink-0">
                     <i className="fa-solid fa-arrow-right text-[9px]"></i>

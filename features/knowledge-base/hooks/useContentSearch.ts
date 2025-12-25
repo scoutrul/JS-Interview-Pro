@@ -1,16 +1,31 @@
 import { useState, useMemo, useRef } from 'react';
-import { KNOWLEDGE_BASE } from '../../../core/constants';
+import { KNOWLEDGE_BASE, getKnowledgeBaseByCategory } from '../../../core/constants';
 import { Topic } from '../../../core/types';
+import { MetaCategoryId } from '../../../core/metaCategories';
 
 export const useContentSearch = (currentTopicId: string | undefined) => {
   const [contentSearchQuery, setContentSearchQuery] = useState<string | null>(null);
   const searchAreaRef = useRef<HTMLDivElement | null>(null);
 
-  // Поиск по всему контенту всех тем
-  const allTopics = useMemo(
-    () => KNOWLEDGE_BASE.flatMap(cat => cat.topics),
-    []
-  );
+  // Получаем все темы из всех категорий
+  const allTopics = useMemo(() => {
+    const allCategories: MetaCategoryId[] = [
+      'javascript',
+      'markup',
+      'frameworks',
+      'typescript',
+      'architecture',
+      'security',
+      'tools',
+      'network',
+      'optimization'
+    ];
+    
+    return allCategories.flatMap(categoryId => {
+      const categories = getKnowledgeBaseByCategory(categoryId);
+      return categories.flatMap(cat => cat.topics);
+    });
+  }, []);
 
   const searchResults = useMemo(() => {
     if (!contentSearchQuery || !contentSearchQuery.trim() || !currentTopicId) {
@@ -30,9 +45,6 @@ export const useContentSearch = (currentTopicId: string | undefined) => {
 
     // Ищем темы, где хотя бы одно слово найдено в контенте
     return allTopics.filter(t => {
-      // Пропускаем текущую тему
-      if (t.id === currentTopicId) return false;
-
       const searchText = [
         t.title,
         t.description,
