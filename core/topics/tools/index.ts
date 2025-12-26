@@ -7,6 +7,8 @@ import { DEVTOOLS_TOPICS } from './devtools';
 import { CURSOR_TOPICS } from './cursor';
 import { AI_TOOLS_TOPICS } from './ai-tools';
 import { TESTING_TOPICS } from './testing';
+import { CI_CD_TOPICS } from './ci-cd';
+import { VPS_TOPICS } from './vps';
 
 export const TOOLS_CATEGORIES: Category[] = [
   {
@@ -48,6 +50,16 @@ export const TOOLS_CATEGORIES: Category[] = [
     id: 'testing',
     title: 'Тестирование',
     topics: TESTING_TOPICS
+  },
+  {
+    id: 'ci-cd',
+    title: 'CI/CD',
+    topics: CI_CD_TOPICS
+  },
+  {
+    id: 'vps',
+    title: 'VPS',
+    topics: VPS_TOPICS
   }
 ];
 
@@ -60,5 +72,7 @@ export const TOOLS_TOPICS = [
   ...DEVTOOLS_TOPICS,
   ...CURSOR_TOPICS,
   ...AI_TOOLS_TOPICS,
-  ...TESTING_TOPICS
+  ...TESTING_TOPICS,
+  ...CI_CD_TOPICS,
+  ...VPS_TOPICS
 ];

@@ -468,6 +468,6 @@ git merge upstream/main
 git push origin main`
       }
     ],
-    relatedTopics: ['git-stash', 'git-remote']
+    relatedTopics: ['git-stash', 'git-remote', 'github-actions-vps-deploy']
   }
 ];
