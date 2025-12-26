@@ -1,5 +1,5 @@
 
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Topic } from '../../../core/types';
 import { Badge, CodeBlock } from '../../../components/ui';
 import ScopeChainVisualizer from '../visualizers/ScopeChainVisualizer';
@@ -17,9 +17,10 @@ interface ContentProps {
 }
 
 const Content: React.FC<ContentProps> = (props) => {
-  const { topic, contentSearchQuery, searchResults, savedSearchQuery } = props;
+  const { topic, contentSearchQuery, searchResults, savedSearchQuery, setContentSearchQuery } = props;
   const { isLearned, toggleLearned, selectedMetaCategory } = useKnowledgeBaseStore();
   const learned = isLearned(topic.id, selectedMetaCategory);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Используем сохраненный запрос для выделения, если есть
   const highlightQuery = savedSearchQuery && savedSearchQuery.trim() 
@@ -30,8 +31,64 @@ const Content: React.FC<ContentProps> = (props) => {
     ? searchResults 
     : props.relatedTopics;
 
+  // Получение слова из выделения после двойного клика
+  const getWordFromSelection = (): string | null => {
+    const selection = window.getSelection();
+    
+    if (!selection || selection.rangeCount === 0) {
+      return null;
+    }
+
+    const range = selection.getRangeAt(0);
+    const selectedText = selection.toString().trim();
+
+    // Проверяем, что выделение находится внутри контентной части
+    if (!contentRef.current || !contentRef.current.contains(range.commonAncestorContainer)) {
+      return null;
+    }
+
+    // Проверяем, что выделено одно слово (без пробелов)
+    if (!selectedText || /\s/.test(selectedText) || selectedText.length < 2) {
+      return null;
+    }
+
+    return selectedText;
+  };
+
+  // Обработка двойного клика
+  useEffect(() => {
+    const handleDoubleClick = (e: MouseEvent) => {
+      if (!contentRef.current || !contentRef.current.contains(e.target as Node)) {
+        return;
+      }
+
+      // Небольшая задержка, чтобы браузер успел выделить слово
+      setTimeout(() => {
+        const word = getWordFromSelection();
+        
+        if (word) {
+          setContentSearchQuery(word);
+          // Снимаем выделение
+          window.getSelection()?.removeAllRanges();
+        }
+      }, 10);
+    };
+
+    const element = contentRef.current;
+    if (element) {
+      element.addEventListener('dblclick', handleDoubleClick);
+    }
+
+    return () => {
+      if (element) {
+        element.removeEventListener('dblclick', handleDoubleClick);
+      }
+    };
+  }, [setContentSearchQuery]);
+
+
   return (
-    <div key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-6 animate-content">
+    <div ref={contentRef} key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-6 animate-content relative">
       <header className="mb-10 relative">
         <div className="flex items-start mb-2">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
@@ -116,6 +173,7 @@ const Content: React.FC<ContentProps> = (props) => {
           </div>
         </div>
       )}
+
     </div>
   );
 };
