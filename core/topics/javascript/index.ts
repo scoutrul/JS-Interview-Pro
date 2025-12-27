@@ -1,6 +1,7 @@
 export { JS_KNOWLEDGE_BASE } from './categories';
 
 // Export topics by category
+export { JS_INTRODUCTION_TOPICS } from './introduction';
 export { JS_BASICS_TOPICS } from './basics';
 export { JS_VARIABLES_TOPICS } from './variables';
 export { JS_FUNCTIONS_TOPICS } from './functions';

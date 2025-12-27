@@ -1,4 +1,5 @@
 import { Category } from '../../types';
+import { JS_INTRODUCTION_TOPICS } from './introduction';
 import { JS_BASICS_TOPICS } from './basics';
 import { JS_VARIABLES_TOPICS } from './variables';
 import { JS_FUNCTIONS_TOPICS } from './functions';
@@ -10,6 +11,11 @@ import { JS_BROWSER_API_TOPICS } from './browser-api';
 import { JS_SECURITY_TOPICS } from './security';
 
 export const JS_KNOWLEDGE_BASE: Category[] = [
+  {
+    id: 'introduction',
+    title: 'Введение',
+    topics: JS_INTRODUCTION_TOPICS
+  },
   {
     id: 'basics',
     title: 'Основы JavaScript',

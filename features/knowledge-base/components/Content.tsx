@@ -54,26 +54,48 @@ const Content: React.FC<ContentProps> = (props) => {
     const selectedText = selection.toString().trim();
 
     // Проверяем, что выделение находится внутри контентной части
-    if (!contentRef.current || !contentRef.current.contains(range.commonAncestorContainer)) {
+    if (!contentRef.current) {
       return null;
     }
 
-    // Проверяем, что выделено одно слово (без пробелов)
+    // Проверяем, что выделение внутри нашего контейнера
+    const container = range.commonAncestorContainer;
+    const isInContainer = contentRef.current.contains(
+      container.nodeType === Node.TEXT_NODE ? container.parentElement : container as Node
+    );
+
+    if (!isInContainer) {
+      return null;
+    }
+
+    // Проверяем, что выделено одно слово (без пробелов и спецсимволов в начале/конце)
     if (!selectedText || /\s/.test(selectedText) || selectedText.length < 2) {
       return null;
     }
 
-    return selectedText;
+    // Очищаем от пунктуации в начале и конце
+    const cleanedWord = selectedText.replace(/^[^\w]+|[^\w]+$/g, '');
+    if (cleanedWord.length < 2) {
+      return null;
+    }
+
+    return cleanedWord;
   };
 
   // Обработка двойного клика
   useEffect(() => {
+    if (!contentRef.current) {
+      return;
+    }
+
     const handleDoubleClick = (e: MouseEvent) => {
-      if (!contentRef.current || !contentRef.current.contains(e.target as Node)) {
+      // Проверяем, что клик внутри контентной области
+      const target = e.target as Node;
+      if (!contentRef.current || !contentRef.current.contains(target)) {
         return;
       }
 
-      // Небольшая задержка, чтобы браузер успел выделить слово
+      // Увеличиваем задержку, чтобы браузер успел выделить слово
       setTimeout(() => {
         const word = getWordFromSelection();
         
@@ -82,18 +104,14 @@ const Content: React.FC<ContentProps> = (props) => {
           // Снимаем выделение
           window.getSelection()?.removeAllRanges();
         }
-      }, 10);
+      }, 50);
     };
 
     const element = contentRef.current;
-    if (element) {
-      element.addEventListener('dblclick', handleDoubleClick);
-    }
+    element.addEventListener('dblclick', handleDoubleClick);
 
     return () => {
-      if (element) {
-        element.removeEventListener('dblclick', handleDoubleClick);
-      }
+      element.removeEventListener('dblclick', handleDoubleClick);
     };
   }, [setContentSearchQuery]);
 
