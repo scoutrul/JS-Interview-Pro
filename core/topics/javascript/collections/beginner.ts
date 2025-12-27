@@ -5,7 +5,7 @@ export const JS_COLLECTIONS_BEGINNER_TOPICS: Topic[] = [
     id: 'arrays-basic',
     title: 'Массивы (методы)',
     difficulty: 'beginner',
-    description: 'Массивы — упорядоченные коллекции. Основные методы: map преобразует каждый элемент, filter отфильтровывает, forEach выполняет действие, find ищет первый элемент, includes проверяет наличие. Все методы не изменяют исходный массив (кроме мутирующих).',
+    description: 'Массивы — упорядоченные коллекции. Основные методы: map, filter, forEach, find, includes. Большинство методов не изменяют исходный массив.',
     keyPoints: [
       'map: создает новый массив с преобразованными элементами.',
       'filter: создает новый массив с элементами, прошедшими проверку.',
@@ -13,7 +13,8 @@ export const JS_COLLECTIONS_BEGINNER_TOPICS: Topic[] = [
       'find: возвращает первый элемент, удовлетворяющий условию.',
       'includes: проверяет наличие элемента, возвращает boolean.'
     ],
-    tags: ['arrays', 'methods', 'map', 'filter', 'forEach'],
+    funFact: 'Методы массивов map, filter, reduce были вдохновлены функциональными языками программирования. Они позволяют писать декларативный код вместо императивных циклов.',
+    tags: ['arrays', 'methods', 'map', 'filter', 'forEach', 'higher-order-functions', 'data-types'],
     examples: [
       {
         title: "map и filter",
@@ -34,14 +35,15 @@ export const JS_COLLECTIONS_BEGINNER_TOPICS: Topic[] = [
     id: 'objects-basic',
     title: 'Объекты (работа)',
     difficulty: 'beginner',
-    description: 'Объекты — коллекции пар ключ-значение. Создание: {}, new Object(), Object.create(). Доступ: точка или квадратные скобки. Object.keys возвращает массив ключей, Object.values — значений, Object.entries — массив [ключ, значение].',
+    description: 'Объекты — коллекции пар ключ-значение. Создание: {}, new Object(), Object.create(). Доступ: точка или квадратные скобки.',
     keyPoints: [
       'Доступ: obj.prop или obj["prop"].',
       'Object.keys(obj): массив всех ключей.',
       'Object.values(obj): массив всех значений.',
       'Object.entries(obj): массив [ключ, значение].'
     ],
-    tags: ['objects', 'keys', 'values', 'entries'],
+    funFact: 'В JavaScript объекты могут иметь ключи только в виде строк или Symbol. Числа и другие типы автоматически преобразуются в строки при использовании в качестве ключей.',
+    tags: ['objects', 'keys', 'values', 'entries', 'object-methods', 'data-types'],
     examples: [
       {
         title: "Создание и доступ",
@@ -62,14 +64,15 @@ export const JS_COLLECTIONS_BEGINNER_TOPICS: Topic[] = [
     id: 'destructuring-basic',
     title: 'Деструктуризация',
     difficulty: 'beginner',
-    description: 'Деструктуризация извлекает значения из массивов и объектов в переменные. Для массивов: порядок важен. Для объектов: имена должны совпадать с ключами. Можно переименовывать и задавать значения по умолчанию.',
+    description: 'Деструктуризация извлекает значения из массивов и объектов в переменные. Для массивов порядок важен, для объектов имена должны совпадать с ключами.',
     keyPoints: [
       'Массивы: порядок элементов важен.',
       'Объекты: имена переменных должны совпадать с ключами.',
       'Можно переименовывать: {oldName: newName}.',
       'Значения по умолчанию: {name = "Default"}.'
     ],
-    tags: ['destructuring', 'arrays', 'objects', 'ES6'],
+    funFact: 'Деструктуризация была добавлена в ES6 и стала одним из самых популярных синтаксических улучшений. Она позволяет писать более чистый и читаемый код, особенно при работе с параметрами функций.',
+    tags: ['destructuring', 'arrays', 'objects', 'ES6', 'arrays-basic', 'objects-basic'],
     examples: [
       {
         title: "Деструктуризация массива",

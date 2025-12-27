@@ -5,7 +5,7 @@ export const JS_ASYNC_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'promises',
     title: 'Promises (Промисы)',
     difficulty: 'intermediate',
-    description: 'Промис — объект для асинхронных операций. Состояния: pending, fulfilled, rejected. Методы: then для успеха, catch для ошибок, finally всегда выполняется. Решает проблему Callback Hell. Promise.all ждет все промисы, Promise.allSettled ждет все (включая ошибки), Promise.race возвращает первый результат, Promise.any возвращает первый успешный.',
+    description: 'Промис — объект для асинхронных операций. Состояния: pending, fulfilled, rejected. Методы: then, catch, finally. Решает проблему Callback Hell.',
     keyPoints: [
       'Состояния: pending, fulfilled, rejected.',
       'Методы: then, catch, finally.',
@@ -14,7 +14,8 @@ export const JS_ASYNC_INTERMEDIATE_TOPICS: Topic[] = [
       'Promise.race: возвращает первый завершенный (успех или ошибка).',
       'Promise.any: возвращает первый успешный, ошибка только если все провалились.'
     ],
-    tags: ['promise', 'async', 'flow', 'async-deep'],
+    funFact: 'Промисы были стандартизированы в ES6 (2015), но концепция пришла из библиотек (Q, Bluebird). Они решают проблему "callback hell" и делают асинхронный код более читаемым.',
+    tags: ['promise', 'async', 'flow', 'async-deep', 'callbacks', 'async-await'],
     examples: [
       {
         title: "Цепочка промисов",
@@ -47,7 +48,7 @@ export const JS_ASYNC_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'async-await',
     title: 'Async / Await',
     difficulty: 'intermediate',
-    description: 'async/await — синтаксический сахар над промисами. async функция всегда возвращает промис. await приостанавливает выполнение до разрешения промиса, не блокируя основной поток. Ошибки обрабатываются через try/catch. Необработанные ошибки в async функциях создают rejected промис. Потерянные промисы (unhandled promise rejections) могут привести к проблемам.',
+    description: 'async/await — синтаксический сахар над промисами. async функция всегда возвращает промис. await приостанавливает выполнение до разрешения промиса, не блокируя основной поток.',
     keyPoints: [
       'async всегда возвращает промис.',
       'await приостанавливает функцию до выполнения промиса.',
@@ -56,7 +57,8 @@ export const JS_ASYNC_INTERMEDIATE_TOPICS: Topic[] = [
       'Потерянные промисы: забытый await или catch.',
       'Всегда обрабатывай ошибки явно.'
     ],
-    tags: ['async', 'await', 'ES2017', 'async-deep'],
+    funFact: 'async/await был добавлен в ES2017 и стал самым популярным способом работы с асинхронностью. Он делает асинхронный код похожим на синхронный, что значительно улучшает читаемость.',
+    tags: ['async', 'await', 'ES2017', 'async-deep', 'promises', 'error-handling'],
     examples: [
       {
         title: "Чистая асинхронность",
@@ -89,14 +91,15 @@ export const JS_ASYNC_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'error-handling',
     title: 'Обработка ошибок',
     difficulty: 'intermediate',
-    description: 'try/catch перехватывает ошибки, finally выполняется всегда. throw выбрасывает ошибку. Можно создавать кастомные классы ошибок через extends Error. Ошибки в промисах обрабатываются через catch, в async/await через try/catch.',
+    description: 'try/catch перехватывает ошибки, finally выполняется всегда. throw выбрасывает ошибку. Можно создавать кастомные классы ошибок через extends Error.',
     keyPoints: [
       'try/catch: перехватывает ошибки, выполнение продолжается.',
       'finally: выполняется всегда, даже если была ошибка.',
       'throw: выбрасывает ошибку, можно передать любое значение.',
       'Кастомные ошибки: class extends Error для специфичных ошибок.'
     ],
-    tags: ['errors', 'try-catch', 'throw', 'exceptions'],
+    funFact: 'В JavaScript можно выбросить любое значение, не только Error. Однако рекомендуется всегда использовать объекты Error или его подклассы для лучшей отладки и обработки ошибок.',
+    tags: ['errors', 'try-catch', 'throw', 'exceptions', 'promises', 'async-await'],
     examples: [
       {
         title: "try/catch/finally",

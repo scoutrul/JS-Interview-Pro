@@ -5,14 +5,15 @@ export const JS_FUNCTIONS_BEGINNER_TOPICS: Topic[] = [
     id: 'functions-types',
     title: 'Типы функций',
     difficulty: 'beginner',
-    description: 'Function Declaration: function name() {} — всплывает. Function Expression: const fn = function() {} — не всплывает. Arrow Function: const fn = () => {} — нет this, arguments, нельзя использовать как конструктор. IIFE: (function() {})() — самовызывающаяся функция. Методы объекта: obj.method = function() {}.',
+    description: 'Function Declaration всплывает, Function Expression не всплывает. Arrow Function не имеет this, arguments, нельзя использовать как конструктор. IIFE — самовызывающаяся функция.',
     keyPoints: [
       'Function Declaration всплывает, можно вызывать до объявления.',
       'Function Expression не всплывает, присваивается переменной.',
       'Arrow Function: нет this, arguments, super, нельзя new.',
       'IIFE изолирует область видимости, используется для модулей.'
     ],
-    tags: ['functions', 'arrow-functions', 'declaration', 'expression'],
+    funFact: 'Arrow functions были добавлены в ES6 и изначально назывались "fat arrow functions" из-за синтаксиса =>. Они были вдохновлены языками CoffeeScript и Haskell.',
+    tags: ['functions', 'arrow-functions', 'declaration', 'expression', 'ES6', 'iife'],
     examples: [
       {
         title: "Function Declaration",
@@ -37,13 +38,14 @@ export const JS_FUNCTIONS_BEGINNER_TOPICS: Topic[] = [
     id: 'this-basics',
     title: 'Контекст this',
     difficulty: 'beginner',
-    description: 'this определяется в момент вызова, не при создании функции. В методе объекта — сам объект. В обычной функции (strict mode) — undefined. Через call/apply/bind — явно заданный объект. Через new — новый экземпляр. Стрелочные функции не имеют своего this.',
+    description: 'this определяется в момент вызова, не при создании функции. В методе объекта — сам объект. В обычной функции (strict mode) — undefined. Стрелочные функции не имеют своего this.',
     keyPoints: [
       'В методе — ссылается на объект.',
       'В обычной функции (strict mode) — undefined.',
       'В глобальном контексте — window/global.'
     ],
-    tags: ['this', 'context', 'objects'],
+    funFact: 'this в JavaScript — один из самых запутанных концептов для новичков. В отличие от других языков, где this всегда ссылается на текущий объект, в JS this зависит от способа вызова функции.',
+    tags: ['this', 'context', 'objects', 'arrow-functions', 'this-context'],
     examples: [
       {
         title: "Вызов метода",

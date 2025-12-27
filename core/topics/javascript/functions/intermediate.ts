@@ -5,12 +5,13 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'closures-basic',
     title: 'Замыкания (Closures)',
     difficulty: 'intermediate',
-    description: 'Замыкание — функция, которая сохраняет доступ к переменным внешней области видимости после её завершения. Используется для инкапсуляции, приватных переменных и сохранения состояния. Переменные не удаляются из памяти, пока на них есть ссылка из замыкания.',
+    description: 'Замыкание — функция, которая сохраняет доступ к переменным внешней области видимости после её завершения. Используется для инкапсуляции и сохранения состояния.',
     keyPoints: [
       'Используется для инкапсуляции и создания приватных данных.',
       'Переменные сохраняются в памяти, пока на них ссылается внутренняя функция.'
     ],
-    tags: ['closure', 'scope', 'encapsulation'],
+    funFact: 'Замыкания были открыты случайно в 1960-х годах в языке Lisp. В JavaScript они стали фундаментальной частью языка и используются повсеместно, даже когда программист об этом не думает.',
+    tags: ['closure', 'scope', 'encapsulation', 'scope-chain', 'lexical-scoping'],
     examples: [
       {
         title: "Счетчик",
@@ -31,12 +32,13 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'private-state',
     title: 'Приватное состояние',
     difficulty: 'intermediate',
-    description: 'Паттерн Модуль: переменные внутри функции недоступны снаружи. Возвращаешь объект с методами, которые имеют доступ к этим переменным через замыкание. Это классический способ создания приватных свойств до появления private полей в классах.',
+    description: 'Паттерн Модуль: переменные внутри функции недоступны снаружи. Возвращаешь объект с методами, которые имеют доступ к этим переменным через замыкание.',
     keyPoints: [
       'Паттерн "Модуль".',
       'Защита данных от прямого изменения извне.'
     ],
-    tags: ['closure', 'privacy', 'module pattern'],
+    funFact: 'Паттерн "Модуль" был популяризирован Дугласом Крокфордом (Douglas Crockford) в 2003 году. До появления ES6 классов это был единственный способ создать приватные свойства в JavaScript.',
+    tags: ['closure', 'privacy', 'module pattern', 'closures-basic', 'encapsulation'],
     examples: [
       {
         title: "Инкапсуляция баланса",
@@ -57,12 +59,13 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'arrow-functions',
     title: 'this в стрелках',
     difficulty: 'intermediate',
-    description: 'У стрелочных функций нет своего this — они берут его из внешнего контекста в момент создания. Нельзя переопределить через bind/call/apply. Идеальны для колбэков, где нужно сохранить контекст. Не подходят как методы объекта, если нужен доступ к this объекта.',
+    description: 'У стрелочных функций нет своего this — они берут его из внешнего контекста в момент создания. Нельзя переопределить через bind/call/apply.',
     keyPoints: [
       'this в стрелках нельзя переопределить через bind/call.',
       'Идеальны для колбэков внутри методов.'
     ],
-    tags: ['this', 'arrow functions', 'ES6'],
+    funFact: 'Стрелочные функции были добавлены в ES6 частично для решения проблемы потери контекста this в колбэках. Они "захватывают" this лексически, как обычные переменные.',
+    tags: ['this', 'arrow functions', 'ES6', 'this-basics', 'context-loss'],
     examples: [
       {
         title: "Лексический this",
@@ -83,12 +86,13 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'context-loss',
     title: 'Потеря контекста',
     difficulty: 'intermediate',
-    description: 'Когда метод передается как функция (setTimeout, event listener), this теряется. Решения: стрелочная функция-обертка или bind. Стрелки фиксируют this лексически, bind создает новую функцию с привязанным контекстом.',
+    description: 'Когда метод передается как функция (setTimeout, event listener), this теряется. Решения: стрелочная функция-обертка или bind.',
     keyPoints: [
       'Часто случается в setTimeout или event listeners.',
       'Решается через bind или стрелочные функции.'
     ],
-    tags: ['this', 'callbacks', 'errors'],
+    funFact: 'Потеря контекста this — одна из самых частых ошибок в JavaScript. React даже добавил специальный синтаксис для автоматического bind в методах класса (но он устарел в пользу стрелочных функций).',
+    tags: ['this', 'callbacks', 'errors', 'this-basics', 'arrow-functions', 'bind-call-apply'],
     examples: [
       {
         title: "Потеря и решение",
@@ -109,13 +113,14 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'bind-call-apply',
     title: 'Методы функций',
     difficulty: 'intermediate',
-    description: 'call и apply вызывают функцию сразу с указанным this. call принимает аргументы через запятую, apply — массивом. bind возвращает новую функцию с привязанным this, не вызывая оригинал. bind полезен для фиксации контекста заранее.',
+    description: 'call и apply вызывают функцию сразу с указанным this. call принимает аргументы через запятую, apply — массивом. bind возвращает новую функцию с привязанным this.',
     keyPoints: [
       'call: аргументы через запятую.',
       'apply: аргументы массивом.',
       'bind: жесткая фиксация контекста навсегда.'
     ],
-    tags: ['bind', 'call', 'apply', 'this'],
+    funFact: 'Методы call, apply и bind были добавлены в JavaScript для явного управления контекстом this. Они позволяют "одалживать" методы у одних объектов и использовать их на других.',
+    tags: ['bind', 'call', 'apply', 'this', 'this-basics', 'context-loss'],
     examples: [
       {
         title: "Явная привязка",
@@ -136,7 +141,7 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'iife',
     title: 'IIFE (Immediately Invoked Function Expression)',
     difficulty: 'intermediate',
-    description: 'IIFE — функция, которая выполняется сразу после объявления. Синтаксис: (function() {})() или (() => {})(). Создает изолированную область видимости, предотвращает загрязнение глобального scope. Используется для модулей до ES6, инкапсуляции кода.',
+    description: 'IIFE — функция, которая выполняется сразу после объявления. Создает изолированную область видимости, предотвращает загрязнение глобального scope.',
     keyPoints: [
       'Синтаксис: (function() {})() или (() => {})().',
       'Создает изолированную область видимости.',
@@ -144,7 +149,8 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
       'Использовалось для модулей до ES6.',
       'Может возвращать значение и присваиваться переменной.'
     ],
-    tags: ['iife', 'scope', 'modules', 'encapsulation'],
+    funFact: 'IIFE был популяризирован Беном Алманом (Ben Alman) в 2010 году. До появления ES6 модулей это был стандартный способ создания модулей в JavaScript, используемый в библиотеках вроде jQuery.',
+    tags: ['iife', 'scope', 'modules', 'encapsulation', 'functions-types', 'closures-basic'],
     examples: [
       {
         title: "Базовый IIFE",
@@ -165,7 +171,7 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'callbacks',
     title: 'Callback функции',
     difficulty: 'intermediate',
-    description: 'Callback — функция, передаваемая как аргумент и вызываемая позже. Используется в асинхронных операциях, обработчиках событий, методах массивов. Callback hell — вложенные колбэки, делающие код нечитаемым. Решение: промисы, async/await.',
+    description: 'Callback — функция, передаваемая как аргумент и вызываемая позже. Используется в асинхронных операциях, обработчиках событий, методах массивов.',
     keyPoints: [
       'Callback: функция, передаваемая как аргумент.',
       'Используется в setTimeout, addEventListener, array methods.',
@@ -173,7 +179,8 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
       'Проблемы: сложность чтения, обработка ошибок.',
       'Решение: промисы, async/await.'
     ],
-    tags: ['callbacks', 'async', 'functions', 'patterns'],
+    funFact: 'Термин "callback hell" или "pyramid of doom" был придуман для описания глубоко вложенных колбэков. Это привело к созданию промисов и async/await для улучшения читаемости кода.',
+    tags: ['callbacks', 'async', 'functions', 'patterns', 'higher-order-functions', 'promises'],
     examples: [
       {
         title: "Базовые callbacks",
@@ -194,7 +201,7 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'higher-order-functions',
     title: 'Функции высшего порядка',
     difficulty: 'intermediate',
-    description: 'Функция высшего порядка — принимает функции как аргументы или возвращает функции. Примеры: map, filter, reduce, setTimeout. Позволяет создавать абстракции, переиспользовать код, писать декларативный код. Основа функционального программирования.',
+    description: 'Функция высшего порядка — принимает функции как аргументы или возвращает функции. Примеры: map, filter, reduce, setTimeout.',
     keyPoints: [
       'Принимает функции как аргументы или возвращает функции.',
       'Примеры: map, filter, reduce, setTimeout.',
@@ -202,7 +209,8 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
       'Декларативный стиль вместо императивного.',
       'Основа функционального программирования.'
     ],
-    tags: ['functions', 'functional', 'abstraction', 'patterns'],
+    funFact: 'Концепция функций высшего порядка пришла из математики и функциональных языков программирования (Lisp, Haskell). В JavaScript они стали популярны благодаря методам массивов.',
+    tags: ['functions', 'functional', 'abstraction', 'patterns', 'callbacks', 'closures-basic'],
     examples: [
       {
         title: "Функция, принимающая функцию",
@@ -223,7 +231,7 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'recursion',
     title: 'Рекурсия',
     difficulty: 'intermediate',
-    description: 'Рекурсия — функция вызывает саму себя. Нужен базовый случай для остановки. Используется для обхода деревьев, факториала, поиска. Стек вызовов ограничен (~10000). Хвостовая рекурсия оптимизируется в некоторых случаях. Можно заменить итерацией.',
+    description: 'Рекурсия — функция вызывает саму себя. Нужен базовый случай для остановки. Используется для обхода деревьев, факториала, поиска.',
     keyPoints: [
       'Функция вызывает саму себя.',
       'Базовый случай: условие остановки рекурсии.',
@@ -231,7 +239,8 @@ export const JS_FUNCTIONS_INTERMEDIATE_TOPICS: Topic[] = [
       'Стек вызовов ограничен, возможен stack overflow.',
       'Хвостовая рекурсия может оптимизироваться.'
     ],
-    tags: ['recursion', 'algorithms', 'functions', 'stack'],
+    funFact: 'Рекурсия — один из фундаментальных концептов информатики. Многие алгоритмы (быстрая сортировка, обход деревьев) естественно выражаются через рекурсию, хотя могут быть переписаны итеративно.',
+    tags: ['recursion', 'algorithms', 'functions', 'stack', 'memoization'],
     examples: [
       {
         title: "Факториал",

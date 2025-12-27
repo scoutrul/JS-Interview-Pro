@@ -5,13 +5,14 @@ export const JS_VARIABLES_BEGINNER_TOPICS: Topic[] = [
     id: 'var-let-const',
     title: 'var, let, const',
     difficulty: 'beginner',
-    description: 'var имеет функциональную область видимости и всплывает с undefined. let и const имеют блочную область видимости и не всплывают. const запрещает переприсваивание ссылки, но не делает объект неизменяемым. Используй const по умолчанию, let когда нужно переприсваивать, var не используй.',
+    description: 'var имеет функциональную область видимости и всплывает. let и const имеют блочную область видимости. const запрещает переприсваивание ссылки, но не делает объект неизменяемым.',
     keyPoints: [
       'var: функциональная область видимости, допускает повторное объявление, всплывает (hoisting).',
       'let/const: блочная область видимости, не допускают повторного объявления.',
       'const требует инициализации и запрещает переопределение ссылки.'
     ],
-    tags: ['variables', 'scope', 'let', 'const', 'hoisting', 'ES6'],
+    funFact: 'const был добавлен в ES6 вместе с let. До этого использовался только var, что приводило к проблемам с областью видимости и hoisting.',
+    tags: ['variables', 'scope', 'let', 'const', 'hoisting', 'ES6', 'variables-basic'],
     examples: [
       {
         title: "Разница областей видимости",
@@ -32,13 +33,14 @@ export const JS_VARIABLES_BEGINNER_TOPICS: Topic[] = [
     id: 'hoisting-basic',
     title: 'Hoisting (Всплытие)',
     difficulty: 'beginner',
-    description: 'JavaScript "поднимает" объявления var и function в начало области видимости. var доступна как undefined до присваивания, function доступна полностью. Это значит, что можно вызывать функцию до её объявления. let и const не всплывают так же — они в TDZ.',
+    description: 'JavaScript "поднимает" объявления var и function в начало области видимости. var доступна как undefined до присваивания, function доступна полностью.',
     keyPoints: [
       'var всплывает и равна undefined до присваивания.',
       'Function Declaration всплывает полностью — можно вызывать до объявления.',
       'let/const не всплывают — вызов до объявления даст ошибку.'
     ],
-    tags: ['hoisting', 'variables', 'functions'],
+    funFact: 'Hoisting — это не физическое перемещение кода, а концептуальное поведение движка JavaScript. Код остается на месте, но интерпретатор обрабатывает объявления до выполнения кода.',
+    tags: ['hoisting', 'variables', 'functions', 'var-let-const'],
     examples: [
       {
         title: "Всплытие var и function",
@@ -59,13 +61,14 @@ export const JS_VARIABLES_BEGINNER_TOPICS: Topic[] = [
     id: 'tdz-basic',
     title: 'Temporal Dead Zone (TDZ)',
     difficulty: 'beginner',
-    description: 'TDZ — период от начала блока до объявления let/const. Обращение к переменной в TDZ вызывает ReferenceError. var такой защиты не имеет — возвращает undefined. TDZ защищает от использования неинициализированных переменных.',
+    description: 'TDZ — период от начала блока до объявления let/const. Обращение к переменной в TDZ вызывает ReferenceError. var такой защиты не имеет.',
     keyPoints: [
       'TDZ начинается с входа в блок и заканчивается на строке объявления.',
       'let/const в TDZ вызывают ReferenceError, var возвращает undefined.',
       'Защищает от логических ошибок использования переменных до инициализации.'
     ],
-    tags: ['tdz', 'variables', 'let', 'const', 'errors'],
+    funFact: 'Название "Temporal Dead Zone" было придумано Алленом Вирфс-Броком (Allen Wirfs-Brock), одним из авторов спецификации ES6. Это временная зона, где переменная существует, но недоступна.',
+    tags: ['tdz', 'variables', 'let', 'const', 'errors', 'hoisting-basic'],
     examples: [
       {
         title: "TDZ для let/const",
@@ -86,12 +89,13 @@ export const JS_VARIABLES_BEGINNER_TOPICS: Topic[] = [
     id: 'scope-chain',
     title: 'Scope Chain',
     difficulty: 'beginner',
-    description: 'JavaScript ищет переменные от локальной области видимости к глобальной. Функция видит переменные родительских областей, но не наоборот. Поиск идет по цепочке до глобального scope. Это основа работы замыканий.',
+    description: 'JavaScript ищет переменные от локальной области видимости к глобальной. Функция видит переменные родительских областей, но не наоборот.',
     keyPoints: [
       'Поиск идет строго снизу вверх по иерархии.',
       'Функции имеют доступ к переменным родителей, но не наоборот.'
     ],
-    tags: ['scope', 'closure', 'chain'],
+    funFact: 'Scope Chain формируется на этапе создания функции (lexical scoping), а не во время выполнения. Это позволяет функциям "запоминать" переменные из внешних областей видимости.',
+    tags: ['scope', 'closure', 'chain', 'lexical-scoping', 'closures-basic'],
     examples: [
       {
         title: "Поиск по цепочке",

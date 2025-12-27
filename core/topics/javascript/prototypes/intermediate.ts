@@ -5,12 +5,14 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'prototype-chain',
     title: 'Прототипы',
     difficulty: 'intermediate',
-    description: 'Объекты наследуют напрямую от других объектов через [[Prototype]]. Если свойство не найдено, поиск идет по цепочке прототипов до Object.prototype. __proto__ — устаревший способ доступа, используй Object.getPrototypeOf(). Прототипы позволяют переиспользовать методы.',
+    description: 'Объекты наследуют напрямую от других объектов через [[Prototype]]. Если свойство не найдено, поиск идет по цепочке прототипов до Object.prototype.',
     keyPoints: [
-      'Свойство __proto__ ссылается на прототип.',
+      'Свойство __proto__ ссылается на прототип (устаревший способ).',
+      'Object.getPrototypeOf() — современный способ доступа к прототипу.',
       'Object.prototype — вершина цепочки.'
     ],
-    tags: ['prototype', 'inheritance', 'oop'],
+    funFact: 'Прототипное наследование — уникальная особенность JavaScript. В отличие от классического наследования через классы, объекты наследуют напрямую от других объектов, что делает систему более гибкой.',
+    tags: ['prototype', 'inheritance', 'oop', 'object-create', 'constructors'],
     examples: [
       {
         title: "Наследование",
@@ -31,7 +33,7 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'constructors',
     title: 'Функции-конструкторы',
     difficulty: 'intermediate',
-    description: 'Функция-конструктор вызывается с new и создает объект. При вызове с new: создается пустой объект, this ссылается на него, выполняется функция, возвращается объект (если нет явного return). Свойство constructor ссылается на функцию-конструктор. Все экземпляры имеют общий прототип через Constructor.prototype.',
+    description: 'Функция-конструктор вызывается с new и создает объект. При вызове с new: создается пустой объект, this ссылается на него, выполняется функция, возвращается объект.',
     keyPoints: [
       'new Constructor(): создает объект, this = новый объект.',
       'Если нет return, возвращается this (новый объект).',
@@ -39,7 +41,8 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
       'Constructor.prototype: общий прототип для всех экземпляров.',
       'Методы в prototype доступны всем экземплярам.'
     ],
-    tags: ['constructors', 'new', 'prototype', 'oop'],
+    funFact: 'Функции-конструкторы были основным способом создания объектов до появления классов в ES6. Классы в JavaScript — это синтаксический сахар над функциями-конструкторами и прототипами.',
+    tags: ['constructors', 'new', 'prototype', 'oop', 'prototype-chain', 'this-basics'],
     examples: [
       {
         title: "Базовый конструктор",
@@ -64,7 +67,7 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'object-create',
     title: 'Object.create()',
     difficulty: 'intermediate',
-    description: 'Object.create(proto) создает объект с указанным прототипом. Более явный способ создания объектов с прототипом чем __proto__. Второй параметр - дескрипторы свойств. Используется для "чистого" прототипного наследования без конструкторов.',
+    description: 'Object.create(proto) создает объект с указанным прототипом. Более явный способ создания объектов с прототипом чем __proto__. Второй параметр - дескрипторы свойств.',
     keyPoints: [
       'Object.create(proto): создает объект с прототипом proto.',
       'Object.create(null): создает объект без прототипа (чистый словарь).',
@@ -72,7 +75,8 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
       'Более явный способ чем __proto__ или new Constructor().',
       'Используется для прототипного наследования без конструкторов.'
     ],
-    tags: ['object.create', 'prototype', 'inheritance', 'oop'],
+    funFact: 'Object.create() был добавлен в ES5 и стал предпочтительным способом создания объектов с прототипом. Object.create(null) создает "чистый" объект без прототипа, что полезно для словарей.',
+    tags: ['object.create', 'prototype', 'inheritance', 'oop', 'prototype-chain', 'constructors'],
     examples: [
       {
         title: "Базовое использование",
@@ -97,7 +101,7 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'hasownproperty-in',
     title: 'hasOwnProperty vs in',
     difficulty: 'intermediate',
-    description: 'hasOwnProperty(prop) проверяет собственное свойство объекта (не из прототипа). prop in obj проверяет наличие свойства в объекте или прототипе. Object.hasOwn() — современная безопасная альтернатива hasOwnProperty. Разница важна при итерации и проверке свойств.',
+    description: 'hasOwnProperty(prop) проверяет собственное свойство объекта (не из прототипа). prop in obj проверяет наличие свойства в объекте или прототипе. Object.hasOwn() — современная безопасная альтернатива.',
     keyPoints: [
       'obj.hasOwnProperty(prop): true только для собственных свойств.',
       'prop in obj: true если свойство есть в объекте или прототипе.',
@@ -105,7 +109,8 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
       'for...in перебирает и собственные, и унаследованные свойства.',
       'Object.keys() возвращает только собственные свойства.'
     ],
-    tags: ['hasownproperty', 'in', 'properties', 'prototype', 'oop'],
+    funFact: 'hasOwnProperty может быть переопределен или объект может не иметь этого метода (Object.create(null)). Object.hasOwn() был добавлен в ES2022 как безопасная альтернатива, которая работает даже с такими объектами.',
+    tags: ['hasownproperty', 'in', 'properties', 'prototype', 'oop', 'object-methods', 'prototype-chain'],
     examples: [
       {
         title: "Разница hasOwnProperty и in",
@@ -130,7 +135,7 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'instanceof',
     title: 'instanceof',
     difficulty: 'intermediate',
-    description: 'obj instanceof Constructor проверяет, есть ли Constructor.prototype в цепочке прототипов obj. Проверяет всю цепочку, не только прямой прототип. Работает с классами и конструкторами. Symbol.hasInstance позволяет кастомизировать проверку. Можно обмануть, изменив prototype.',
+    description: 'obj instanceof Constructor проверяет, есть ли Constructor.prototype в цепочке прототипов obj. Проверяет всю цепочку, не только прямой прототип.',
     keyPoints: [
       'obj instanceof Constructor: проверяет цепочку прототипов.',
       'Проверяет: есть ли Constructor.prototype в [[Prototype]] цепочке.',
@@ -138,7 +143,8 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
       'Symbol.hasInstance: кастомная логика проверки.',
       'Можно обмануть, изменив Constructor.prototype.'
     ],
-    tags: ['instanceof', 'prototype', 'inheritance', 'oop'],
+    funFact: 'instanceof проверяет всю цепочку прототипов, поэтому [] instanceof Object возвращает true. Это может быть неожиданным, но логично, так как массивы наследуют от Object через Array.prototype.',
+    tags: ['instanceof', 'prototype', 'inheritance', 'oop', 'prototype-chain', 'constructors'],
     examples: [
       {
         title: "Базовое использование",

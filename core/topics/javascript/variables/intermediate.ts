@@ -5,12 +5,13 @@ export const JS_VARIABLES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'tdz',
     title: 'Temporal Dead Zone (TDZ)',
     difficulty: 'intermediate',
-    description: 'TDZ — период от входа в блок до объявления let/const. Обращение к переменной в TDZ вызывает ReferenceError. var такой защиты не имеет. TDZ помогает избежать ошибок использования неинициализированных переменных.',
+    description: 'TDZ — период от входа в блок до объявления let/const. Обращение к переменной в TDZ вызывает ReferenceError. var такой защиты не имеет.',
     keyPoints: [
       'Зона от начала блока до строки объявления.',
       'Защищает от логических ошибок использования неинициализированных данных.'
     ],
-    tags: ['tdz', 'variables', 'errors'],
+    funFact: 'TDZ в параметрах функции может привести к интересным ситуациям: function test(x = y, y = 2) вызовет ReferenceError, потому что y еще не инициализирован, когда используется в значении по умолчанию для x.',
+    tags: ['tdz', 'variables', 'errors', 'tdz-basic', 'var-let-const'],
     examples: [
       {
         title: "Проявление TDZ",

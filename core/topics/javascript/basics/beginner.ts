@@ -5,16 +5,16 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'data-types',
     title: 'Типы данных',
     difficulty: 'beginner',
-    description: 'JavaScript имеет 8 типов: 7 примитивов (number, string, boolean, null, undefined, symbol, bigint) и объекты. typeof возвращает строку с типом. null имеет тип "object" (баг языка). Примитивы передаются по значению (копируется само значение), объекты по ссылке (копируется ссылка на объект в памяти). При изменении объекта по ссылке меняется оригинал.',
+    description: 'JavaScript имеет 8 типов: 7 примитивов и объекты. Примитивы передаются по значению, объекты по ссылке.',
     keyPoints: [
       'Примитивы: number, string, boolean, null, undefined, symbol, bigint.',
       'Объекты: все остальное (массивы, функции, даты — это объекты).',
-      'typeof null возвращает "object" (исторический баг).',
       'Примитивы иммутабельны, объекты мутабельны.',
       'Передача по значению: примитивы копируются, изменения не влияют на оригинал.',
       'Передача по ссылке: объекты копируется ссылка, изменения влияют на оригинал.'
     ],
-    tags: ['types', 'primitives', 'objects', 'basics', 'references'],
+    funFact: 'typeof null возвращает "object" из-за исторического бага в языке — это было исправлено в спецификации, но оставлено для обратной совместимости.',
+    tags: ['types', 'primitives', 'objects', 'basics', 'references', 'data-types-overview'],
     examples: [
       {
         title: "Проверка типов",
@@ -35,14 +35,15 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'type-coercion',
     title: 'Преобразование типов',
     difficulty: 'beginner',
-    description: 'JavaScript автоматически преобразует типы при операциях. Явное: Number(), String(), Boolean(). Неявное: при сравнении, арифметике, конкатенации. "5" + 3 = "53", "5" - 3 = 2. Truthy значения: все кроме false, 0, "", null, undefined, NaN.',
+    description: 'JavaScript автоматически преобразует типы при операциях. Явное преобразование через функции, неявное — при операциях.',
     keyPoints: [
       'Явное: Number("5"), String(5), Boolean(1).',
-      'Неявное: "5" + 3 = "53", "5" - 3 = 2.',
+      'Неявное: "5" + 3 = "53" (конкатенация), "5" - 3 = 2 (преобразование в число).',
       'Truthy: все кроме false, 0, "", null, undefined, NaN.',
       'Falsy: false, 0, "", null, undefined, NaN.'
     ],
-    tags: ['types', 'coercion', 'conversion'],
+    funFact: 'Оператор + ведет себя по-разному: со строками — конкатенация, с числами — сложение. Поэтому "5" + 3 = "53", а "5" - 3 = 2.',
+    tags: ['types', 'coercion', 'conversion', 'type-coercion', 'truthy-falsy'],
     examples: [
       {
         title: "Неявное преобразование",
@@ -63,14 +64,15 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'comparison',
     title: '== vs ===',
     difficulty: 'beginner',
-    description: '== выполняет приведение типов перед сравнением, === сравнивает без приведения (строгое). Всегда используй ===. == может давать неожиданные результаты: null == undefined (true), "5" == 5 (true), [] == false (true).',
+    description: '== выполняет приведение типов перед сравнением, === сравнивает без приведения. Всегда используй ===.',
     keyPoints: [
       '== (нестрогое): приводит типы, может давать неожиданные результаты.',
       '=== (строгое): сравнивает тип и значение, всегда используй это.',
       'null == undefined (true), но null !== undefined (false).',
       'NaN !== NaN (true), используй isNaN() или Number.isNaN().'
     ],
-    tags: ['comparison', 'operators', 'equality'],
+    funFact: '[] == false возвращает true, потому что массив преобразуется в строку "", а "" == false тоже true. Это классический пример неожиданного поведения ==.',
+    tags: ['comparison', 'operators', 'equality', 'type-coercion', 'strict-equality'],
     examples: [
       {
         title: "Нестрогое сравнение (==)",
@@ -91,7 +93,7 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'operators',
     title: 'Операторы',
     difficulty: 'beginner',
-    description: 'Оператор — синтаксическая конструкция, выполняющая действие над операндами и возвращающая результат. JavaScript поддерживает арифметические, логические, операторы сравнения, присваивания и специальные операторы для работы с данными.',
+    description: 'Оператор — синтаксическая конструкция, выполняющая действие над операндами. JavaScript поддерживает арифметические, логические, сравнения, присваивания и специальные операторы.',
     keyPoints: [
       'Три типа: выражения (возвращают значение), операторы-объявления (var/let/const), операторы управления (if/for/return).',
       'Арифметические: +, -, *, /, %, ** (возведение в степень).',
@@ -102,7 +104,8 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
       'Побитовые: &, |, ^, ~, <<, >>, >>> (работа с битами).',
       'Специальные: ?? (nullish coalescing), ?. (optional chaining), ... (spread/rest), ?: (тернарный).'
     ],
-    tags: ['operators', 'spread', 'optional-chaining', 'nullish-coalescing'],
+    funFact: 'Логические операторы && и || возвращают последнее вычисленное значение, а не boolean. Это позволяет использовать их для присваивания: const value = user && user.name;',
+    tags: ['operators', 'spread', 'optional-chaining', 'nullish-coalescing', 'arithmetic', 'logical'],
     examples: [
       {
         title: "Разграничение типов операторов",
@@ -151,14 +154,15 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'strings-methods',
     title: 'Строки (методы)',
     difficulty: 'beginner',
-    description: 'Строки иммутабельны — методы возвращают новую строку. slice/substring извлекают подстроку, includes проверяет наличие, indexOf ищет позицию. Шаблонные строки (backticks) позволяют интерполяцию и многострочность.',
+    description: 'Строки иммутабельны — методы возвращают новую строку. Шаблонные строки позволяют интерполяцию и многострочность.',
     keyPoints: [
       'slice(start, end): извлекает подстроку, отрицательные индексы с конца.',
       'substring(start, end): как slice, но отрицательные индексы = 0.',
       'includes(str): проверяет наличие подстроки, возвращает boolean.',
       'Шаблонные строки: интерполяция ${} и многострочность.'
     ],
-    tags: ['strings', 'methods', 'template-literals'],
+    funFact: 'Строки в JavaScript неизменяемы (immutable), но это не означает, что переменная не может быть переназначена. Изменяется ссылка, а не сам объект строки.',
+    tags: ['strings', 'methods', 'template-literals', 'immutability', 'string-api'],
     examples: [
       {
         title: "Методы строк",
@@ -179,14 +183,15 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'conditions-loops',
     title: 'Условия и циклы',
     difficulty: 'beginner',
-    description: 'Условия: if/else, switch (строгое сравнение), тернарный оператор. Циклы: for (счетчик), while (условие), for...of (значения), for...in (ключи объектов). break прерывает цикл, continue пропускает итерацию.',
+    description: 'Условия: if/else, switch, тернарный оператор. Циклы: for, while, for...of, for...in. break прерывает цикл, continue пропускает итерацию.',
     keyPoints: [
       'if/else: базовое условие, можно вкладывать.',
       'switch: строгое сравнение (===), нужен break.',
       'for...of: итерация по значениям (массивы, строки).',
       'for...in: итерация по ключам объектов (включая прототип).'
     ],
-    tags: ['conditions', 'loops', 'if', 'for', 'while'],
+    funFact: 'for...in итерируется по всем перечисляемым свойствам объекта, включая унаследованные из прототипа. Для массивов лучше использовать for...of.',
+    tags: ['conditions', 'loops', 'if', 'for', 'while', 'iteration', 'control-flow'],
     examples: [
       {
         title: "if/else и switch",
@@ -207,7 +212,7 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'json-methods',
     title: 'JSON методы',
     difficulty: 'beginner',
-    description: 'JSON.parse() преобразует JSON строку в объект, JSON.stringify() — объект в JSON строку. При ошибке parse выбрасывает SyntaxError. stringify может принимать replacer и space для форматирования. Ограничения: undefined, функции, Symbol пропускаются при сериализации. Date преобразуется в строку. Циклические ссылки вызывают ошибку. BigInt не поддерживается.',
+    description: 'JSON.parse() преобразует JSON строку в объект, JSON.stringify() — объект в JSON строку. При ошибке parse выбрасывает SyntaxError.',
     keyPoints: [
       'JSON.parse(str): преобразует JSON строку в объект.',
       'JSON.stringify(obj): преобразует объект в JSON строку.',
@@ -219,7 +224,9 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
       'Циклические ссылки вызывают TypeError в stringify.',
       'BigInt вызывает TypeError в stringify.'
     ],
-    tags: ['json', 'serialization', 'parsing', 'data', 'objects-advanced'],
+    additionalDescription: 'stringify может принимать replacer (функция или массив для фильтрации свойств) и space (отступы для форматирования). Ограничения: undefined, функции, Symbol пропускаются. Date преобразуется в строку ISO. Циклические ссылки вызывают TypeError. BigInt не поддерживается и требует преобразования в строку.',
+    funFact: 'JSON.stringify() был добавлен в ES5 и стал стандартом для обмена данными между клиентом и сервером. Название JSON расшифровывается как JavaScript Object Notation, хотя формат не зависит от JavaScript.',
+    tags: ['json', 'serialization', 'parsing', 'data', 'objects-advanced', 'api'],
     examples: [
       {
         title: "Базовое использование",
@@ -252,7 +259,7 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'object-methods',
     title: 'Методы Object',
     difficulty: 'beginner',
-    description: 'Object.keys() возвращает массив ключей, Object.values() — значений, Object.entries() — пар [ключ, значение]. Object.assign() копирует свойства, Object.freeze() делает объект неизменяемым (нельзя добавлять/удалять/изменять свойства). Object.seal() запрещает добавлять/удалять, но позволяет изменять. Object.preventExtensions() запрещает только добавление новых свойств.',
+    description: 'Object.keys(), values(), entries() для итерации. Object.assign() для копирования. Object.freeze(), seal(), preventExtensions() для защиты от изменений.',
     keyPoints: [
       'Object.keys(obj): массив ключей объекта.',
       'Object.values(obj): массив значений объекта.',
@@ -263,7 +270,9 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
       'Object.preventExtensions(obj): нельзя добавлять новые свойства.',
       'Проверка: isFrozen(), isSealed(), isExtensible().'
     ],
-    tags: ['objects', 'methods', 'iteration', 'immutability', 'objects-advanced'],
+    additionalDescription: 'Object.freeze() делает объект полностью неизменяемым — нельзя добавлять, удалять или изменять свойства. Object.seal() запрещает добавлять/удалять, но позволяет изменять существующие. Object.preventExtensions() запрещает только добавление новых свойств. Все методы работают поверхностно — вложенные объекты не защищаются.',
+    funFact: 'Object.freeze() был добавлен в ES5 для создания иммутабельных объектов. В React это используется для предотвращения случайных мутаций состояния.',
+    tags: ['objects', 'methods', 'iteration', 'immutability', 'objects-advanced', 'object-api'],
     examples: [
       {
         title: "keys, values, entries",
@@ -292,7 +301,7 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'date-api',
     title: 'Date API',
     difficulty: 'beginner',
-    description: 'Date создает объект даты. new Date() — текущая дата, new Date(timestamp) — из timestamp, new Date(year, month, day) — из компонентов. Методы: getFullYear(), getMonth(), getDate(), getTime(). Месяцы начинаются с 0. Форматирование через toLocaleString(), toISOString().',
+    description: 'Date создает объект даты. new Date() — текущая дата, new Date(timestamp) — из timestamp, new Date(year, month, day) — из компонентов.',
     keyPoints: [
       'new Date(): текущая дата и время.',
       'new Date(timestamp): из миллисекунд с 1970-01-01.',
@@ -300,7 +309,8 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
       'getTime(): timestamp в миллисекундах.',
       'toISOString(): строка в формате ISO 8601.'
     ],
-    tags: ['date', 'time', 'formatting', 'api'],
+    funFact: 'Месяцы в JavaScript начинаются с 0 (январь = 0, декабрь = 11), что часто вызывает путаницу. Это наследие из языка C и Unix-систем.',
+    tags: ['date', 'time', 'formatting', 'api', 'date-api'],
     examples: [
       {
         title: "Создание дат",
@@ -321,7 +331,7 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
     id: 'strict-mode',
     title: 'Strict mode',
     difficulty: 'beginner',
-    description: "'use strict' включает строгий режим. Запрещает неявное создание глобальных переменных, дублирование параметров, использование зарезервированных слов. this в функциях undefined вместо window. Помогает избежать ошибок и улучшает производительность.",
+    description: "'use strict' включает строгий режим. Запрещает неявное создание глобальных переменных, дублирование параметров. this в функциях undefined вместо window.",
     keyPoints: [
       "'use strict': включается в начале файла или функции.",
       'Запрещает неявные глобальные переменные (без var/let/const).',
@@ -329,7 +339,8 @@ export const JS_BASICS_BEGINNER_TOPICS: Topic[] = [
       'this в функциях = undefined (не window).',
       'Улучшает производительность и помогает находить ошибки.'
     ],
-    tags: ['strict-mode', 'best-practices', 'errors', 'performance'],
+    funFact: "'use strict' — это обычная строка, которая игнорируется старыми браузерами. Это сделано для обратной совместимости — старые движки просто проигнорируют её.",
+    tags: ['strict-mode', 'best-practices', 'errors', 'performance', 'strict'],
     examples: [
       {
         title: "Включение strict mode",

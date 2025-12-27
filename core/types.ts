@@ -13,6 +13,8 @@ export interface Topic {
   difficulty: Difficulty;
   examples?: CodeExample[];
   keyPoints: string[];
+  funFact?: string;
+  additionalDescription?: string;
   tags: string[];         
   relatedTopics: string[]; 
 }

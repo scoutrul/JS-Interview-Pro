@@ -130,9 +130,9 @@ const Content: React.FC<ContentProps> = (props) => {
             </span>
           )}
         </div>
-        <p className="text-slate-400 text-base font-medium leading-relaxed mb-6">
+        <div className="text-slate-400 text-base font-medium leading-relaxed mb-6 space-y-3 whitespace-pre-line">
           {highlightQuery ? highlightText(topic.description, highlightQuery) : topic.description}
-        </p>
+        </div>
       </header>
 
       <section className="bg-[#12162a] border border-slate-800/60 rounded-xl p-8 mb-10 shadow-xl">
@@ -148,7 +148,28 @@ const Content: React.FC<ContentProps> = (props) => {
             </li>
           ))}
         </ul>
+        {topic.additionalDescription && (
+          <div className="mt-6 pt-6 border-t border-slate-700/50">
+            <div className="text-slate-300 text-sm leading-relaxed space-y-3 whitespace-pre-line">
+              {highlightQuery ? highlightText(topic.additionalDescription, highlightQuery) : topic.additionalDescription}
+            </div>
+          </div>
+        )}
       </section>
+
+      {topic.funFact && (
+        <section className="bg-gradient-to-r from-emerald-500/10 to-blue-500/10 border border-emerald-500/30 rounded-xl p-6 mb-10">
+          <div className="flex items-start gap-3">
+            <i className="fa-solid fa-lightbulb text-emerald-400 text-lg mt-0.5"></i>
+            <div>
+              <h3 className="text-emerald-400 text-sm font-bold mb-2">Занимательный факт</h3>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                {highlightQuery ? highlightText(topic.funFact, highlightQuery) : topic.funFact}
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
 
       <div className="mb-10">
         <h3 className="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] mb-4">ПРИМЕРЫ</h3>

@@ -5,7 +5,7 @@ export const JS_FUNCTIONS_ADVANCED_TOPICS: Topic[] = [
     id: 'currying',
     title: 'Currying и Partial Application',
     difficulty: 'advanced',
-    description: 'Currying — преобразование функции с несколькими аргументами в цепочку функций с одним аргументом. Partial Application — фиксация части аргументов функции. Позволяет создавать специализированные функции, улучшает переиспользование кода. Основа функционального программирования.',
+    description: 'Currying — преобразование функции с несколькими аргументами в цепочку функций с одним аргументом. Partial Application — фиксация части аргументов функции.',
     keyPoints: [
       'Currying: f(a, b, c) → f(a)(b)(c).',
       'Partial Application: фиксация части аргументов.',
@@ -13,7 +13,8 @@ export const JS_FUNCTIONS_ADVANCED_TOPICS: Topic[] = [
       'Улучшает переиспользование и композицию.',
       'Основа функционального программирования.'
     ],
-    tags: ['currying', 'functional', 'partial-application', 'patterns'],
+    funFact: 'Currying назван в честь математика Хаскелла Карри (Haskell Curry), хотя концепция была впервые описана Мозесом Шёнфинкелем (Moses Schönfinkel) в 1920-х годах.',
+    tags: ['currying', 'functional', 'partial-application', 'patterns', 'higher-order-functions', 'closures-basic'],
     examples: [
       {
         title: "Currying вручную",
@@ -34,7 +35,7 @@ export const JS_FUNCTIONS_ADVANCED_TOPICS: Topic[] = [
     id: 'memoization',
     title: 'Мемоизация',
     difficulty: 'advanced',
-    description: 'Мемоизация — кэширование результатов функции для одинаковых аргументов. При повторном вызове с теми же аргументами возвращается кэшированное значение. Ускоряет вычисления, особенно для рекурсивных функций. Используется в React.memo, useMemo.',
+    description: 'Мемоизация — кэширование результатов функции для одинаковых аргументов. При повторном вызове с теми же аргументами возвращается кэшированное значение.',
     keyPoints: [
       'Кэширование результатов функции.',
       'Проверка: были ли такие аргументы ранее.',
@@ -42,7 +43,8 @@ export const JS_FUNCTIONS_ADVANCED_TOPICS: Topic[] = [
       'Ускоряет повторные вычисления.',
       'Используется в React.memo, useMemo.'
     ],
-    tags: ['memoization', 'performance', 'optimization', 'caching'],
+    funFact: 'Мемоизация — это техника оптимизации, которая пришла из функционального программирования. В JavaScript она особенно полезна для дорогих вычислений и рекурсивных функций, таких как вычисление чисел Фибоначчи.',
+    tags: ['memoization', 'performance', 'optimization', 'caching', 'recursion', 'higher-order-functions'],
     examples: [
       {
         title: "Простая мемоизация",
