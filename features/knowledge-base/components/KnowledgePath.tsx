@@ -1,9 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { META_CATEGORIES, MetaCategoryId } from '../../../core/metaCategories';
 import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
 import { getKnowledgeBaseByCategory } from '../../../core/constants';
 
 const KnowledgePath: React.FC = () => {
+  const navigate = useNavigate();
   const { selectedMetaCategory, setSelectedMetaCategory, setSelectedTopicId, getProgress, clearFilters } = useKnowledgeBaseStore();
 
   const handleCategorySelect = (categoryId: MetaCategoryId) => {
@@ -14,6 +16,9 @@ const KnowledgePath: React.FC = () => {
     const firstTopic = knowledgeBase.flatMap(cat => cat.topics)[0];
     if (firstTopic) {
       setSelectedTopicId(firstTopic.id);
+      navigate(`/${categoryId}/${firstTopic.id}`);
+    } else {
+      navigate(`/${categoryId}`);
     }
   };
 

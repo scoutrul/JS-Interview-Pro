@@ -1,5 +1,6 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation, Routes, Route, Navigate } from 'react-router-dom';
 import Sidebar from './features/knowledge-base/components/Sidebar';
 import Content from './features/knowledge-base/components/Content';
 import ContentSearch from './features/knowledge-base/components/ContentSearch';
@@ -9,16 +10,68 @@ import NotesModal from './components/ui/NotesModal';
 import { useCurrentTopic, useContentSearch } from './features/knowledge-base/hooks';
 import { useKnowledgeBaseStore } from './store/knowledgeBaseStore';
 import { getKnowledgeBaseByCategory } from './core/constants';
-import { MetaCategoryId } from './core/metaCategories';
+import { MetaCategoryId, META_CATEGORIES } from './core/metaCategories';
 import { useNotesCount } from './hooks/useNotesCount';
 
-const App: React.FC = () => {
+// Компонент для обновления meta-тегов
+const SEOHead: React.FC<{ topic: { title: string; description: string } | null; category: MetaCategoryId }> = ({ topic, category }) => {
+  useEffect(() => {
+    if (!topic) return;
+    
+    const categoryTitle = META_CATEGORIES.find(c => c.id === category)?.title || '';
+    const title = `${topic.title} - ${categoryTitle} | Frontender Pro`;
+    const description = topic.description || `Изучите тему "${topic.title}" в разделе ${categoryTitle}`;
+    
+    document.title = title;
+    
+    // Обновляем или создаем meta-теги
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.setAttribute('name', 'description');
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.setAttribute('content', description);
+    
+    // Open Graph теги
+    const updateOGTag = (property: string, content: string) => {
+      let tag = document.querySelector(`meta[property="${property}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('property', property);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    };
+    
+    updateOGTag('og:title', title);
+    updateOGTag('og:description', description);
+    updateOGTag('og:type', 'website');
+    
+    // Canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', window.location.href);
+  }, [topic, category]);
+  
+  return null;
+};
+
+// Основной компонент контента
+const KnowledgeBaseContent: React.FC = () => {
+  const navigate = useNavigate();
+  const { category: urlCategory, topicId: urlTopicId } = useParams<{ category?: MetaCategoryId; topicId?: string }>();
+  
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProjectInfoOpen, setIsProjectInfoOpen] = useState(false);
   const [isNotesOpen, setIsNotesOpen] = useState(false);
   const [savedSearchQuery, setSavedSearchQuery] = useState<string | null>(null);
-  const { selectedTopicId, setSelectedTopicId, setSelectedMetaCategory } = useKnowledgeBaseStore();
+  const { selectedTopicId, setSelectedTopicId, setSelectedMetaCategory, selectedMetaCategory } = useKnowledgeBaseStore();
   const { currentTopic, relatedTopics } = useCurrentTopic();
   const notesCount = useNotesCount();
   
@@ -28,6 +81,29 @@ const App: React.FC = () => {
     searchResults,
     searchAreaRef
   } = useContentSearch(currentTopic?.id);
+
+  // Синхронизация: URL -> состояние (только когда URL меняется)
+  useEffect(() => {
+    if (urlCategory && META_CATEGORIES.find(c => c.id === urlCategory)) {
+      if (urlCategory !== selectedMetaCategory) {
+        setSelectedMetaCategory(urlCategory);
+      }
+      if (urlTopicId && urlTopicId !== selectedTopicId) {
+        setSelectedTopicId(urlTopicId);
+      }
+    }
+  }, [urlCategory, urlTopicId]);
+
+  // Синхронизация: состояние -> URL (только когда состояние меняется программно)
+  useEffect(() => {
+    // Не обновляем URL, если он уже соответствует состоянию
+    if (urlCategory === selectedMetaCategory && urlTopicId === selectedTopicId) {
+      return;
+    }
+    
+    const expectedPath = `/${selectedMetaCategory}${selectedTopicId ? `/${selectedTopicId}` : ''}`;
+    navigate(expectedPath, { replace: true });
+  }, [selectedMetaCategory, selectedTopicId]);
 
   // Найти категорию для темы по ID
   const findTopicCategory = (topicId: string): MetaCategoryId | null => {
@@ -81,7 +157,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="flex h-screen bg-[#0a0f1d] overflow-hidden pb-16">
+    <>
+      <SEOHead topic={currentTopic} category={selectedMetaCategory} />
+      <div className="flex h-screen bg-[#0a0f1d] overflow-hidden pb-16">
       {/* Overlay для мобильных */}
       {isSidebarOpen && (
         <div 
@@ -152,7 +230,7 @@ const App: React.FC = () => {
       {/* Кнопка заметок */}
       <button
         onClick={() => setIsNotesOpen(true)}
-        className="fixed top-28 right-6 z-40 h-8 bg-slate-950/90 border border-emerald-500/80 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-300 hover:bg-slate-800/90 transition-all shadow-lg text-xs px-2.5 gap-1.5 relative"
+        className="fixed top-28 right-6 z-40 h-8 bg-slate-950/90 border border-emerald-500/80 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-300 hover:bg-slate-800/90 transition-all shadow-lg text-xs px-2.5 gap-1.5"
         title="Заметки"
       >
         <span>Заметки</span>
@@ -175,6 +253,21 @@ const App: React.FC = () => {
         onClose={() => setIsNotesOpen(false)}
       />
     </div>
+    </>
+  );
+};
+
+// Главный компонент с роутингом
+const App: React.FC = () => {
+  const { selectedMetaCategory, selectedTopicId } = useKnowledgeBaseStore();
+  
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to={`/${selectedMetaCategory}${selectedTopicId ? `/${selectedTopicId}` : ''}`} replace />} />
+      <Route path="/:category" element={<KnowledgeBaseContent />} />
+      <Route path="/:category/:topicId" element={<KnowledgeBaseContent />} />
+      <Route path="*" element={<Navigate to={`/${selectedMetaCategory}${selectedTopicId ? `/${selectedTopicId}` : ''}`} replace />} />
+    </Routes>
   );
 };
 
