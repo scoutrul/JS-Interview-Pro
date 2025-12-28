@@ -272,8 +272,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                         }`}
                       >
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          {topicLearned && (
+                          {topicLearned ? (
                             <i className="fa-solid fa-check-circle text-emerald-500 text-[10px] flex-shrink-0"></i>
+                          ) : (
+                            <i className="fa-regular fa-circle text-slate-500 text-[10px] flex-shrink-0"></i>
                           )}
                           <span className={`text-[11px] font-bold truncate ${isActive ? activeColors?.text : 'text-slate-300'}`}>
                             {topic.title}

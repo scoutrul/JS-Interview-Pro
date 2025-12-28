@@ -16,8 +16,6 @@ export const useTopicsFilter = () => {
     [knowledgeBase]
   );
 
-  const { isLearned } = useKnowledgeBaseStore();
-
   const filteredCategories = useMemo(() => {
     // Разбиваем запрос на слова (минимум 3 символа)
     // Разбиваем по пробелам, фильтруем слова >= 3 символов
@@ -46,12 +44,6 @@ export const useTopicsFilter = () => {
           return matchesSearch && matchesDifficulty && matchesTags;
         })
         .sort((a, b) => {
-          const aLearned = isLearned(a.id, selectedMetaCategory);
-          const bLearned = isLearned(b.id, selectedMetaCategory);
-          // Изученные темы в конец списка
-          if (aLearned && !bLearned) return 1;
-          if (!aLearned && bLearned) return -1;
-          
           // Сортировка по сложности: beginner → intermediate → advanced
           const difficultyOrder: Record<Difficulty, number> = {
             beginner: 1,
@@ -61,7 +53,7 @@ export const useTopicsFilter = () => {
           return difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty];
         })
     })).filter(cat => cat.topics.length > 0);
-  }, [searchQuery, selectedDifficulty, selectedTags, isLearned, knowledgeBase, selectedMetaCategory]);
+  }, [searchQuery, selectedDifficulty, selectedTags, knowledgeBase, selectedMetaCategory]);
 
   return { flatTopics, filteredCategories };
 };
