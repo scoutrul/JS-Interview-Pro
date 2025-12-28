@@ -10,6 +10,7 @@ import { useCurrentTopic, useContentSearch } from './features/knowledge-base/hoo
 import { useKnowledgeBaseStore } from './store/knowledgeBaseStore';
 import { getKnowledgeBaseByCategory } from './core/constants';
 import { MetaCategoryId } from './core/metaCategories';
+import { useNotesCount } from './hooks/useNotesCount';
 
 const App: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -19,6 +20,7 @@ const App: React.FC = () => {
   const [savedSearchQuery, setSavedSearchQuery] = useState<string | null>(null);
   const { selectedTopicId, setSelectedTopicId, setSelectedMetaCategory } = useKnowledgeBaseStore();
   const { currentTopic, relatedTopics } = useCurrentTopic();
+  const notesCount = useNotesCount();
   
   const {
     contentSearchQuery,
@@ -150,10 +152,15 @@ const App: React.FC = () => {
       {/* Кнопка заметок */}
       <button
         onClick={() => setIsNotesOpen(true)}
-        className="fixed top-28 right-6 z-40 h-8 bg-slate-950/90 border border-emerald-500/80 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-300 hover:bg-slate-800/90 transition-all shadow-lg text-xs px-2.5"
+        className="fixed top-28 right-6 z-40 h-8 bg-slate-950/90 border border-emerald-500/80 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-300 hover:bg-slate-800/90 transition-all shadow-lg text-xs px-2.5 gap-1.5 relative"
         title="Заметки"
       >
-        Заметки
+        <span>Заметки</span>
+        {notesCount > 0 && (
+          <span className="bg-emerald-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1.5">
+            {notesCount > 99 ? '99+' : notesCount}
+          </span>
+        )}
       </button>
 
       {/* Модальное окно информации о проекте */}

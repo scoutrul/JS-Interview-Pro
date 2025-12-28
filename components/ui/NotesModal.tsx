@@ -37,6 +37,8 @@ const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose }) => {
   const saveNotes = (updatedNotes: Note[]) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedNotes));
     setNotes(updatedNotes);
+    // Отправляем кастомное событие для обновления счетчика в других компонентах
+    window.dispatchEvent(new Event('notesUpdated'));
   };
 
   // Добавление новой заметки
