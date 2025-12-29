@@ -141,7 +141,13 @@ class Dog extends Animal {
 }
 
 const dog = new Dog('Rex');
-dog.speak(); // "Rex barks"`
+dog.speak(); // "Rex barks"
+
+// В примере показаны принципы ООП:
+// - Инкапсуляция: данные (name) и методы (speak) объединены в класс
+// - Наследование: класс Dog наследует Animal
+// - Полиморфизм: метод speak переопределен в дочернем классе
+// - Абстракция: базовый класс описывает общую модель поведения`
       },
       {
         title: "Событийно-ориентированный стиль",
@@ -255,151 +261,175 @@ self.onmessage = (e) => {
     id: 'typing-details',
     title: 'Типизация - детали',
     difficulty: 'intermediate',
-    description: 'Детали типизации JavaScript: особенности работы с null (исторический баг typeof null === "object"), ссылочные типы (Date, RegExp, Map, Set), преобразование типов, truthy/falsy значения. Понимание различий между примитивами и объектами критично для работы с данными и избежания ошибок.',
+    description: 'В JavaScript типы делятся на примитивы и ссылочные объекты. Понимание их различий, особенностей null, преобразований типов и truthy/falsy значений помогает избегать логических и скрытых багов.',
     keyPoints: [
-      'null: typeof null === "object" (исторический баг), но null не является объектом.',
-      'Date: объект для работы с датами, преобразуется в строку при JSON.stringify.',
-      'RegExp: объект для регулярных выражений, имеет методы test() и exec().',
-      'Map/Set: коллекции с методами для работы с ключами и значениями.',
-      'Ссылочные типы: все объекты передаются по ссылке, изменения влияют на оригинал.',
-      'Преобразование: явное (Number(), String()) и неявное ("5" + 3 = "53").'
+      'null — отдельный примитив, typeof null === "object" — исторический баг.',
+      'Примитивы копируются по значению (number, string, boolean, null, undefined, symbol, bigint).',
+      'Объекты копируются по ссылке (Object, Array, Date, RegExp, Map, Set).',
+      'Date / RegExp / Map / Set — это объекты, а значит ссылочные типы.',
+      'Изменение объекта через одну переменную влияет на все ссылки на него.',
+      'Преобразование типов бывает: явное (Number(), String()) и неявное ("5" + 3 → "53").',
+      'В условиях используются truthy / falsy значения.'
     ],
     tags: ['typing', 'null', 'date', 'regexp', 'map', 'set', 'reference-types', 'type-coercion'],
     examples: [
       {
-        title: "Особенности null",
-        code: `typeof null; // "object" (баг!)
-null instanceof Object; // false (null не объект)
+        title: "null — особый случай",
+        code: `typeof null; // "object" ❌ (исторический баг)
+null instanceof Object; // false
 Object.prototype.toString.call(null); // "[object Null]"
 
-// Проверка на null
-value === null; // правильная проверка
-typeof value === "object" && value !== null; // проверка на объект`
+// ✔ Правильная проверка:
+value === null;`
       },
       {
-        title: "Date - ссылочный тип",
+        title: "Примитив vs объект",
+        code: `let a = 5;
+let b = a;
+b = 10;
+
+console.log(a); // 5 (копия по значению)
+
+const obj1 = { x: 1 };
+const obj2 = obj1;
+obj2.x = 2;
+
+console.log(obj1.x); // 2 (копия по ссылке)`
+      },
+      {
+        title: "Date — ссылочный тип",
         code: `const date1 = new Date('2023-01-01');
-const date2 = date1; // копируется ссылка
-date2.setMonth(5); // изменяет date1 тоже
+const date2 = date1;
+
+date2.setMonth(5);
 console.log(date1.getMonth()); // 5
 
-// Копирование Date
-const date3 = new Date(date1.getTime()); // копия`
+// Копирование:
+const date3 = new Date(date1.getTime());`
       },
       {
-        title: "RegExp - объект",
-        code: `const regex = /pattern/gi;
-regex.test('text'); // true/false
-regex.exec('text'); // массив совпадений
+        title: "RegExp — объект",
+        code: `const regex = /test/g;
+regex.test('test'); // true
+regex.exec('test'); // ["test"]
 
-// RegExp передается по ссылке
-const regex1 = /test/;
-const regex2 = regex1;
-regex2.lastIndex = 5; // изменяет regex1 тоже`
+// ⚠️ RegExp тоже передаётся по ссылке:
+const r1 = /a/g;
+const r2 = r1;
+r2.lastIndex = 3;
+
+console.log(r1.lastIndex); // 3`
       },
       {
-        title: "Map и Set - ссылочные типы",
+        title: "Map и Set — ссылочные коллекции",
         code: `const map1 = new Map([['a', 1]]);
-const map2 = map1; // копируется ссылка
-map2.set('b', 2); // изменяет map1 тоже
+const map2 = map1;
+
+map2.set('b', 2);
 console.log(map1.has('b')); // true
 
-// Копирование Map
-const map3 = new Map(map1); // копия`
+// Копирование:
+const map3 = new Map(map1);`
       }
     ],
+    funFact: 'В JavaScript примитивы копируются по значению, объекты — по ссылке, а null — особый примитив с историческим багом typeof.',
     relatedTopics: ['typing-system', 'data-types', 'map-set', 'date-api', 'objects-basic']
   },
   {
     id: 'runtime-environments-details',
     title: 'Окружение выполнения - детали',
     difficulty: 'intermediate',
-    description: 'Детальное сравнение браузерного и Node.js окружений: различия в глобальных объектах, API, модульных системах, работе с файлами и сетью. Влияние окружения на поведение this, работу с асинхронностью, доступные встроенные объекты и возможности.',
+    description: 'JavaScript выполняется в разных окружениях, главное из которых — браузер и Node.js. Окружение определяет доступные глобальные объекты, API, работу с файлами и сетью, а также поведение this.',
+    additionalDescription: 'Один и тот же JavaScript-код может вести себя по-разному в зависимости от среды выполнения. Понимание этих различий критично при переходе между фронтендом и бэкендом, а также при написании универсального кода.',
     keyPoints: [
-      'Браузер: window, document, navigator, location, localStorage, sessionStorage.',
-      'Node.js: global, process, Buffer, __dirname, __filename, require, module.exports.',
-      'Модули: ES6 modules (import/export) vs CommonJS (require/module.exports).',
-      'Файлы: браузер не имеет прямого доступа, Node.js имеет fs модуль.',
-      'Сеть: браузер имеет fetch, XMLHttpRequest, Node.js имеет http/https модули.',
-      'Влияние на this: разное поведение в глобальном контексте.'
+      'Браузерное окружение ориентировано на работу с DOM, пользователем и сетью.',
+      'Node.js ориентирован на серверные задачи, файлы, процессы и системные ресурсы.',
+      'Глобальный объект: браузер → window, Node.js → global.',
+      'Модульные системы: браузер → ES Modules (import / export), Node.js → CommonJS (require / module.exports).',
+      'Работа с файлами: браузер — только через пользовательские API (File, Blob), Node.js — прямой доступ через fs.',
+      'Асинхронность присутствует в обоих окружениях, но API различаются.',
+      'Поведение this зависит от окружения и strict mode.'
     ],
     tags: ['runtime', 'browser', 'nodejs', 'modules', 'global', 'environment', 'this'],
     examples: [
       {
-        title: "Различия в глобальных объектах",
+        title: "Глобальные объекты",
         code: `// Браузер
-console.log(window); // глобальный объект
-console.log(document); // DOM
+console.log(window);     // глобальный объект
+console.log(document);  // DOM
 console.log(navigator); // информация о браузере
 
 // Node.js
-console.log(global); // глобальный объект
+console.log(global);  // глобальный объект
 console.log(process); // информация о процессе
-console.log(Buffer); // работа с бинарными данными`
+console.log(Buffer);  // бинарные данные`
       },
       {
         title: "Модульные системы",
-        code: `// Браузер - ES6 modules
+        code: `// ES Modules (браузер, modern Node)
 import { func } from './module.js';
 export const value = 1;
 
-// Node.js - CommonJS
+// CommonJS (Node.js)
 const { func } = require('./module.js');
 module.exports = { value: 1 };`
       },
       {
         title: "Работа с файлами",
-        code: `// Браузер - нет прямого доступа
-// Используется File API через input или drag&drop
+        code: `// Браузер
+// Нет прямого доступа к файловой системе
+// Используются File API, input[type="file"], drag & drop
 
-// Node.js - fs модуль
+// Node.js
 const fs = require('fs');
+
 fs.readFile('file.txt', 'utf8', (err, data) => {
   console.log(data);
 });`
       },
       {
-        title: "Влияние на this",
-        code: `// Браузер
+        title: "Поведение this",
+        code: `// Браузер (не strict)
 function test() {
-  console.log(this); // window (не strict mode)
+  console.log(this); // window
 }
 
-// Node.js
+// Node.js (не strict)
 function test() {
-  console.log(this); // global (не strict mode)
+  console.log(this); // global
 }
 
-// В strict mode везде undefined
+// Strict mode — одинаково
 "use strict";
 function test() {
   console.log(this); // undefined
 }`
       }
     ],
+    funFact: 'В браузере глобальный объект называется window, но в ES-модулях this на верхнем уровне всегда undefined, даже без "use strict".',
     relatedTopics: ['runtime-environments', 'this-basics', 'dom-api', 'modules']
   },
   {
     id: 'variables-advanced',
     title: 'Переменные - детали',
     difficulty: 'intermediate',
-    description: 'Hoisting (всплытие): var и function declarations всплывают, var = undefined до присваивания, function доступна полностью. TDZ (Temporal Dead Zone): let/const недоступны до объявления. Дескрипторы объектов: writable, enumerable, configurable. Object.freeze, Object.seal, Object.defineProperty для контроля изменяемости объектов.',
+    description: 'На среднем уровне важно понимать не только объявление переменных, но и механизмы инициализации, области видимости и контроля изменяемости объектов. Hoisting, TDZ и дескрипторы свойств напрямую влияют на предсказуемость и безопасность кода.',
     keyPoints: [
-      'Hoisting: var всплывает с undefined, function declaration всплывает полностью.',
-      'TDZ: let/const недоступны до объявления, вызов вызывает ReferenceError.',
-      'Дескрипторы: writable (можно изменять), enumerable (видно в переборах), configurable (можно удалять/изменять).',
-      'Object.freeze: полная блокировка объекта (нельзя изменять/добавлять/удалять свойства).',
-      'Object.seal: нельзя добавлять/удалять, но можно изменять существующие свойства.',
-      'Object.defineProperty: настройка дескрипторов для конкретного свойства.'
+      'Hoisting: var поднимается и инициализируется как undefined, function declaration доступна полностью до объявления.',
+      'TDZ (Temporal Dead Zone): let и const существуют до объявления, но недоступны — обращение вызывает ReferenceError.',
+      'Дескрипторы свойств: writable — можно ли изменять значение, enumerable — участвует ли в переборах, configurable — можно ли удалять свойство и менять дескрипторы.',
+      'Object.freeze — полный запрет на изменение структуры и значений объекта.',
+      'Object.seal — запрет на добавление и удаление свойств, но разрешено изменение существующих.',
+      'Object.defineProperty — точечная настройка поведения отдельных свойств.'
     ],
     tags: ['variables', 'hoisting', 'tdz', 'descriptors', 'freeze', 'seal', 'defineProperty'],
     examples: [
       {
-        title: "Hoisting var и function",
-        code: `console.log(x); // undefined (не ошибка!)
+        title: "Hoisting: var и function",
+        code: `console.log(x); // undefined (не ошибка)
 var x = 5;
 
-sayHi(); // "Hi" (работает!)
+sayHi(); // "Hi"
 function sayHi() {
   console.log("Hi");
 }
@@ -408,109 +438,104 @@ function sayHi() {
 let y = 10;`
       },
       {
-        title: "TDZ для let/const",
+        title: "TDZ для let и const",
         code: `{
   // console.log(x); // ReferenceError (TDZ)
   let x = 5;
-  console.log(x); // 5 (OK)
+  console.log(x); // 5
 }
 
 {
   // console.log(y); // ReferenceError (TDZ)
   const y = 10;
-  console.log(y); // 10 (OK)
+  console.log(y); // 10
 }`
       },
       {
-        title: "Дескрипторы объектов",
+        title: "Дескрипторы свойств",
         code: `const obj = {};
 
 Object.defineProperty(obj, 'prop', {
   value: 42,
-  writable: false, // нельзя изменять
-  enumerable: true, // видно в переборах
-  configurable: false // нельзя удалять/изменять дескрипторы
+  writable: false,
+  enumerable: true,
+  configurable: false
 });
 
-obj.prop = 100; // игнорируется (writable: false)
+obj.prop = 100; // игнорируется
 console.log(obj.prop); // 42`
       },
       {
-        title: "Object.freeze, Object.seal",
+        title: "Object.freeze и Object.seal",
         code: `const obj = { name: "Alice" };
 
-// Object.freeze - полная блокировка
 Object.freeze(obj);
 obj.name = "Bob"; // игнорируется
-obj.age = 30; // игнорируется
-delete obj.name; // игнорируется
+obj.age = 30;     // игнорируется
+delete obj.name;  // игнорируется
 
-// Object.seal - можно изменять, нельзя добавлять/удалять
 const obj2 = { name: "Alice" };
+
 Object.seal(obj2);
 obj2.name = "Bob"; // OK
-obj2.age = 30; // игнорируется
-delete obj2.name; // игнорируется`
+obj2.age = 30;     // игнорируется
+delete obj2.name;  // игнорируется`
       }
     ],
+    funFact: 'В strict mode попытка изменить frozen-объект или writable: false свойство выбросит ошибку, а не будет просто проигнорирована.',
     relatedTopics: ['variables-basic', 'hoisting-basic', 'tdz-basic', 'object-methods']
   },
   {
     id: 'functions-overview',
     title: 'Функции',
     difficulty: 'intermediate',
-    description: 'Function Declaration всплывает полностью, Function Expression не всплывает. Стрелочные функции: лексический this (берут из окружающего контекста), нет arguments и prototype, нельзя использовать как конструктор. Функции-конструкторы: используются с new, создают объекты через prototype. Генераторы: function* с yield, создают итераторы.',
+    description: 'Функции в JavaScript бывают разных типов и имеют особенности создания, области видимости и поведения this. Понимание различий между Function Declaration, Function Expression, стрелочными функциями, конструкторами и генераторами важно для правильного построения кода и работы с объектами.',
     keyPoints: [
-      'Function Declaration: всплывает полностью, можно вызывать до объявления.',
+      'Function Declaration: полностью всплывает, можно вызывать до объявления.',
       'Function Expression: не всплывает, присваивается переменной.',
-      'Стрелочные функции: лексический this, нет arguments, нет prototype, нельзя new.',
-      'Конструкторы: функции, вызываемые с new, используют prototype для создания объектов.',
-      'Генераторы: function* с yield, создают итераторы, можно приостанавливать выполнение.'
+      'Стрелочные функции: лексический this (берут из внешнего контекста), нет arguments, нет prototype, нельзя использовать с new.',
+      'Функции-конструкторы: вызываются с new, создают объекты через prototype.',
+      'Генераторы (function*): создают итераторы, позволяют приостанавливать выполнение через yield.'
     ],
     tags: ['functions', 'arrow-functions', 'constructors', 'generators', 'this', 'prototype'],
     examples: [
       {
-        title: "Function Declaration vs Expression",
+        title: "Function Declaration vs Function Expression",
         code: `// Declaration - всплывает
-sayHi(); // работает
+sayHi(); // "Hi"
 function sayHi() {
   console.log("Hi");
 }
 
 // Expression - не всплывает
-// sayHello(); // ошибка
+// sayHello(); // ReferenceError
 const sayHello = function() {
   console.log("Hello");
 };`
       },
       {
-        title: "Стрелочные функции - лексический this",
+        title: "Стрелочные функции — лексический this",
         code: `const obj = {
   name: "Alice",
-  arrow: () => {
-    console.log(this.name); // undefined (this из глобального контекста)
-  },
-  regular: function() {
-    console.log(this.name); // "Alice"
-  }
+  arrow: () => console.log(this.name), // undefined (this из глобального контекста)
+  regular: function() { console.log(this.name); } // "Alice"
 };
 
 obj.arrow();
 obj.regular();`
       },
       {
-        title: "Стрелочные функции - нет arguments",
+        title: "Стрелочные функции — нет arguments",
         code: `function regular() {
   console.log(arguments); // объект arguments
 }
 
 const arrow = () => {
   // console.log(arguments); // ReferenceError
-  // Используй rest параметры
-  const arrow2 = (...args) => {
-    console.log(args); // массив
-  };
-};`
+  const arrow2 = (...args) => console.log(args); // правильно через rest
+  arrow2(1, 2, 3); // [1, 2, 3]
+};
+arrow();`
       },
       {
         title: "Функции-конструкторы",
@@ -523,7 +548,7 @@ Person.prototype.sayHi = function() {
 };
 
 const person = new Person("Alice");
-person.sayHi(); // "Hi, I'm Alice"`
+console.log(person.sayHi()); // "Hi, I'm Alice"`
       },
       {
         title: "Генераторы",
@@ -539,56 +564,60 @@ console.log(gen.next().value); // 2
 console.log(gen.next().value); // 3`
       }
     ],
+    funFact: 'Стрелочные функции никогда не могут быть конструкторами: попытка вызвать их с new вызовет TypeError.',
     relatedTopics: ['functions-types', 'arrow-functions', 'constructors', 'generators', 'this-basics']
   },
   {
     id: 'data-types-details',
     title: 'Типы данных - детали',
     difficulty: 'intermediate',
-    description: 'Детали работы с встроенными типами данных: особенности Object, Array, Function, Date, RegExp, Map/WeakMap, Set/WeakSet, Error, Promise, TypedArray/ArrayBuffer. Понимание когда использовать каждый тип, их различия, методы и особенности работы с ними.',
+    description: 'JavaScript имеет несколько встроенных типов данных, каждый из которых предназначен для определённых задач: объекты для структурирования данных, массивы для упорядоченных коллекций, функции как объекты первого класса, специализированные типы для работы с датами, регулярными выражениями, коллекциями и бинарными данными. Понимание этих типов позволяет выбирать правильный инструмент для задачи, избегать ошибок и эффективно использовать методы и свойства объектов.',
+    additionalDescription: 'Особенно важно различать ссылочные и примитивные типы, знать особенности слабых коллекций (WeakMap, WeakSet) и асинхронные объекты (Promise). TypedArray и ArrayBuffer используются для работы с бинарными данными, Error — для обработки ошибок. Регулярные выражения (RegExp) и Date предоставляют специфичные методы для работы с текстом и временем. Знание этих деталей повышает качество и предсказуемость кода.',
     keyPoints: [
       'Object: базовый тип для объектов, методы Object.keys(), Object.values(), Object.entries().',
       'Array: упорядоченная коллекция, методы map, filter, reduce, slice, splice.',
-      'Function: функции являются объектами, могут иметь свойства и методы.',
+      'Function: функции — объекты, могут иметь свойства и методы.',
       'Date: работа с датами, методы getTime(), toISOString(), toLocaleString().',
       'RegExp: регулярные выражения, методы test(), exec(), флаги g, i, m.',
-      'Map/Set: коллекции с методами set/get, has, delete, size.',
-      'WeakMap/WeakSet: слабые ссылки, не препятствуют сборке мусора.',
-      'Error: объекты ошибок, типы Error, TypeError, ReferenceError и др.',
+      'Map / Set: коллекции с методами set/get, has, delete, size.',
+      'WeakMap / WeakSet: слабые ссылки, объекты могут быть удалены сборщиком мусора.',
+      'Error: объекты ошибок (Error, TypeError, ReferenceError и др.).',
       'Promise: объекты для асинхронных операций, методы then, catch, finally.',
-      'TypedArray/ArrayBuffer: работа с бинарными данными.'
+      'TypedArray / ArrayBuffer: работа с бинарными данными, высокопроизводительные массивы фиксированного типа.'
     ],
     tags: ['types', 'objects', 'arrays', 'collections', 'promises', 'typedarray'],
     examples: [
       {
         title: "Object методы",
         code: `const obj = { a: 1, b: 2, c: 3 };
-Object.keys(obj); // ["a", "b", "c"]
+Object.keys(obj);   // ["a", "b", "c"]
 Object.values(obj); // [1, 2, 3]
-Object.entries(obj); // [["a", 1], ["b", 2], ["c", 3]]`
+Object.entries(obj);// [["a",1],["b",2],["c",3]]`
       },
       {
         title: "Array методы",
         code: `const arr = [1, 2, 3];
-arr.map(x => x * 2); // [2, 4, 6]
-arr.filter(x => x > 1); // [2, 3]
-arr.reduce((a, b) => a + b); // 6
-arr.slice(1); // [2, 3] (не изменяет оригинал)
-arr.splice(1, 1); // [2] (изменяет оригинал)`
+
+arr.map(x => x * 2);      // [2, 4, 6]
+arr.filter(x => x > 1);   // [2, 3]
+arr.reduce((a, b) => a+b); // 6
+
+arr.slice(1);  // [2,3] - не изменяет оригинал
+arr.splice(1,1); // [2] - изменяет оригинал`
       },
       {
         title: "Map и Set",
-        code: `// Map - ключ-значение
+        code: `// Map
 const map = new Map();
 map.set('a', 1);
 map.get('a'); // 1
 map.has('a'); // true
 
-// Set - уникальные значения
-const set = new Set([1, 2, 3]);
+// Set
+const set = new Set([1,2,3]);
 set.add(4);
-set.has(3); // true
-set.size; // 4`
+set.has(3);   // true
+set.size;     // 4`
       },
       {
         title: "Promise",
@@ -602,19 +631,21 @@ promise
   .finally(() => console.log('finally'));`
       }
     ],
+    funFact: 'WeakMap и WeakSet не имеют методов перебора и свойства size, потому что элементы могут быть удалены сборщиком мусора в любой момент — это делает их «невидимыми» для инспекции.',
     relatedTopics: ['data-types-overview', 'objects-basic', 'arrays-basic', 'map-set', 'promises']
   },
   {
     id: 'object-copying',
     title: 'Копирование объектов',
     difficulty: 'intermediate',
-    description: 'Поверхностная копия (shallow copy): копирует только первый уровень, вложенные объекты остаются ссылками. Методы: Object.assign, spread оператор, slice для массивов. Глубокая копия (deep copy): рекурсивно копирует все уровни. Методы: structuredClone (современный), JSON.parse(JSON.stringify()) (ограничения), кастомные функции или библиотеки (lodash.cloneDeep).',
+    description: 'В JavaScript объекты и массивы передаются по ссылке, поэтому копирование требует внимательности. Существует поверхностное копирование, которое дублирует только первый уровень объекта, и глубокое копирование, которое рекурсивно дублирует все вложенные структуры. Понимание различий помогает избежать ошибок при изменении вложенных данных.',
+    additionalDescription: 'Поверхностное копирование подходит для простых объектов или массивов без вложенных структур, а глубокое — для сложных объектов с вложенными массивами, объектами или датами. Для глубокого копирования можно использовать современный метод structuredClone, старый JSON-подход или библиотеки вроде lodash.cloneDeep. Кастомные функции дают контроль над всеми типами, включая даты и массивы.',
     keyPoints: [
-      'Поверхностная копия: копирует только первый уровень, вложенные объекты - ссылки.',
-      'Object.assign: поверхностное копирование, Object.assign({}, obj).',
-      'Spread оператор: поверхностное копирование, {...obj}, [...arr].',
-      'slice: поверхностное копирование массивов, arr.slice().',
-      'Глубокая копия: рекурсивно копирует все уровни.',
+      'Поверхностная копия: копирует только первый уровень, вложенные объекты остаются ссылками.',
+      'Object.assign: поверхностное копирование объектов (Object.assign({}, obj)).',
+      'Spread оператор: поверхностное копирование объектов и массивов ({...obj}, [...arr]).',
+      'slice: поверхностное копирование массивов (arr.slice()).',
+      'Глубокая копия: рекурсивное копирование всех уровней вложенности.',
       'structuredClone: современный способ глубокого копирования (не все типы поддерживаются).',
       'JSON.parse(JSON.stringify()): глубокое копирование через JSON (пропускает функции, undefined, Symbol).',
       'Кастомные функции: рекурсивное копирование с обработкой всех типов.',
@@ -623,17 +654,18 @@ promise
     tags: ['copying', 'shallow-copy', 'deep-copy', 'spread', 'object-assign', 'structured-clone'],
     examples: [
       {
-        title: "Поверхностная копия - Object.assign",
+        title: "Поверхностная копия — Object.assign",
         code: `const obj = { a: 1, nested: { b: 2 } };
 const copy = Object.assign({}, obj);
-copy.a = 10; // не изменяет оригинал
-copy.nested.b = 20; // изменяет оригинал! (ссылка)
 
-console.log(obj.a); // 1
+copy.a = 10;       // не изменяет оригинал
+copy.nested.b = 20; // изменяет оригинал (ссылка)
+
+console.log(obj.a);        // 1
 console.log(obj.nested.b); // 20`
       },
       {
-        title: "Поверхностная копия - spread",
+        title: "Поверхностная копия — spread",
         code: `const obj = { a: 1, nested: { b: 2 } };
 const copy = { ...obj };
 
@@ -641,45 +673,45 @@ const arr = [1, 2, 3];
 const arrCopy = [...arr];`
       },
       {
-        title: "Глубокая копия - structuredClone",
+        title: "Глубокая копия — structuredClone",
         code: `const obj = { a: 1, nested: { b: 2 } };
 const deepCopy = structuredClone(obj);
+
 deepCopy.nested.b = 20; // не изменяет оригинал
 
-console.log(obj.nested.b); // 2
+console.log(obj.nested.b);   // 2
 console.log(deepCopy.nested.b); // 20`
       },
       {
-        title: "Глубокая копия - JSON",
+        title: "Глубокая копия — JSON",
         code: `const obj = { a: 1, nested: { b: 2 } };
 const deepCopy = JSON.parse(JSON.stringify(obj));
 
-// Ограничения:
+// Ограничения
 const obj2 = {
-  func: () => {}, // пропускается
+  func: () => {},   // пропускается
   undef: undefined, // пропускается
   sym: Symbol('id') // пропускается
 };
-JSON.parse(JSON.stringify(obj2)); // {}`
+console.log(JSON.parse(JSON.stringify(obj2))); // {}`
       },
       {
         title: "Кастомная функция глубокого копирования",
         code: `function deepClone(obj) {
   if (obj === null || typeof obj !== 'object') return obj;
   if (obj instanceof Date) return new Date(obj);
-  if (obj instanceof Array) return obj.map(item => deepClone(item));
-  if (typeof obj === 'object') {
-    const copy = {};
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        copy[key] = deepClone(obj[key]);
-      }
+  if (Array.isArray(obj)) return obj.map(item => deepClone(item));
+  const copy = {};
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      copy[key] = deepClone(obj[key]);
     }
-    return copy;
   }
+  return copy;
 }`
       }
     ],
+    funFact: 'structuredClone умеет копировать Map, Set, Date и ArrayBuffer, чего нельзя сделать с JSON-подходом.',
     relatedTopics: ['data-types-overview', 'objects-basic', 'structured-clone', 'spread']
   }
 ];

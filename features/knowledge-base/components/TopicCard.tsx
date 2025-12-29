@@ -40,13 +40,13 @@ const TopicCard: React.FC<TopicCardProps> = ({
               {topic.title}
             </h4>
             {metaCategory && (
-              <span className="px-2 py-0.5 bg-slate-700/50 border border-slate-600/50 rounded text-[10px] text-slate-300 font-medium">
+              <span className="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/50 rounded text-[10px] text-emerald-400 font-bold">
                 <i className={`${metaCategory.icon} mr-1`}></i>
                 {metaCategory.title}
               </span>
             )}
             {category && (
-              <span className="px-2 py-0.5 bg-slate-700/50 border border-slate-600/50 rounded text-[10px] text-slate-300 font-medium">
+              <span className="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/50 rounded text-[10px] text-emerald-400 font-bold">
                 {category.title}
               </span>
             )}
