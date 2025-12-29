@@ -136,7 +136,7 @@ const Content: React.FC<ContentProps> = (props) => {
 
 
   return (
-    <div ref={contentRef} key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-6 animate-content relative">
+    <div ref={contentRef} key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-2 lg:px-6 animate-content relative pb-20 lg:pb-12">
       <header className="mb-10 relative">
         <div className="flex items-start gap-2 mb-2 flex-wrap">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
@@ -233,7 +233,7 @@ const Content: React.FC<ContentProps> = (props) => {
           <h3 className="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em] mb-6">
             {contentSearchQuery ? 'РЕЛЕВАНТНЫЕ ТЕМЫ (поиск)' : 'РЕЛЕВАНТНЫЕ ТЕМЫ'}
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
             {relevantTopics.map((relatedTopic, index) => {
               // Если это режим поиска, используем метаданные из searchResults, иначе ищем их
               const meta = isSearchMode && searchResultsMeta 

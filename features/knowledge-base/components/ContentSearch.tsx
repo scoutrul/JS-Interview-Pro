@@ -39,17 +39,17 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
       
       <div 
         ref={searchAreaRef}
-        className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[min(90vw,80rem)] px-6"
+        className="fixed top-0 left-1/2 -translate-x-1/2 z-50 w-full max-w-[min(90vw,80rem)] px-2 lg:px-6"
       >
       <div className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-800/80 shadow-xl py-4 rounded-b-lg">
-        <div className="relative px-4">
+        <div className="relative px-2 lg:px-4">
           <i className="fa-solid fa-search absolute left-8 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
           <input 
             type="text" 
             placeholder="Поиск по контенту..." 
             value={contentSearchQuery}
             onChange={(e) => setContentSearchQuery(e.target.value)}
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg py-3 pl-11 pr-11 text-sm text-slate-300 outline-none focus:border-emerald-500/50 placeholder:text-slate-600 transition-colors"
+            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg py-3 pl-11 pr-11 text-base text-slate-300 outline-none focus:border-emerald-500/50 placeholder:text-slate-600 transition-colors"
             autoFocus
           />
           <button
@@ -65,10 +65,10 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
       {/* Результаты поиска - под формой */}
       {searchResults.length > 0 && (
         <div className="bg-slate-900/95 backdrop-blur-sm border-b border-slate-800/80 max-h-[60vh] overflow-y-auto py-4 rounded-b-lg">
-          <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4 px-4">
+          <h3 className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mb-4 px-2 lg:px-4">
             РЕЗУЛЬТАТЫ ПОИСКА ({searchResults.length})
           </h3>
-          <div className="grid grid-cols-2 gap-3 px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 px-2 lg:px-4">
             {searchResults.map(({ topic, metaCategoryId, category }) => (
               <TopicCard
                 key={topic.id}

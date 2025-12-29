@@ -194,7 +194,7 @@ const KnowledgeBaseContent: React.FC = () => {
       >
         {/* Кнопка меню для мобильных */}
         <button
-          onClick={() => setIsSidebarOpen(true)}
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
           className="lg:hidden fixed top-4 left-4 z-40 w-10 h-10 bg-slate-800/80 border border-slate-700 rounded-lg flex items-center justify-center text-white hover:bg-slate-700 transition-colors"
         >
           <i className="fa-solid fa-bars text-sm"></i>
