@@ -1,175 +1,27 @@
 import { Topic } from '../../../types';
 
 export const GIT_ADVANCED_TOPICS: Topic[] = [
-{
-    id: 'git-cherry-pick',
-    title: 'Git: Cherry-pick',
-    difficulty: 'advanced',
-    description: 'git cherry-pick применяет изменения из указанного коммита в текущую ветку. Полезно для выборочного переноса коммитов между ветками. Создает новый коммит с теми же изменениями, но другим хешем. Может вызвать конфликты, которые нужно разрешить. Можно cherry-pick несколько коммитов за раз.',
-    keyPoints: [
-      'cherry-pick применяет изменения из коммита в текущую ветку.',
-      'Создает новый коммит с теми же изменениями, но другим хешем.',
-      'Полезно для выборочного переноса коммитов между ветками.',
-      'Может вызвать конфликты, которые нужно разрешить.',
-      'Можно cherry-pick диапазон коммитов.'
-    ],
-    tags: ['git', 'version-control', 'cherry-pick', 'advanced', 'tools', 'productivity'],
-    examples: [
-      {
-        title: "Базовый cherry-pick",
-        code: `# Применить коммит в текущую ветку
-git cherry-pick abc123
-
-# После применения создастся новый коммит
-# с теми же изменениями, но другим хешем`
-      },
-      {
-        title: "Cherry-pick диапазона",
-        code: `# Применить несколько коммитов
-git cherry-pick abc123 def456
-
-# Применить диапазон (не включая начальный)
-git cherry-pick abc123..def456
-
-# Применить диапазон (включая начальный)
-git cherry-pick abc123^..def456`
-      },
-      {
-        title: "Cherry-pick с конфликтами",
-        code: `# Если есть конфликты
-git cherry-pick abc123
-# CONFLICT (content): Merge conflict in file.js
-
-# Разрешить конфликты
-# Затем:
-git add file.js
-git cherry-pick --continue
-
-# Или отменить
-git cherry-pick --abort`
-      },
-      {
-        title: "Cherry-pick без коммита",
-        code: `# Применить изменения, но не коммитить
-git cherry-pick -n abc123
-# или
-git cherry-pick --no-commit abc123
-
-# Изменения в staging area
-# Можно отредактировать перед коммитом`
-      },
-      {
-        title: "Использование в workflow",
-        code: `# Перенести hotfix из main в старую версию
-git checkout v1.0
-git cherry-pick hotfix-commit
-
-# Перенести несколько коммитов из feature в main
-git checkout main
-git cherry-pick feature-commit1 feature-commit2`
-      }
-    ],
-    relatedTopics: ['git-rebase', 'git-reflog'],
-  },
-{
-    id: 'git-reflog',
-    title: 'Git: Reflog',
-    difficulty: 'advanced',
-    description: 'reflog хранит историю всех перемещений HEAD и ссылок. Позволяет восстановить "потерянные" коммиты после reset, rebase, удаления веток. reflog локальный, не синхронизируется с удаленным репозиторием. Записи хранятся ограниченное время (по умолчанию 90 дней). Полезен для восстановления после ошибок.',
-    keyPoints: [
-      'reflog хранит историю всех перемещений HEAD.',
-      'Позволяет восстановить "потерянные" коммиты.',
-      'Локальный, не синхронизируется с удаленным репозиторием.',
-      'Записи хранятся ограниченное время (90 дней по умолчанию).',
-      'Полезен для восстановления после reset, rebase, удаления веток.'
-    ],
-    tags: ['git', 'version-control', 'reflog', 'recovery', 'advanced', 'tools', 'productivity'],
-    examples: [
-      {
-        title: "Просмотр reflog",
-        code: `# Показать все записи reflog
-git reflog
-
-# Показать последние 10 записей
-git reflog -10
-
-# Reflog для конкретной ветки
-git reflog show branch-name
-
-# Reflog для всех веток
-git reflog show --all`
-      },
-      {
-        title: "Восстановление после reset",
-        code: `# Случайно сделали reset --hard
-git reset --hard HEAD~3
-
-# Найти потерянный коммит
-git reflog
-# abc123 HEAD@{0}: reset: moving to HEAD~3
-# def456 HEAD@{1}: commit: важные изменения
-
-# Восстановить
-git reset --hard def456
-# или
-git reset --hard HEAD@{1}`
-      },
-      {
-        title: "Восстановление удаленной ветки",
-        code: `# Удалили ветку
-git branch -D feature
-
-# Найти последний коммит ветки
-git reflog | grep feature
-
-# Восстановить ветку
-git checkout -b feature abc123
-# или
-git branch feature HEAD@{5}`
-      },
-      {
-        title: "Восстановление после rebase",
-        code: `# Сделали rebase, но нужно вернуться
-git reflog
-
-# Найти состояние до rebase
-# abc123 HEAD@{10}: checkout: moving from main to feature
-# def456 HEAD@{9}: rebase finished: returning to refs/heads/feature
-
-# Вернуться к состоянию до rebase
-git reset --hard HEAD@{10}`
-      },
-      {
-        title: "Очистка reflog",
-        code: `# Удалить старые записи (старше 90 дней)
-git reflog expire --expire=now --all
-
-# Удалить все записи reflog
-git reflog expire --expire=now --all
-git gc --prune=now
-
-# Осторожно! Это удалит возможность восстановления`
-      }
-    ],
-    relatedTopics: ['git-cherry-pick', 'git-hooks'],
-  },
-{
+  {
     id: 'git-hooks',
-    title: 'Git: Hooks',
+    title: 'Hooks',
     difficulty: 'advanced',
-    description: 'Hooks — скрипты, автоматически выполняемые при определенных событиях Git. Хранятся в .git/hooks/. Pre-commit выполняется перед коммитом, post-commit после. Можно использовать для проверки кода, запуска тестов, форматирования. Client-side hooks (локальные) и server-side hooks (на сервере). Можно использовать инструменты типа Husky для управления hooks.',
+    description: 'Git hooks позволяют запускать скрипты автоматически на определённые события: коммит, push, merge и другие. Автоматизация задач при пуше, коммите и других событиях. Hooks делают Git похожим на мини-сервер CI/CD прямо на вашей машине — можно автоматически проверять код и тесты до коммита.',
     keyPoints: [
-      'Hooks — скрипты, выполняемые при событиях Git.',
-      'Хранятся в .git/hooks/ (не коммитятся в репозиторий).',
-      'Pre-commit: выполняется перед коммитом, может его отменить.',
-      'Post-commit: выполняется после коммита.',
-      'Можно использовать для проверки кода, тестов, форматирования.',
-      'Husky упрощает управление hooks в проекте.'
+      'Hooks — скрипты, выполняемые при событиях Git',
+      'Хранятся в .git/hooks/ (не коммитятся в репозиторий по умолчанию)',
+      'Pre-commit: выполняется перед коммитом, может его отменить',
+      'Post-commit: выполняется после коммита',
+      'Pre-push: выполняется перед push',
+      'Commit-msg: проверка сообщения коммита',
+      'Можно использовать для проверки кода, тестов, форматирования',
+      'Husky упрощает управление hooks в проекте',
+      'Hooks можно использовать для автоматизации деплоя и CI/CD'
     ],
-    tags: ['git', 'version-control', 'hooks', 'automation', 'advanced', 'tools', 'productivity'],
+    tags: ['git', 'version-control', 'hooks', 'automation', 'ci-cd', 'testing', 'linting', 'tools', 'productivity'],
+    funFact: 'Hooks делают Git похожим на мини-сервер CI/CD прямо на вашей машине — можно автоматически проверять код и тесты до коммита. Многие компании используют pre-commit hooks для автоматического форматирования кода и запуска тестов, что значительно повышает качество кода.',
     examples: [
       {
-        title: "Доступные hooks",
+        title: 'Доступные hooks',
         code: `# Pre-commit: перед коммитом
 .git/hooks/pre-commit
 
@@ -185,7 +37,7 @@ git gc --prune=now
 # И другие...`
       },
       {
-        title: "Простой pre-commit hook",
+        title: 'Простой pre-commit hook',
         code: `#!/bin/sh
 # .git/hooks/pre-commit
 
@@ -201,7 +53,7 @@ fi
 exit 0`
       },
       {
-        title: "Pre-commit с проверкой тестов",
+        title: 'Pre-commit с проверкой тестов',
         code: `#!/bin/sh
 # .git/hooks/pre-commit
 
@@ -219,7 +71,7 @@ echo "Тесты прошли успешно!"
 exit 0`
       },
       {
-        title: "Commit-msg hook",
+        title: 'Commit-msg hook',
         code: `#!/bin/sh
 # .git/hooks/commit-msg
 
@@ -235,7 +87,7 @@ fi
 exit 0`
       },
       {
-        title: "Использование Husky",
+        title: 'Использование Husky',
         code: `# Установить Husky
 npm install --save-dev husky
 
@@ -251,34 +103,40 @@ npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
 # Hooks хранятся в .husky/ и коммитятся в репозиторий`
       }
     ],
-    relatedTopics: ['git-reflog', 'git-submodules'],
+    relatedTopics: ['git-changes-management', 'git-submodules', 'testing-basics']
   },
-{
+  {
     id: 'git-submodules',
-    title: 'Git: Submodules',
+    title: 'Submodules',
     difficulty: 'advanced',
-    description: 'Submodules позволяют включать один Git репозиторий как поддиректорию другого. Полезно для зависимостей, библиотек, общих компонентов. git submodule add добавляет submodule. git submodule update обновляет submodules. Работа с вложенными репозиториями требует осторожности. Можно использовать вместо этого monorepo или пакетные менеджеры.',
+    description: 'Сабмодули позволяют включать другие Git-репозитории в ваш проект и управлять ими как зависимостями. Подключение внешних репозиториев как модулей. Полезно для повторного использования кода и монорепозиториев. Работа с вложенными репозиториями требует осторожности.',
     keyPoints: [
-      'Submodules позволяют включать один репозиторий в другой.',
-      'Полезно для зависимостей, библиотек, общих компонентов.',
-      'git submodule add добавляет submodule.',
-      'git submodule update обновляет submodules.',
-      'Работа с вложенными репозиториями требует осторожности.',
-      'Альтернативы: monorepo, пакетные менеджеры.'
+      'Submodules позволяют включать один репозиторий в другой',
+      'Полезно для зависимостей, библиотек, общих компонентов',
+      'git submodule add добавляет submodule',
+      'git submodule update обновляет submodules',
+      'Клонирование с submodules: git clone --recursive',
+      'Работа с вложенными репозиториями требует осторожности',
+      'Альтернативы: monorepo, пакетные менеджеры (npm, yarn)',
+      '.gitmodules файл хранит конфигурацию submodules'
     ],
-    tags: ['git', 'version-control', 'submodules', 'dependencies', 'advanced', 'tools', 'productivity'],
+    tags: ['git', 'version-control', 'submodules', 'dependencies', 'monorepo', 'reusability', 'tools', 'productivity'],
+    funFact: 'Сабмодули часто используют для подключения общих библиотек, чтобы не дублировать код и поддерживать единые версии. Они были добавлены в Git в 2008 году, однако многие разработчики предпочитают использовать monorepo или пакетные менеджеры для управления зависимостями.',
     examples: [
       {
-        title: "Добавление submodule",
+        title: 'Добавление submodule',
         code: `# Добавить submodule
 git submodule add https://github.com/user/library.git libs/library
 
 # Это создаст:
 # - .gitmodules файл с конфигурацией
-# - libs/library директорию с репозиторием`
+# - libs/library директорию с репозиторием
+
+# Посмотреть список submodules
+git submodule status`
       },
       {
-        title: "Клонирование с submodules",
+        title: 'Клонирование с submodules',
         code: `# Клонировать репозиторий с submodules
 git clone --recursive https://github.com/user/project.git
 
@@ -292,7 +150,7 @@ git submodule update
 git submodule update --init --recursive`
       },
       {
-        title: "Обновление submodules",
+        title: 'Обновление submodules',
         code: `# Обновить все submodules до последней версии
 git submodule update --remote
 
@@ -305,7 +163,7 @@ git add .gitmodules libs/library
 git commit -m "Обновить submodule"`
       },
       {
-        title: "Работа с submodule",
+        title: 'Работа с submodule',
         code: `# Перейти в submodule
 cd libs/library
 
@@ -321,7 +179,7 @@ git add libs/library
 git commit -m "Обновить ссылку на submodule"`
       },
       {
-        title: "Удаление submodule",
+        title: 'Удаление submodule',
         code: `# 1. Удалить из .gitmodules
 git rm --cached libs/library
 
@@ -336,103 +194,102 @@ rm -rf libs/library
 git commit -m "Удалить submodule"`
       }
     ],
-    relatedTopics: ['git-hooks', 'git-workflow'],
+    relatedTopics: ['git-hooks', 'git-gui-tools', 'npm-basics']
   },
-{
-    id: 'git-workflow',
-    title: 'Git: Workflow в команде',
+  {
+    id: 'git-gui-tools',
+    title: 'Продвинутые инструменты и GUI',
     difficulty: 'advanced',
-    description: 'Популярные workflow: Git Flow (main, develop, feature, release, hotfix ветки), GitHub Flow (простой, main + feature ветки), GitLab Flow (с environment ветками). Code review через Pull Requests. Защита веток, правила слияния. Соглашения о коммитах (Conventional Commits). Работа с большими командами требует четких правил.',
+    description: 'GUI-инструменты делают работу с Git визуальной и помогают управлять ветками, коммитами и конфликтами проще. Использование графических клиентов для работы с Git. Просмотр истории, веток, конфликтов через GUI. Ускорение работы и визуализация сложных веток.',
     keyPoints: [
-      'Git Flow: сложный workflow с develop, feature, release, hotfix ветками.',
-      'GitHub Flow: простой workflow с main и feature ветками.',
-      'GitLab Flow: с environment ветками (staging, production).',
-      'Code review через Pull Requests обязателен.',
-      'Защита веток предотвращает прямые коммиты в main.',
-      'Соглашения о коммитах улучшают читаемость истории.'
+      'GUI-инструменты: GitKraken, VS Code, JetBrains, GitHub Desktop',
+      'GUI удобен для визуализации истории и веток',
+      'GUI упрощает разрешение конфликтов',
+      'CLI быстрее для частых операций и автоматизации',
+      'VS Code: встроенная поддержка Git, визуальный diff, merge tool',
+      'GitKraken: мощный GUI с графом истории, drag-and-drop merge',
+      'JetBrains: интегрированный Git в IDE, визуальное сравнение',
+      'GitHub Desktop: простой GUI для базовых операций',
+      'Лучше знать оба подхода: GUI для сложных операций, CLI для повседневных'
     ],
-    tags: ['git', 'version-control', 'workflow', 'team', 'collaboration', 'advanced', 'tools', 'productivity'],
+    tags: ['git', 'version-control', 'gui', 'ide', 'tools', 'productivity', 'visualization'],
+    funFact: 'Многие разработчики используют GUI-инструменты не вместо командной строки, а как ускоритель для визуализации сложных веток и истории. Первый GUI для Git появился в 2007 году, но большинство разработчиков до сих пор предпочитают CLI для повседневной работы.',
     examples: [
       {
-        title: "Git Flow",
-        code: `# Основные ветки
-main        # Production код
-develop     # Development код
+        title: 'VS Code Git интеграция',
+        code: `# VS Code имеет встроенную поддержку Git:
+# - Визуальный diff файлов
+# - Source Control панель для staging и коммитов
+# - Встроенный merge tool для разрешения конфликтов
+# - История коммитов через Git Graph extension
+# - Визуальное сравнение веток
 
-# Вспомогательные ветки
-feature/*   # Новая функциональность
-release/*   # Подготовка к релизу
-hotfix/*    # Срочные исправления
-
-# Workflow:
-# 1. feature/xxx -> develop
-# 2. develop -> release/1.0
-# 3. release/1.0 -> main + develop
-# 4. hotfix/xxx -> main + develop`
+# Быстрые действия:
+# - Ctrl+Shift+G: открыть Source Control
+# - Click на файл: просмотр diff
+# - + кнопка: добавить в staging
+# - ✓ кнопка: создать коммит`
       },
       {
-        title: "GitHub Flow",
-        code: `# Простой workflow
-main        # Production код
+        title: 'GitKraken',
+        code: `# GitKraken предоставляет:
+# - Визуальный граф истории веток
+# - Drag-and-drop для merge и rebase
+# - Встроенный merge tool
+# - Интеграция с GitHub, GitLab, Bitbucket
+# - Поддержка submodules и LFS
 
-# Workflow:
-# 1. Создать feature ветку от main
-git checkout -b feature/login
-
-# 2. Работать, коммитить
-git commit -m "Добавить форму входа"
-
-# 3. Push и создать Pull Request
-git push origin feature/login
-
-# 4. Code review, merge в main
-# 5. Удалить feature ветку`
+# Особенности:
+# - Красивая визуализация веток
+# - Упрощенное разрешение конфликтов
+# - История изменений файлов
+# - Поиск по коммитам и файлам`
       },
       {
-        title: "Conventional Commits",
-        code: `# Формат: <type>(<scope>): <subject>
+        title: 'JetBrains IDE (WebStorm, IntelliJ)',
+        code: `# Встроенный Git в JetBrains:
+# - VCS панель для всех операций
+# - Визуальное сравнение файлов (diff)
+# - Merge tool с трехпанельным видом
+# - История изменений файла
+# - Annotate (blame) с подсветкой
+# - Визуальный rebase через интерфейс
 
-# Типы:
-feat: новая функциональность
-fix: исправление бага
-docs: изменения в документации
-style: форматирование (не влияет на код)
-refactor: рефакторинг
-test: добавление тестов
-chore: обновление зависимостей, конфигов
-
-# Примеры:
-git commit -m "feat(auth): добавить OAuth2"
-git commit -m "fix(api): исправить обработку ошибок"
-git commit -m "docs: обновить README"`
+# Горячие клавиши:
+# - Ctrl+K: commit
+# - Ctrl+Shift+K: push
+# - Alt+\` : VCS меню`
       },
       {
-        title: "Защита веток",
-        code: `# На GitHub/GitLab можно настроить:
-# - Требовать Pull Request для merge
-# - Требовать code review (минимум N одобрений)
-# - Требовать прохождение CI/CD
-# - Запретить force push
-# - Запретить удаление ветки
+        title: 'Когда использовать GUI vs CLI',
+        code: `# GUI лучше для:
+# - Визуализации истории веток
+# - Разрешения сложных конфликтов
+# - Поиска по истории коммитов
+# - Просмотра изменений в файлах
+# - Обучения Git новичками
 
-# Это предотвращает случайные изменения в main`
+# CLI лучше для:
+# - Быстрых операций (add, commit, push)
+# - Автоматизации через скрипты
+# - Работы на серверах
+# - CI/CD пайплайнов
+# - Когда нужна точность команд`
       },
       {
-        title: "Code Review Best Practices",
-        code: `# Pull Request должен:
-# - Иметь понятное описание
-# - Включать скриншоты (для UI)
-# - Проходить все тесты
-# - Не иметь конфликтов
-# - Следовать стилю кода проекта
+        title: 'Git Graph в VS Code',
+        code: `# Установить расширение "Git Graph"
+# Позволяет:
+# - Визуализировать все ветки и коммиты
+# - Видеть merge и rebase операции
+# - Создавать ветки прямо из графа
+# - Cherry-pick коммиты через интерфейс
+# - Сравнивать ветки визуально
+# - Просматривать изменения в коммитах
 
-# Reviewer должен проверить:
-# - Логику изменений
-# - Качество кода
-# - Тесты
-# - Документацию`
+# Открыть: Ctrl+Shift+P -> "Git Graph: View Git Graph"`
       }
     ],
-    relatedTopics: ['git-submodules', 'git-remote-advanced'],
-   }
+    relatedTopics: ['git-submodules', 'git-hooks', 'devtools-basics']
+  }
 ];
