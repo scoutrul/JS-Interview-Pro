@@ -2,48 +2,39 @@ import { Topic } from '../../../types';
 
 export const DEVTOOLS_BEGINNER_TOPICS: Topic[] = [
   {
-    id: 'devtools-basics',
-    title: 'Основы DevTools',
-    description: 'Browser DevTools — инструменты разработчика в браузере. Console: логирование (console.log, console.error), просмотр ошибок. Elements: инспектор DOM, просмотр и редактирование HTML/CSS в реальном времени. Network: мониторинг HTTP запросов, статус коды, время загрузки.',
+    id: 'devtools-intro',
+    title: 'DevTools: назначение и устройство',
     difficulty: 'beginner',
-    tags: ['devtools', 'debugging', 'browser', 'console', 'basics', 'tools', 'productivity'],
+    description: 'DevTools — встроенные инструменты браузера для анализа, отладки и оптимизации веб-приложений. Они работают с уже загруженной страницей и позволяют анализировать DOM, CSS, JS, сеть и производительность.',
     keyPoints: [
-      'Console показывает логи, ошибки и позволяет выполнять JavaScript.',
-      'Elements инспектор позволяет просматривать и редактировать DOM.',
-      'Network показывает все HTTP запросы и их статусы.',
-      'F12 или Ctrl+Shift+I открывает DevTools.',
-      'Console.log() выводит информацию для отладки.'
+      'Что это: встроенные инструменты браузера для анализа, отладки и оптимизации веб-приложений',
+      'DevTools работают с уже загруженной страницей',
+      'Позволяют анализировать DOM, CSS, JS, сеть и производительность',
+      'Есть во всех современных браузерах',
+      'Браузеры стремятся следовать веб-стандартам и спецификациям',
+      'Использование: поиск визуальных багов, отладка JS-ошибок, анализ поведения страницы'
     ],
-    examples: [
-      {
-        title: 'Console команды',
-        code: `console.log('Hello');           # Обычный лог
-console.error('Error');         # Ошибка
-console.warn('Warning');         # Предупреждение
-console.table([{a:1, b:2}]);    # Таблица
-console.time('timer');          # Засечь время
-console.timeEnd('timer');       # Остановить таймер`
-      },
-      {
-        title: 'Elements инспектор',
-        code: `# Выделить элемент на странице
-# Правый клик → Inspect
-# Или выбрать элемент в Elements панели
-# Редактировать HTML/CSS в реальном времени`
-      },
-      {
-        title: 'Network мониторинг',
-        code: `# Открыть Network вкладку
-# Перезагрузить страницу
-# Просмотреть все запросы:
-# - URL
-# - Метод (GET, POST)
-# - Статус код (200, 404)
-# - Время загрузки
-# - Размер ответа`
-      }
+    tags: ['tools', 'devtools', 'debugging', 'basics', 'browser-api'],
+    relatedTopics: [],
+    funFact: 'Chrome DevTools изначально был отдельным расширением для браузера, но в 2009 году Google интегрировал его напрямую в Chrome. Сегодня DevTools настолько мощный, что многие разработчики используют его для полноценной разработки и отладки приложений.',
+    examples: []
+  },
+  {
+    id: 'devtools-elements',
+    title: 'Elements: DOM и CSS',
+    difficulty: 'beginner',
+    description: 'Вкладка Elements позволяет исследовать DOM-дерево и применённые CSS-стили. С её помощью можно просматривать и редактировать DOM в реальном времени, анализировать computed styles и каскад, проверять Box Model и псевдоклассы.',
+    keyPoints: [
+      'Что это: вкладка для исследования DOM-дерева и CSS-стилей',
+      'Просмотр и редактирование DOM в реальном времени',
+      'Computed styles и каскад',
+      'Box Model',
+      'Псевдоклассы (:hover, :active, :focus)',
+      'Использование: поиск источника CSS-стиля, проверка адаптивных отступов, быстрые правки без перезагрузки',
+      'Важно понимать специфику каскада и откуда применился стиль'
     ],
-    relatedTopics: ['devtools-intermediate']
+    tags: ['tools', 'devtools', 'dom', 'css', 'basics', 'debugging'],
+    relatedTopics: ['devtools-intro'],
+    examples: []
   }
 ];
-

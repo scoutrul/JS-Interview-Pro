@@ -1,5 +1,6 @@
 import { Category } from '../../types';
 import { TOOLS_INTRODUCTION_TOPICS } from './tools-introduction';
+import { BROWSERS_TOPICS } from './browsers';
 import { GIT_TOPICS } from './git';
 import { TERMINAL_TOPICS } from './terminal';
 import { NPM_TOPICS } from './npm';
@@ -16,6 +17,16 @@ export const TOOLS_CATEGORIES: Category[] = [
     id: 'tools-introduction',
     title: 'Инструменты',
     topics: TOOLS_INTRODUCTION_TOPICS
+  },
+  {
+    id: 'browsers',
+    title: 'Браузеры',
+    topics: BROWSERS_TOPICS
+  },
+  {
+    id: 'devtools',
+    title: 'DevTools',
+    topics: DEVTOOLS_TOPICS
   },
   {
     id: 'git',
@@ -36,11 +47,6 @@ export const TOOLS_CATEGORIES: Category[] = [
     id: 'docker',
     title: 'Docker',
     topics: DOCKER_TOPICS
-  },
-  {
-    id: 'devtools',
-    title: 'DevTools',
-    topics: DEVTOOLS_TOPICS
   },
   {
     id: 'cursor',
@@ -72,11 +78,12 @@ export const TOOLS_CATEGORIES: Category[] = [
 // Экспорт плоского массива для обратной совместимости
 export const TOOLS_TOPICS = [
   ...TOOLS_INTRODUCTION_TOPICS,
+  ...BROWSERS_TOPICS,
+  ...DEVTOOLS_TOPICS,
   ...GIT_TOPICS,
   ...TERMINAL_TOPICS,
   ...NPM_TOPICS,
   ...DOCKER_TOPICS,
-  ...DEVTOOLS_TOPICS,
   ...CURSOR_TOPICS,
   ...AI_TOOLS_TOPICS,
   ...TESTING_TOPICS,
