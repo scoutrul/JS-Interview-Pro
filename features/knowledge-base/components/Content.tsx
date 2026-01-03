@@ -137,6 +137,22 @@ const Content: React.FC<ContentProps> = (props) => {
 
   return (
     <article ref={contentRef} key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-2 lg:px-6 animate-content relative pb-20 lg:pb-12" style={{ minWidth: '255px', width: '100%' }}>
+      {/* Фейковая строка поиска */}
+      <div className="mb-6 -mt-4">
+        <div 
+          onClick={() => setContentSearchQuery('')}
+          className="relative cursor-pointer"
+        >
+          <i className="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+          <input 
+            type="text" 
+            placeholder="Поиск по контенту..." 
+            readOnly
+            className="w-full bg-slate-800/30 border border-slate-700/50 rounded-lg py-2.5 pl-11 pr-4 text-sm text-slate-400 outline-none hover:border-slate-600/50 placeholder:text-slate-600 transition-colors cursor-pointer"
+          />
+        </div>
+      </div>
+
       <header className="mb-10 relative">
         <div className="flex items-start gap-2 mb-2 flex-wrap">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
