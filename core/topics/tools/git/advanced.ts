@@ -103,7 +103,7 @@ npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
 # Hooks хранятся в .husky/ и коммитятся в репозиторий`
       }
     ],
-    relatedTopics: ['git-changes-management', 'git-submodules', 'testing-basics']
+    relatedTopics: ['git-basics', 'git-changes-management', 'git-submodules', 'testing-basics']
   },
   {
     id: 'git-submodules',
@@ -194,7 +194,7 @@ rm -rf libs/library
 git commit -m "Удалить submodule"`
       }
     ],
-    relatedTopics: ['git-hooks', 'git-gui-tools', 'npm-basics']
+    relatedTopics: ['git-basics', 'git-hooks', 'git-gui-tools', 'npm-basics']
   },
   {
     id: 'git-gui-tools',
@@ -290,6 +290,6 @@ git commit -m "Удалить submodule"`
 # Открыть: Ctrl+Shift+P -> "Git Graph: View Git Graph"`
       }
     ],
-    relatedTopics: ['git-submodules', 'git-hooks', 'devtools-basics']
+    relatedTopics: ['git-basics', 'git-submodules', 'git-hooks', 'devtools-basics']
   }
 ];

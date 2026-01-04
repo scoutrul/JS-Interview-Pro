@@ -103,7 +103,7 @@ git branch --merged
 git branch --no-merged`
       }
     ],
-    relatedTopics: ['git-status-history', 'git-changes-management']
+    relatedTopics: ['git-basics', 'git-status-history', 'git-changes-management']
   },
   {
     id: 'git-changes-management',
@@ -201,6 +201,6 @@ git cherry-pick --continue
 git cherry-pick --abort`
       }
     ],
-    relatedTopics: ['git-branches-merge', 'git-hooks']
+    relatedTopics: ['git-basics', 'git-branches-merge', 'git-hooks']
   }
 ];

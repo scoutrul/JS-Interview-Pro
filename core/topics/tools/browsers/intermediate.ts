@@ -28,6 +28,6 @@ export const BROWSERS_INTERMEDIATE_TOPICS: Topic[] = [
 }`
       }
     ],
-    relatedTopics: ['browser-support']
+    relatedTopics: ['browsers', 'browser-support']
   }
 ];
