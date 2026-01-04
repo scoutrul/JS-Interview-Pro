@@ -83,15 +83,15 @@ const Content: React.FC<ContentProps> = (props) => {
       // Сначала сортируем по общему баллу релевантности (по убыванию)
       const aScore = calculateRelevanceScore(
         a,
-        aMeta.category,
-        aMeta.metaCategoryId,
+        aMeta.category ?? undefined,
+        aMeta.metaCategoryId ?? undefined,
         highlightQuery,
         relevanceWords
       );
       const bScore = calculateRelevanceScore(
         b,
-        bMeta.category,
-        bMeta.metaCategoryId,
+        bMeta.category ?? undefined,
+        bMeta.metaCategoryId ?? undefined,
         highlightQuery,
         relevanceWords
       );
@@ -109,8 +109,8 @@ const Content: React.FC<ContentProps> = (props) => {
       if (!aHasTitleMatch && bHasTitleMatch) return 1;
       
       // Приоритет 2: Название мета-секции или подсекции содержит искомое слово
-      const aHasCategoryMatch = hasCategoryMatch(aMeta.category, aMeta.metaCategoryId, highlightQuery, relevanceWords);
-      const bHasCategoryMatch = hasCategoryMatch(bMeta.category, bMeta.metaCategoryId, highlightQuery, relevanceWords);
+      const aHasCategoryMatch = hasCategoryMatch(aMeta.category ?? undefined, aMeta.metaCategoryId ?? undefined, highlightQuery, relevanceWords);
+      const bHasCategoryMatch = hasCategoryMatch(bMeta.category ?? undefined, bMeta.metaCategoryId ?? undefined, highlightQuery, relevanceWords);
       
       if (aHasCategoryMatch && !bHasCategoryMatch) return -1;
       if (!aHasCategoryMatch && bHasCategoryMatch) return 1;
