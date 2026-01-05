@@ -245,7 +245,7 @@ const Content: React.FC<ContentProps> = (props) => {
                 <button
                   key={index}
                   onClick={() => setContentSearchQuery(tag)}
-                  className="px-2 py-0.5 bg-slate-700/30 border border-slate-600/50 rounded text-[10px] text-slate-300 font-medium hover:bg-slate-600/40 hover:border-slate-500/60 transition-colors cursor-pointer"
+                  className="px-2 py-0.5 bg-slate-700/30 border border-slate-600/50 rounded text-[12px] text-slate-300 font-medium hover:bg-slate-600/40 hover:border-slate-500/60 transition-colors cursor-pointer"
                   title={`Поиск по тегу: ${tag}`}
                 >
                   {tag}

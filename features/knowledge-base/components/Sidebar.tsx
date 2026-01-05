@@ -6,6 +6,33 @@ import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
 import { useTopicsFilter, useTags } from '../hooks';
 import { META_CATEGORIES } from '../../../core/metaCategories';
 
+interface SidebarHeaderProps {
+  categoryIcon: string;
+  selectedMetaCategory: string;
+  className?: string;
+}
+
+const SidebarHeader: React.FC<SidebarHeaderProps> = ({ categoryIcon, selectedMetaCategory, className = '' }) => {
+  return (
+    <div className={className}>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg flex items-center justify-center border border-emerald-500">
+          <i className={`${categoryIcon} text-emerald-500 text-base`}></i>
+        </div>
+        <h1 className="font-bold text-white text-lg tracking-tight">
+          Front <span className="text-emerald-500">Start</span>
+          {selectedMetaCategory && (
+            <>
+              <span className="text-slate-500 text-sm"> / </span>
+              <span className="text-amber-500 text-sm">{META_CATEGORIES.find(c => c.id === selectedMetaCategory)?.title}</span>
+            </>
+          )}
+        </h1>
+      </div>
+    </div>
+  );
+};
+
 interface SidebarProps {
   onTopicSelect: (id: string) => void;
   isOpen?: boolean;
@@ -87,17 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
       ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
     `}>
       <div className="flex items-center justify-between p-5 border-b border-slate-800/80 lg:hidden">
-        <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center border border-emerald-500">
-            <i className={`${categoryIcon} text-emerald-500 text-base`}></i>
-          </div>
-          <h1 className="font-bold text-white text-lg tracking-tight">
-            Front <span className="text-emerald-500">Start</span>
-            {selectedMetaCategory && (
-              <span className="text-slate-500 text-sm font-normal"> / {META_CATEGORIES.find(c => c.id === selectedMetaCategory)?.title}</span>
-            )}
-          </h1>
-        </div>
+        <SidebarHeader categoryIcon={categoryIcon} selectedMetaCategory={selectedMetaCategory} />
         <button
           onClick={onClose}
           className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-white transition-colors"
@@ -108,17 +125,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
       
       <div className="flex-1 overflow-y-auto custom-scrollbar">
         <div key={selectedMetaCategory} className="p-5 animate-sidebar">
-          <div className="hidden lg:flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center border border-emerald-500">
-              <i className={`${categoryIcon} text-emerald-500 text-base`}></i>
-            </div>
-            <h1 className="font-bold text-white text-lg tracking-tight">
-              Front <span className="text-emerald-500">Start</span>
-              {selectedMetaCategory && (
-                <span className="text-slate-500 text-sm font-normal"> / {META_CATEGORIES.find(c => c.id === selectedMetaCategory)?.title}</span>
-              )}
-            </h1>
-          </div>
+          <SidebarHeader 
+            categoryIcon={categoryIcon} 
+            selectedMetaCategory={selectedMetaCategory}
+            className="hidden lg:flex items-center gap-3 mb-6"
+          />
 
           <div className="space-y-4 mb-6">
             <div className="relative group">
@@ -241,7 +252,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
             {filteredCategories.length > 0 ? (
               filteredCategories.map(cat => (
               <div key={cat.id} className="mb-8 last:mb-0">
-                <h3 className="text-[9px] font-black text-blue-500 uppercase tracking-widest mb-3 px-1">{cat.title}</h3>
+                <h3 className="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-3 px-1">{cat.title}</h3>
                 <div className="space-y-2">
                   {cat.topics.map(topic => {
                     const isActive = selectedTopicId === topic.id;
@@ -286,7 +297,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                           ) : (
                             <i className="fa-regular fa-circle text-slate-500 text-[10px] flex-shrink-0"></i>
                           )}
-                          <span className={`text-[12px] font-bold truncate ${isActive ? activeColors?.text : 'text-slate-300'}`}>
+                          <span className={`text-[14px] font-bold truncate ${isActive ? activeColors?.text : 'text-slate-300'}`}>
                             {topic.title}
                           </span>
                         </div>

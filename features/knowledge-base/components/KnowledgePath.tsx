@@ -29,7 +29,7 @@ const KnowledgePath: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800/80 shadow-2xl">
+    <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800/80 shadow-2xl">
       <div className="w-full px-0 lg:px-4 py-2">
         <div className="flex items-center justify-center gap-2 overflow-x-auto custom-scrollbar">
           {META_CATEGORIES.map((category) => {
