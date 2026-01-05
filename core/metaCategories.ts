@@ -25,6 +25,12 @@ export const META_CATEGORIES: MetaCategory[] = [
     description: "Основы вычислений, алгоритмы, архитектура",
   },
   {
+    id: "network",
+    title: "Сеть",
+    icon: "fa-solid fa-network-wired",
+    description: "HTTP, WebSocket, REST, GraphQL",
+  },
+  {
     id: "tools",
     title: "Инструменты",
     icon: "fa-solid fa-wrench",
@@ -61,22 +67,16 @@ export const META_CATEGORIES: MetaCategory[] = [
     description: "React.js, Vue.js, Svelte, реактивные фреймворки",
   },
   {
-    id: "security",
-    title: "Безопасность",
-    icon: "fa-solid fa-shield-halved",
-    description: "XSS, CSRF, CORS, защита данных",
-  },
-  {
-    id: "network",
-    title: "Сеть",
-    icon: "fa-solid fa-network-wired",
-    description: "HTTP, WebSocket, REST, GraphQL",
-  },
-  {
     id: "optimization",
     title: "Оптимизация",
     icon: "fa-solid fa-gauge-high",
     description: "Производительность, оптимизация кода, метрики",
+  },
+  {
+    id: "security",
+    title: "Безопасность",
+    icon: "fa-solid fa-shield-halved",
+    description: "XSS, CSRF, CORS, защита данных",
   },
 ];
 

@@ -30,8 +30,8 @@ const KnowledgePath: React.FC = () => {
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800/80 shadow-2xl">
-      <div className="w-full px-0 lg:px-4 py-2">
-        <div className="flex items-center justify-center gap-2 overflow-x-auto custom-scrollbar">
+      <div className="w-full px-2 lg:px-4 py-2">
+        <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto lg:overflow-x-hidden">
           {META_CATEGORIES.map((category) => {
             const totalTopics = getTotalTopics(category.id);
             const progress = getProgress(category.id, totalTopics);
@@ -42,27 +42,24 @@ const KnowledgePath: React.FC = () => {
                 key={category.id}
                 onClick={() => handleCategorySelect(category.id)}
                 className={`
-                  flex items-center gap-2 px-2 lg:px-3 py-1.5 rounded-md transition-all flex-shrink-0
+                  flex items-center gap-2 px-2 lg:px-3 py-1.5 rounded-md transition-all lg:min-w-[70px]
                   ${isActive 
-                    ? 'bg-emerald-500/20 border border-emerald-500/50 text-emerald-400' 
-                    : 'bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:bg-slate-800/70 hover:text-slate-300'
+                    ? 'bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 flex-shrink-0' 
+                    : 'bg-slate-800/50 border border-slate-700/50 text-slate-400 hover:bg-slate-800/70 hover:text-slate-300 flex-shrink'
                   }
                 `}
               >
-                <i className={`${category.icon} text-sm ${isActive ? 'text-emerald-400' : 'text-slate-500'}`}></i>
-                <div className="hidden lg:flex flex-col items-start min-w-0">
-                  <div className="text-[10px] font-black uppercase tracking-wider leading-tight whitespace-nowrap">
+                <i className={`${category.icon} text-sm ${isActive ? 'text-emerald-400' : 'text-slate-500'} flex-shrink-0`}></i>
+                <div className={`${isActive ? 'flex' : 'hidden lg:flex'} flex-col items-start min-w-0 flex-1`}>
+                  <div className={`text-[10px] font-black uppercase tracking-wider leading-tight whitespace-nowrap w-full ${isActive ? '' : 'overflow-hidden text-ellipsis'}`}>
                     {category.title}
                   </div>
                   {totalTopics > 0 && (
-                    <div className="text-[9px] text-slate-500 leading-tight">
+                    <div className="text-[9px] text-slate-500 leading-tight whitespace-nowrap">
                       {progress}% • {totalTopics}
                     </div>
                   )}
                 </div>
-                {isActive && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse ml-0.5"></div>
-                )}
               </button>
             );
           })}

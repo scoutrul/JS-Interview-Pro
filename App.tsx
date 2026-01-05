@@ -271,6 +271,17 @@ const KnowledgeBaseContent: React.FC = () => {
     }
   }, [urlCategory, urlTopicId]);
 
+  // Автоматически открываем сайдбар на мобильных при смене категории
+  const prevMetaCategoryRef = useRef<MetaCategoryId | null>(null);
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024; // lg breakpoint
+    // Открываем сайдбар только если категория действительно изменилась (не при первой загрузке)
+    if (isMobile && selectedMetaCategory && prevMetaCategoryRef.current && prevMetaCategoryRef.current !== selectedMetaCategory) {
+      setIsSidebarOpen(true);
+    }
+    prevMetaCategoryRef.current = selectedMetaCategory;
+  }, [selectedMetaCategory]);
+
   // Найти категорию для темы по ID
   const findTopicCategory = (topicId: string): MetaCategoryId | null => {
     const allCategories: MetaCategoryId[] = [

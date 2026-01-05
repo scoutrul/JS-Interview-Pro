@@ -12,6 +12,7 @@ import { hasHighlightedWords } from '../utils/hasHighlightedWords';
 import { hasTitleMatch } from '../utils/hasTitleMatch';
 import { hasCategoryMatch } from '../utils/hasCategoryMatch';
 import { calculateRelevanceScore } from '../utils/calculateRelevanceScore';
+import { getKnowledgeBaseByCategory } from '../../../core/constants';
 
 interface ContentProps {
   topic: Topic;
@@ -32,6 +33,17 @@ const Content: React.FC<ContentProps> = (props) => {
   
   // Находим категорию для текущей темы
   const topicMeta = findTopicMeta(topic.id);
+
+  // Получаем следующую тему из структуры
+  const nextTopic = useMemo(() => {
+    const knowledgeBase = getKnowledgeBaseByCategory(selectedMetaCategory);
+    const allTopics = knowledgeBase.flatMap(cat => cat.topics);
+    const currentIndex = allTopics.findIndex(t => t.id === topic.id);
+    if (currentIndex !== -1 && currentIndex < allTopics.length - 1) {
+      return allTopics[currentIndex + 1];
+    }
+    return null;
+  }, [topic.id, selectedMetaCategory]);
 
   // Используем сохраненный запрос для выделения, если есть
   const highlightQuery = savedSearchQuery && savedSearchQuery.trim() 
@@ -340,17 +352,29 @@ const Content: React.FC<ContentProps> = (props) => {
 
       {topic.id === 'scope-chain' && <ScopeChainVisualizer />}
 
-      <button
-        onClick={() => toggleLearned(topic.id, selectedMetaCategory)}
-        className={`w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg border transition-all ${
-          learned
-            ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20'
-            : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:bg-slate-700/40 hover:text-slate-300'
-        }`}
-      >
-        <i className={`fa-solid ${learned ? 'fa-check-circle' : 'fa-circle'} text-base`}></i>
-        <span className="text-sm font-bold">{learned ? 'Изучено' : 'Отметить как изученное'}</span>
-      </button>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <button
+          onClick={() => toggleLearned(topic.id, selectedMetaCategory)}
+          className={`flex-[1] flex items-center justify-center gap-2 px-6 py-3 rounded-lg border transition-all ${
+            learned
+              ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20'
+              : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:bg-slate-700/40 hover:text-slate-300'
+          }`}
+        >
+          <i className={`fa-solid ${learned ? 'fa-check-circle' : 'fa-circle'} text-base`}></i>
+          <span className="text-sm font-bold">{learned ? 'Изучено' : 'Отметить как изученное'}</span>
+        </button>
+        
+        {nextTopic && (
+          <button
+            onClick={() => props.onTopicJump(nextTopic.id)}
+            className="flex-[2] w-full text-left px-6 py-3 rounded-lg transition-all border flex items-center justify-between group bg-emerald-500/5 border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-emerald-500/10"
+          >
+            <span className="text-sm font-bold truncate">Следующая тема: "{nextTopic.title}"</span>
+            <i className="fa-solid fa-arrow-right text-base flex-shrink-0 ml-2"></i>
+          </button>
+        )}
+      </div>
 
       {relevantTopics.length > 0 && (
         <section className="mt-16">
