@@ -10,3 +10,4 @@ export { CS_PROCESSORS_TOPICS } from './processors-and-microprocessors';
 export { CS_PROGRAMMING_LANGUAGES_TOPICS } from './programming-languages';
 export { CS_OPERATING_SYSTEMS_TOPICS } from './operating-systems';
 export { CS_ARCHITECTURE_SEPARATION_TOPICS } from './architecture-separation';
+export { CS_FUTURE_TOPICS } from './future';

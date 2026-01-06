@@ -8,6 +8,7 @@ import { CS_PROCESSORS_TOPICS } from './processors-and-microprocessors';
 import { CS_PROGRAMMING_LANGUAGES_TOPICS } from './programming-languages';
 import { CS_OPERATING_SYSTEMS_TOPICS } from './operating-systems';
 import { CS_ARCHITECTURE_SEPARATION_TOPICS } from './architecture-separation';
+import { CS_FUTURE_TOPICS } from './future';
 
 export const CS_KNOWLEDGE_BASE: Category[] = [
   {
@@ -54,5 +55,10 @@ export const CS_KNOWLEDGE_BASE: Category[] = [
     id: 'architecture-separation',
     title: 'Архитектурное разделение',
     topics: CS_ARCHITECTURE_SEPARATION_TOPICS
+  },
+  {
+    id: 'future',
+    title: 'Будущее информатики',
+    topics: CS_FUTURE_TOPICS
   }
 ];
