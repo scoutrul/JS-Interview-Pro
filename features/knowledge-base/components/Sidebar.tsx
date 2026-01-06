@@ -61,6 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
   
   const { filteredCategories } = useTopicsFilter();
   const { availableTags } = useTags();
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   // Получаем текущую категорию для иконки
   const currentCategory = META_CATEGORIES.find(c => c.id === selectedMetaCategory);
@@ -84,6 +85,18 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
 
   // Вычисляем актуальное состояние тегов - всегда false при смене категории
   const actualShowAllTags = tagsCategory === selectedMetaCategory ? showAllTags : false;
+
+  // Скроллим активный элемент к верху списка при смене выбранной темы
+  useEffect(() => {
+    if (!selectedTopicId || !scrollRef.current) return;
+    const container = scrollRef.current;
+    const active = container.querySelector<HTMLButtonElement>(`[data-topic-id="${selectedTopicId}"]`);
+    if (!active) return;
+    const containerRect = container.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+    const offset = activeRect.top - containerRect.top + container.scrollTop - 12; // небольшой отступ сверху
+    container.scrollTo({ top: offset, behavior: 'smooth' });
+  }, [selectedTopicId, filteredCategories]);
   
   const renderDifficultyStars = (d: Difficulty | 'all') => {
     if (d === 'all') return 'BCE';
@@ -123,7 +136,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
         </button>
       </div>
       
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto custom-scrollbar">
         <div key={selectedMetaCategory} className="p-5 animate-sidebar">
           <SidebarHeader 
             categoryIcon={categoryIcon} 
@@ -283,6 +296,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                       <button
                         key={topic.id}
                         onClick={() => onTopicSelect(topic.id)}
+                        data-topic-id={topic.id}
                         className={`w-full text-left px-3 py-2.5 rounded-lg transition-all border flex items-center justify-between group ${
                           isActive 
                             ? `${activeColors?.bg} ${activeColors?.border} ${activeColors?.text} ${activeColors?.shadow}` 
