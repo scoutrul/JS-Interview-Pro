@@ -29,7 +29,8 @@ export const CS_ALGORITHMS_BEGINNER_TOPICS: Topic[] = [
         code: "// Один и тот же алгоритм\n// всегда даёт одинаковый результат\n// при одинаковых входных данных"
       }
     ],
-    relatedTopics: ["algorithms-origins", "logic-gates", "mechanization-algorithms"]
+    relatedTopics: ["algorithms-origins", "logic-gates", "mechanization-algorithms"],
+    isFrontendEssential: true
   },
   {
     id: "algorithms-origins",
@@ -59,7 +60,8 @@ export const CS_ALGORITHMS_BEGINNER_TOPICS: Topic[] = [
         code: "// Алгоритм = формализация процесса\n// Независимо от исполнителя"
       }
     ],
-    relatedTopics: ["algorithms-as-foundation", "mechanization-algorithms", "programming-concept"]
+    relatedTopics: ["algorithms-as-foundation", "mechanization-algorithms", "programming-concept"],
+    isFrontendEssential: true
   },
   {
     id: "logic-gates",
@@ -93,6 +95,7 @@ export const CS_ALGORITHMS_BEGINNER_TOPICS: Topic[] = [
         code: "// AND: оба входа = 1 → выход = 1\n// OR: хотя бы один вход = 1 → выход = 1\n// NOT: вход = 1 → выход = 0\n// NAND: NOT(AND)\n// NOR: NOT(OR)\n// XOR: исключающее ИЛИ"
       }
     ],
-    relatedTopics: ["representation-binary-states", "electronic-logic-gates", "algorithms-as-foundation"]
+    relatedTopics: ["representation-binary-states", "electronic-logic-gates", "algorithms-as-foundation"],
+    isFrontendEssential: true
   }
 ];

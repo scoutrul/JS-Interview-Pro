@@ -30,7 +30,8 @@ export const CS_OPERATING_SYSTEMS_BEGINNER_TOPICS: Topic[] = [
         code: "// Одна ОС — множество программ\n// Абстракция платформы\n// для исполнения"
       }
     ],
-    relatedTopics: ["operating-systems-databases", "programming-languages-high-level", "architecture-separation"]
+    relatedTopics: ["operating-systems-databases", "programming-languages-high-level", "architecture-separation"],
+    isFrontendEssential: true
   },
   {
     id: "operating-systems-databases",
@@ -91,7 +92,8 @@ export const CS_OPERATING_SYSTEMS_BEGINNER_TOPICS: Topic[] = [
         code: "// Браузер: JavaScript → V8 → браузер → ОС\n// Node.js: JavaScript → V8 → Node.js → ОС\n// Python: Python → CPython → ОС\n// Java: Java → JVM → ОС\n\n// Один язык может работать\n// в разных средах поверх ОС"
       }
     ],
-    relatedTopics: ["operating-systems-platform", "programming-languages-execution", "programming-languages-abstractions-memory", "runtime-environments"]
+    relatedTopics: ["operating-systems-platform", "programming-languages-execution", "programming-languages-abstractions-memory", "runtime-environments"],
+    isFrontendEssential: true
   },
   {
     id: "operating-systems-history",

@@ -16,7 +16,8 @@ export interface Topic {
   funFact?: string | string[];
   additionalDescription?: string;
   tags: string[];         
-  relatedTopics: string[]; 
+  relatedTopics: string[];
+  isFrontendEssential?: boolean;
 }
 
 export interface Category {

@@ -33,7 +33,8 @@ export const CS_ARCHITECTURE_SEPARATION_BEGINNER_TOPICS: Topic[] = [
         code: "// API как границы:\n// JavaScript → fetch API → браузер\n// Браузер → системные вызовы → ОС\n// ОС → драйверы → железо\n\n// Каждый слой предоставляет\n// интерфейс для следующего"
       }
     ],
-    relatedTopics: ["architecture-hardware-processor", "architecture-operating-systems", "architecture-javascript-layers"]
+    relatedTopics: ["architecture-hardware-processor", "architecture-operating-systems", "architecture-javascript-layers"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-hardware-processor",
@@ -71,7 +72,8 @@ export const CS_ARCHITECTURE_SEPARATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Программа и данные\n// в одной памяти\n\n// CPU:\n// 1. Загрузить инструкцию\n// 2. Выполнить\n// 3. Загрузить данные\n// 4. Обработать\n// 5. Сохранить результат\n\n// Последовательное выполнение"
       }
     ],
-    relatedTopics: ["cs-computer-architecture", "processors-transistors", "cs-cpu-cycle", "architecture-layers-of-abstraction"]
+    relatedTopics: ["cs-computer-architecture", "processors-transistors", "cs-cpu-cycle", "architecture-layers-of-abstraction"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-operating-systems",
@@ -109,7 +111,8 @@ export const CS_ARCHITECTURE_SEPARATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Node.js использует API ОС:\nconst fs = require('fs');\nfs.readFile('file.txt', ...);\n// Системный вызов → ОС → файловая система\n\n// Браузер использует API ОС:\n// Сетевые запросы → ОС → сетевой стек\n// Рендеринг → ОС → графический драйвер"
       }
     ],
-    relatedTopics: ["operating-systems-platform", "operating-systems-execution-architecture", "operating-systems-similarities-differences", "architecture-layers-of-abstraction"]
+    relatedTopics: ["operating-systems-platform", "operating-systems-execution-architecture", "operating-systems-similarities-differences", "architecture-layers-of-abstraction"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-virtual-machines-interpreters",
@@ -147,7 +150,8 @@ export const CS_ARCHITECTURE_SEPARATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Java: JVM + байткод\n// .java → компилятор → .class (байткод)\n// JVM выполняет байткод\n\n// Python: интерпретатор\n// .py → интерпретатор → выполнение\n\n// JavaScript (V8): байткод + JIT\n// .js → парсинг → байткод → JIT → машинный код"
       }
     ],
-    relatedTopics: ["programming-languages-execution", "architecture-layers-of-abstraction", "architecture-programming-languages"]
+    relatedTopics: ["programming-languages-execution", "architecture-layers-of-abstraction", "architecture-programming-languages"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-programming-languages",
@@ -185,6 +189,7 @@ export const CS_ARCHITECTURE_SEPARATION_BEGINNER_TOPICS: Topic[] = [
         code: "// JavaScript не имеет прямого доступа:\n// ❌ fs.readFile() — нет в браузере\n// ❌ socket.connect() — нет прямого доступа\n\n// Работает через API:\n// ✅ fetch() — API браузера/Node.js\n// ✅ document.getElementById() — API браузера\n// ✅ require('fs') — API Node.js\n\n// API реализованы в хост-среде"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "programming-languages-execution", "programming-languages-abstractions-memory", "architecture-layers-of-abstraction"]
+    relatedTopics: ["programming-languages-high-level", "programming-languages-execution", "programming-languages-abstractions-memory", "architecture-layers-of-abstraction"],
+    isFrontendEssential: true
   }
 ];

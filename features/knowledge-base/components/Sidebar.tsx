@@ -297,7 +297,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                         key={topic.id}
                         onClick={() => onTopicSelect(topic.id)}
                         data-topic-id={topic.id}
-                        className={`w-full text-left px-3 py-2.5 rounded-lg transition-all border flex items-center justify-between group ${
+                        className={`w-full text-left px-3 py-2.5 rounded-lg transition-all border flex items-center justify-between group relative ${
                           isActive 
                             ? `${activeColors?.bg} ${activeColors?.border} ${activeColors?.text} ${activeColors?.shadow}` 
                             : topicLearned
@@ -315,7 +315,12 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
                             {topic.title}
                           </span>
                         </div>
-                        <Badge variant={topic.difficulty} className="h-4 px-1.5 flex-shrink-0" />
+                        <div className="flex items-center gap-1.5 flex-shrink-0">
+                          <Badge variant={topic.difficulty} className="h-4 px-1.5" />
+                          {topic.isFrontendEssential && (
+                            <div className="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0 absolute right-[6px] top-[4px]"></div>
+                          )}
+                        </div>
                       </button>
                     );
                   })}

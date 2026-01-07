@@ -32,7 +32,8 @@ export const CS_NETWORK_AND_INTERNET_BEGINNER_TOPICS: Topic[] = [
         code: "// Физические носители:\n// Письма, курьеры\n\n// Электрические сигналы:\n// Телеграф, телефон\n\n// Радиоволны:\n// Радиосвязь\n\n// Цифровые данные:\n// Компьютерные сети\n\n// От аналогового к цифровому"
       }
     ],
-    relatedTopics: ["network-ethernet-computer-networks", "representation-from-signs-to-formalization"]
+    relatedTopics: ["network-ethernet-computer-networks", "representation-from-signs-to-formalization"],
+    isFrontendEssential: true
   },
   {
     id: "network-ethernet-computer-networks",
@@ -65,7 +66,8 @@ export const CS_NETWORK_AND_INTERNET_BEGINNER_TOPICS: Topic[] = [
         code: "// CSMA/CD (Carrier Sense Multiple Access / Collision Detection):\n// 1. Проверить, свободна ли среда\n// 2. Отправить данные\n// 3. Обнаружить коллизию, если произошла\n// 4. Повторить отправку\n\n// Управление доступом к общей среде"
       }
     ],
-    relatedTopics: ["network-from-communication-to-networks", "network-from-lan-to-internet"]
+    relatedTopics: ["network-from-communication-to-networks", "network-from-lan-to-internet"],
+    isFrontendEssential: true
   },
   {
     id: "network-from-lan-to-internet",
@@ -102,7 +104,8 @@ export const CS_NETWORK_AND_INTERNET_BEGINNER_TOPICS: Topic[] = [
         code: "// Данные разбиваются на пакеты\n// Каждый пакет может идти\n// разным маршрутом\n\n// Пакет 1: A → B → C\n// Пакет 2: A → D → C\n// Пакет 3: A → B → D → C\n\n// Надежность и эффективность"
       }
     ],
-    relatedTopics: ["network-ethernet-computer-networks", "network-internet-vs-web"]
+    relatedTopics: ["network-ethernet-computer-networks", "network-internet-vs-web"],
+    isFrontendEssential: true
   },
   {
     id: "network-internet-vs-web",
@@ -140,6 +143,7 @@ export const CS_NETWORK_AND_INTERNET_BEGINNER_TOPICS: Topic[] = [
         code: "// 1960-е: ARPANET (интернет)\n// 1970-е: TCP/IP\n// 1980-е: расширение интернета\n// 1989: веб создан\n// 1990-е: веб становится популярным\n\n// Интернет существовал\n// более 20 лет до веба"
       }
     ],
-    relatedTopics: ["network-from-lan-to-internet", "network-javascript-developer"]
+    relatedTopics: ["network-from-lan-to-internet", "network-javascript-developer"],
+    isFrontendEssential: true
   }
 ];

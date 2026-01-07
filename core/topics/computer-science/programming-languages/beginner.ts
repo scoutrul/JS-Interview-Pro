@@ -29,7 +29,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// Язык позволяет описывать алгоритмы\n// независимо от конкретного железа\n// Абстракция от архитектуры"
       }
     ],
-    relatedTopics: ["cs-machine-code", "cs-program-and-instruction", "programming-languages-high-level"]
+    relatedTopics: ["cs-machine-code", "cs-program-and-instruction", "programming-languages-high-level"],
+    isFrontendEssential: true
   },
   {
     id: "cs-program-and-instruction",
@@ -59,7 +60,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// Один и тот же алгоритм\n// может быть реализован на разных языках\n// и выполнен на разном железе\n// Абстракция от реализации"
       }
     ],
-    relatedTopics: ["cs-machine-code", "machine-code-assembler-languages", "cs-cpu-cycle"]
+    relatedTopics: ["cs-machine-code", "machine-code-assembler-languages", "cs-cpu-cycle"],
+    isFrontendEssential: true
   },
   {
     id: "cs-machine-code",
@@ -89,7 +91,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// Язык высокого уровня\n// ↓ компиляция\n// Машинный код\n// Абстракция от машинного кода"
       }
     ],
-    relatedTopics: ["cs-program-and-instruction", "machine-code-assembler-languages", "cs-cpu-cycle"]
+    relatedTopics: ["cs-program-and-instruction", "machine-code-assembler-languages", "cs-cpu-cycle"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-purpose",
@@ -123,7 +126,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// JavaScript — единственный язык,\n// который выполняется в браузере\n// Монополия → стандарт\n\n// TypeScript — надстройка для безопасности\n// WebAssembly — альтернатива для производительности\n\n// Но JS остается основой веба"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "machine-code-assembler-languages"]
+    relatedTopics: ["programming-languages-high-level", "machine-code-assembler-languages"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-high-level",
@@ -154,7 +158,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// Разработчик не управляет\n// регистрами напрямую\n// Язык скрывает детали реализации"
       }
     ],
-    relatedTopics: ["machine-code-assembler-languages", "cs-program-and-instruction", "operating-systems-platform"]
+    relatedTopics: ["machine-code-assembler-languages", "cs-program-and-instruction", "operating-systems-platform"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-typing",
@@ -185,7 +190,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// TypeScript добавляет типы\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n\nadd(5, 3);     // OK\nadd(\"5\", 3);  // Ошибка компиляции\n\n// Компилируется в обычный JavaScript\n// Типы проверяются только на этапе разработки"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "data-types"]
+    relatedTopics: ["programming-languages-high-level", "data-types"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-paradigms",
@@ -220,7 +226,8 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// HTML: описываем структуру, не процесс\n<div>\n  <h1>Title</h1>\n  <p>Content</p>\n</div>\n\n// SQL: описываем что нужно, не как получить\nSELECT name FROM users WHERE age > 18;"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "multiparadigm"]
+    relatedTopics: ["programming-languages-high-level", "multiparadigm"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-abstraction-level",
@@ -250,6 +257,7 @@ export const CS_PROGRAMMING_LANGUAGES_BEGINNER_TOPICS: Topic[] = [
         code: "// Низкий уровень: контроль, но сложность\n// C: быстрый, но ручное управление памятью\n\n// Высокий уровень: удобство, но ограничения\n// JavaScript: простой, но меньше контроля\n\n// Современные языки: баланс\n// Rust: безопасность памяти + производительность"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "machine-code-assembler-languages", "cs-machine-code"]
+    relatedTopics: ["programming-languages-high-level", "machine-code-assembler-languages", "cs-machine-code"],
+    isFrontendEssential: true
   }
 ];

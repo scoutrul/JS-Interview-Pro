@@ -5,18 +5,43 @@ export const JS_PROTOTYPES_INTERMEDIATE_TOPICS: Topic[] = [
     id: 'prototype-chain',
     title: 'Прототипы',
     difficulty: 'intermediate',
-    description: 'Прототип (prototype) — объект, из которого другие объекты унаследуют свойства и методы. Прототипное наследование — механизм, когда объект ищет свойства и методы по цепочке прототипов, если их нет у самого объекта. Каждый объект имеет скрытую ссылку [[Prototype]] (доступно через __proto__ или Object.getPrototypeOf(obj)).',
+    description: 'Прототип (prototype) — конкретный объект, на который ссылается [[Prototype]] другого объекта. Например, Array.prototype — это прототип для всех массивов. Цепочка прототипов (prototype chain) — последовательность прототипов, по которой движок JavaScript ищет свойства: начинается с самого объекта, затем переходит к его [[Prototype]], затем к [[Prototype]] прототипа, и так далее до Object.prototype (у которого [[Prototype]] === null). Каждый объект имеет скрытую ссылку [[Prototype]] (доступно через Object.getPrototypeOf(obj)).',
     keyPoints: [
-      'Метод или свойство ищется по цепочке прототипов (prototype chain).',
+      'Прототип — это один конкретный объект (например, Array.prototype).',
+      'Цепочка прототипов — это последовательность прототипов для поиска свойств.',
+      'Метод или свойство ищется по цепочке прототипов: объект → его прототип → прототип прототипа → ... → Object.prototype → null.',
       'Все массивы, объекты и функции наследуются от своих прототипов (Array.prototype, Object.prototype, Function.prototype).',
       'Классы — это просто удобный синтаксис для работы с прототипами.',
-      'Можно вручную создавать наследование через Object.create().',
       'Object.getPrototypeOf(obj) — современный способ получить прототип.',
       'Object.prototype — вершина цепочки, у которого [[Prototype]] === null.'
     ],
     funFact: 'Прототипное наследование — уникальная особенность JavaScript. В отличие от классического наследования, объекты унаследуют напрямую от других объектов, что делает систему гибкой и динамичной.',
     tags: ['prototype', 'inheritance', 'oop', 'object-create', 'constructors'],
     examples: [
+      {
+        title: "Прототип vs Цепочка прототипов",
+        code: `const arr = [1, 2, 3];
+
+// ПРОТОТИП — это один объект
+const prototype = Object.getPrototypeOf(arr);
+console.log(prototype === Array.prototype); // true
+// Array.prototype — это конкретный объект-прототип
+
+// ЦЕПОЧКА ПРОТОТИПОВ — это последовательность для поиска
+// arr → Array.prototype → Object.prototype → null
+// Это путь, по которому движок ищет свойства
+
+// Поиск toString по цепочке:
+// 1. Ищет в arr — нет
+// 2. Ищет в Array.prototype (прототип arr) — нет
+// 3. Ищет в Object.prototype (прототип Array.prototype) — есть! ✅
+arr.toString(); // "1,2,3"
+
+// Проверка цепочки:
+console.log(Object.getPrototypeOf(arr) === Array.prototype); // true
+console.log(Object.getPrototypeOf(Array.prototype) === Object.prototype); // true
+console.log(Object.getPrototypeOf(Object.prototype)); // null`
+      },
       {
         title: "Пример цепочки прототипов",
         code: `const arr = [1, 2, 3];

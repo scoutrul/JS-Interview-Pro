@@ -35,7 +35,8 @@ export const CS_PROGRAMMING_LANGUAGES_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// V8 компилирует JavaScript в машинный код\n// 1. Парсинг → AST\n// 2. Байт-код (Ignition)\n// 3. JIT-компиляция (TurboFan) для горячих функций\n// 4. Оптимизированный машинный код\n\n// Горячие функции (вызываются часто)\n// компилируются в быстрый машинный код\n// Холодные функции остаются в байт-коде"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "event-loop", "execution-threading", "runtime-environments"]
+    relatedTopics: ["programming-languages-high-level", "event-loop", "execution-threading", "runtime-environments"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-abstractions-memory",
@@ -71,7 +72,8 @@ export const CS_PROGRAMMING_LANGUAGES_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// Проблема: медленный код\n// Нужно понять, на каком уровне проблема:\n\n// 1. Язык: неоптимальный алгоритм?\n// 2. Движок: JIT не оптимизировал?\n// 3. Хост: браузер блокирует?\n// 4. Платформа: ОС ограничивает?\n\n// DevTools помогает понять уровень проблемы\n// Performance tab показывает цепочку абстракций"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "programming-languages-execution", "memory-management"]
+    relatedTopics: ["programming-languages-high-level", "programming-languages-execution", "memory-management"],
+    isFrontendEssential: true
   },
   {
     id: "programming-languages-modern",
@@ -111,6 +113,7 @@ export const CS_PROGRAMMING_LANGUAGES_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// ES5 (2009): базовый JavaScript\n// ES6+ (2015+): классы, модули, стрелочные функции\n// TypeScript: статическая типизация\n// WebAssembly: производительность\n\n// Инструменты:\n// - Babel: транспиляция\n// - Webpack/Vite: сборка\n// - ESLint: линтинг\n// - Jest: тестирование\n\n// Экосистема развивается для больших проектов"
       }
     ],
-    relatedTopics: ["programming-languages-high-level", "programming-languages-purpose", "programming-languages-execution", "future-programming-evolution"]
+    relatedTopics: ["programming-languages-high-level", "programming-languages-purpose", "programming-languages-execution", "future-programming-evolution"],
+    isFrontendEssential: true
   }
 ];

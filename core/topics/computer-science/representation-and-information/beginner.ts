@@ -59,7 +59,8 @@ export const CS_REPRESENTATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Символ 'A' в ASCII\n01000001"
       }
     ],
-    relatedTopics: ["cs-binary-encoding", "cs-data-and-information"]
+    relatedTopics: ["cs-binary-encoding", "cs-data-and-information"],
+    isFrontendEssential: true
   },
   {
     id: "cs-data-and-information",
@@ -89,7 +90,8 @@ export const CS_REPRESENTATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Без знания формата\n// данные не имеют смысла\n// Интерпретация требует контекста"
       }
     ],
-    relatedTopics: ["cs-binary-encoding", "cs-numbers", "representation-binary-states"]
+    relatedTopics: ["cs-binary-encoding", "cs-numbers", "representation-binary-states"],
+    isFrontendEssential: true
   },
   {
     id: "cs-binary-encoding",
@@ -119,7 +121,8 @@ export const CS_REPRESENTATION_BEGINNER_TOPICS: Topic[] = [
         code: "// Кракозябры\n// = неверная интерпретация байтов\n// = ошибка репрезентации"
       }
     ],
-    relatedTopics: ["cs-data-and-information", "cs-characters"]
+    relatedTopics: ["cs-data-and-information", "cs-characters"],
+    isFrontendEssential: true
   },
   {
     id: "cs-numbers",
@@ -149,7 +152,8 @@ export const CS_REPRESENTATION_BEGINNER_TOPICS: Topic[] = [
         code: "// 1 + 2 === 3\n// без сюрпризов\n// Точная репрезентация"
       }
     ],
-    relatedTopics: ["cs-binary-encoding", "cs-characters"]
+    relatedTopics: ["cs-binary-encoding", "cs-characters"],
+    isFrontendEssential: true
   },
   {
     id: "cs-characters",
@@ -179,6 +183,7 @@ export const CS_REPRESENTATION_BEGINNER_TOPICS: Topic[] = [
         code: "// '🙂' — это не один байт\n// Сложная репрезентация"
       }
     ],
-    relatedTopics: ["cs-binary-encoding", "cs-data-and-information"]
+    relatedTopics: ["cs-binary-encoding", "cs-data-and-information"],
+    isFrontendEssential: true
   }
 ];

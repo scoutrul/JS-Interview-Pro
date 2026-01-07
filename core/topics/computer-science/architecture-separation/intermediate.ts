@@ -37,7 +37,8 @@ export const CS_ARCHITECTURE_SEPARATION_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// Браузерный рантайм:\n// - DOM API\n// - Web APIs (fetch, localStorage)\n// - Event loop для UI\n// - Ограничения безопасности\n\n// Node.js рантайм:\n// - fs, process, модули\n// - Нет DOM\n// - Event loop для I/O\n// - Больше системных возможностей"
       }
     ],
-    relatedTopics: ["programming-languages-execution", "programming-languages-abstractions-memory", "operating-systems-execution-architecture", "architecture-javascript-layers"]
+    relatedTopics: ["programming-languages-execution", "programming-languages-abstractions-memory", "operating-systems-execution-architecture", "architecture-javascript-layers"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-separation-principles",
@@ -75,7 +76,8 @@ export const CS_ARCHITECTURE_SEPARATION_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// Детали изолированы:\nclass UserService {\n  // Приватные методы:\n  #validateUser(data) { ... }\n  #hashPassword(pwd) { ... }\n  \n  // Публичный интерфейс:\n  createUser(data) {\n    this.#validateUser(data);\n    // ...\n  }\n}\n\n// Внешний код не знает\n// о деталях реализации"
       }
     ],
-    relatedTopics: ["architecture-layers-of-abstraction", "architecture-javascript-layers"]
+    relatedTopics: ["architecture-layers-of-abstraction", "architecture-javascript-layers"],
+    isFrontendEssential: true
   },
   {
     id: "architecture-javascript-layers",
@@ -118,6 +120,7 @@ export const CS_ARCHITECTURE_SEPARATION_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// Проблема: медленный рендеринг\n// Слой: DOM/браузер\n// Решение: виртуализация, оптимизация DOM\n\n// Проблема: медленные вычисления\n// Слой: JavaScript/V8\n// Решение: оптимизация алгоритмов, Web Workers\n\n// Проблема: медленная сеть\n// Слой: ОС/сеть\n// Решение: кэширование, оптимизация запросов"
       }
     ],
-    relatedTopics: ["architecture-layers-of-abstraction", "architecture-runtimes", "programming-languages-execution", "operating-systems-execution-architecture"]
+    relatedTopics: ["architecture-layers-of-abstraction", "architecture-runtimes", "programming-languages-execution", "operating-systems-execution-architecture"],
+    isFrontendEssential: true
   }
 ];

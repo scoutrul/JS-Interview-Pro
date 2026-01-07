@@ -37,6 +37,7 @@ export const CS_NETWORK_AND_INTERNET_INTERMEDIATE_TOPICS: Topic[] = [
         code: "// Операционная система:\n// - Управляет сетевыми интерфейсами\n// - Реализует сетевой стек\n// - Обрабатывает пакеты\n\n// Сети используют возможности ОС:\n// - Файловая система (для конфигурации)\n// - Процессы (для сетевых служб)\n// - Управление ресурсами\n\n// Связь с подразделом\n// \"Операционные системы\""
       }
     ],
-    relatedTopics: ["network-internet-vs-web", "operating-systems-platform", "operating-systems-execution-architecture"]
+    relatedTopics: ["network-internet-vs-web", "operating-systems-platform", "operating-systems-execution-architecture"],
+    isFrontendEssential: true
   }
 ];
