@@ -1,0 +1,10 @@
+import { Topic } from '../../../types';
+import { TYPESCRIPT_CLASSES_BEGINNER_TOPICS } from './beginner';
+import { TYPESCRIPT_CLASSES_INTERMEDIATE_TOPICS } from './intermediate';
+import { TYPESCRIPT_CLASSES_ADVANCED_TOPICS } from './advanced';
+
+export const TYPESCRIPT_CLASSES_TOPICS: Topic[] = [
+  ...TYPESCRIPT_CLASSES_BEGINNER_TOPICS,
+  ...TYPESCRIPT_CLASSES_INTERMEDIATE_TOPICS,
+  ...TYPESCRIPT_CLASSES_ADVANCED_TOPICS
+];

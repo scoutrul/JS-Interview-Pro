@@ -176,33 +176,37 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ topic }) => {
         <p className="text-slate-400 text-xs">Задай вопрос, проверь себя или закрепи материал</p>
       </div>
 
-      {/* Быстрые кнопки */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
-        {scenarioButtons.map((btn) => (
-          <button
-            key={btn.intent}
-            onClick={() => handleIntentClick(btn.intent)}
-            disabled={loading}
-            className={`px-3 py-2 rounded-lg border text-xs font-medium transition-all ${
-              currentIntent === btn.intent
-                ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400'
-                : 'bg-slate-700/30 border-slate-600/50 text-slate-300 hover:bg-slate-700/50 hover:border-slate-500/60'
-            } disabled:opacity-50 disabled:cursor-not-allowed`}
-          >
-            <span className="mr-1.5">{btn.icon}</span>
-            <span className="hidden sm:inline">{btn.label}</span>
-            <span className="sm:hidden">{btn.label.split(' ')[0]}</span>
-          </button>
-        ))}
-      </div>
-
       {/* Чат */}
       <div className="mb-4 min-h-[200px] space-y-3">
+        {/* Приветственное сообщение от бота */}
         {messages.length === 0 && !loading && (
-          <div className="text-center py-8 text-slate-500 text-xs">
-            <i className="fa-solid fa-comments text-2xl mb-2 opacity-50"></i>
-            <p>Начни диалог с ассистентом</p>
-            <p className="text-[10px] mt-1">Выбери сценарий выше или задай свой вопрос</p>
+          <div className="flex justify-start animate-fade-in">
+            <div className="max-w-[85%] bg-slate-700/30 border border-slate-600/50 rounded-lg px-3 py-2">
+              <div className="text-xs leading-relaxed text-slate-300">
+                <p className="mb-3">
+                  Здравствуйте! Я ваш учебный ассистент по материалу <strong>"{topic.title}"</strong>. 
+                  Чем я могу помочь вам разобраться в теме?
+                </p>
+                <p className="mb-2 text-slate-400">Я могу:</p>
+                <div className="space-y-1.5">
+                  {scenarioButtons.map((btn) => (
+                    <button
+                      key={btn.intent}
+                      onClick={() => handleIntentClick(btn.intent)}
+                      disabled={loading}
+                      className={`w-full text-left px-2 py-1.5 rounded text-xs leading-relaxed transition-all ${
+                        currentIntent === btn.intent
+                          ? 'bg-emerald-500/10 text-emerald-400 border-l-2 border-emerald-500/50'
+                          : 'text-slate-300 hover:bg-slate-600/30 hover:text-slate-200'
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                      <span className="mr-1.5">{btn.icon}</span>
+                      <span>{btn.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

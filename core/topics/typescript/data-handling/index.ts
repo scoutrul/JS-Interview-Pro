@@ -1,0 +1,8 @@
+import { Topic } from '../../../types';
+import { TYPESCRIPT_DATA_HANDLING_BEGINNER_TOPICS } from './beginner';
+import { TYPESCRIPT_DATA_HANDLING_INTERMEDIATE_TOPICS } from './intermediate';
+
+export const TYPESCRIPT_DATA_HANDLING_TOPICS: Topic[] = [
+  ...TYPESCRIPT_DATA_HANDLING_BEGINNER_TOPICS,
+  ...TYPESCRIPT_DATA_HANDLING_INTERMEDIATE_TOPICS
+];
