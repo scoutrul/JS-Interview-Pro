@@ -371,7 +371,8 @@ const Content: React.FC<ContentProps> = (props) => {
         {nextTopic && (
           <button
             onClick={() => props.onTopicJump(nextTopic.id)}
-            className="flex-[2] w-full text-left px-6 py-3 rounded-lg transition-all border flex items-center justify-between group bg-emerald-500/5 border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-emerald-500/10"
+            className="flex-[2] w-full text-left px-6 py-3 rounded-lg transition-all border flex items-center justify-between group bg-emerald-500/5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-emerald-500/10"
+            style={{ borderColor: 'rgba(59, 130, 246, 1)' }}
           >
             <span className="text-sm font-bold truncate">Следующая тема: "{nextTopic.title}"</span>
             <i className="fa-solid fa-arrow-right text-base flex-shrink-0 ml-2"></i>

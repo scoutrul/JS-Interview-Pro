@@ -86,15 +86,24 @@ const Sidebar: React.FC<SidebarProps> = ({ onTopicSelect, isOpen = true, onClose
   // Вычисляем актуальное состояние тегов - всегда false при смене категории
   const actualShowAllTags = tagsCategory === selectedMetaCategory ? showAllTags : false;
 
-  // Скроллим активный элемент к верху списка при смене выбранной темы
+  // Скроллим к заголовку подраздела, содержащего активную тему
   useEffect(() => {
     if (!selectedTopicId || !scrollRef.current) return;
     const container = scrollRef.current;
     const active = container.querySelector<HTMLButtonElement>(`[data-topic-id="${selectedTopicId}"]`);
     if (!active) return;
+    
+    // Находим родительский div категории (mb-8 last:mb-0)
+    const categoryDiv = active.closest('.mb-8');
+    if (!categoryDiv) return;
+    
+    // Находим заголовок подраздела (h3) внутри этой категории
+    const categoryHeader = categoryDiv.querySelector<HTMLHeadingElement>('h3');
+    if (!categoryHeader) return;
+    
     const containerRect = container.getBoundingClientRect();
-    const activeRect = active.getBoundingClientRect();
-    const offset = activeRect.top - containerRect.top + container.scrollTop - 12; // небольшой отступ сверху
+    const headerRect = categoryHeader.getBoundingClientRect();
+    const offset = headerRect.top - containerRect.top + container.scrollTop - 12; // небольшой отступ сверху
     container.scrollTo({ top: offset, behavior: 'smooth' });
   }, [selectedTopicId, filteredCategories]);
   

@@ -55,7 +55,7 @@ const KnowledgePath: React.FC = () => {
                     {category.title}
                   </div>
                   {totalTopics > 0 && (
-                    <div className="text-[9px] text-slate-500 leading-tight whitespace-nowrap">
+                    <div className={`text-[9px] leading-tight whitespace-nowrap ${progress > 0 ? 'text-emerald-400' : 'text-slate-500'}`}>
                       {progress}% • {totalTopics}
                     </div>
                   )}
