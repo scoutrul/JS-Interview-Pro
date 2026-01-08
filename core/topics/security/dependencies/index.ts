@@ -1,0 +1,8 @@
+import { Topic } from '../../../types';
+import { SECURITY_DEPENDENCIES_BEGINNER_TOPICS } from './beginner';
+import { SECURITY_DEPENDENCIES_INTERMEDIATE_TOPICS } from './intermediate';
+
+export const SECURITY_DEPENDENCIES_TOPICS: Topic[] = [
+  ...SECURITY_DEPENDENCIES_BEGINNER_TOPICS,
+  ...SECURITY_DEPENDENCIES_INTERMEDIATE_TOPICS
+];
