@@ -10,6 +10,7 @@ import { ARCHITECTURE_CATEGORIES } from './topics/architecture';
 import { SECURITY_CATEGORIES } from './topics/security';
 import { NETWORK_CATEGORIES } from './topics/network';
 import { OPTIMIZATION_CATEGORIES } from './topics/optimization';
+import { HIRING_CATEGORIES } from './topics/hiring';
 
 // Данные по категориям - единая структура для всех мета-категорий
 export const META_CATEGORIES_DATA: Record<MetaCategoryId, Category[]> = {
@@ -22,6 +23,7 @@ export const META_CATEGORIES_DATA: Record<MetaCategoryId, Category[]> = {
   architecture: ARCHITECTURE_CATEGORIES,
   security: SECURITY_CATEGORIES,
   network: NETWORK_CATEGORIES,
-  optimization: OPTIMIZATION_CATEGORIES
+  optimization: OPTIMIZATION_CATEGORIES,
+  hiring: HIRING_CATEGORIES
 };
 

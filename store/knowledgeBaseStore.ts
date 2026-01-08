@@ -34,7 +34,8 @@ const getInitialLearnedTopics = (): Record<MetaCategoryId, string[]> => ({
   security: [],
   tools: [],
   network: [],
-  optimization: []
+  optimization: [],
+  hiring: []
 });
 
 export const useKnowledgeBaseStore = create<KnowledgeBaseState>()(

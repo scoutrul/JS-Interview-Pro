@@ -8,7 +8,8 @@ export type MetaCategoryId =
   | "security"
   | "tools"
   | "network"
-  | "optimization";
+  | "optimization"
+  | "hiring";
 
 export interface MetaCategory {
   id: MetaCategoryId;
@@ -77,6 +78,12 @@ export const META_CATEGORIES: MetaCategory[] = [
     title: "Безопасность",
     icon: "fa-solid fa-shield-halved",
     description: "XSS, CSRF, CORS, защита данных",
+  },
+  {
+    id: "hiring",
+    title: "Найм в IT",
+    icon: "fa-solid fa-briefcase",
+    description: "Правила игры, которые не расскажут рекрутеры",
   },
 ];
 

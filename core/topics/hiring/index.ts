@@ -1,0 +1,26 @@
+import { Category } from '../../types';
+import { HIRING_REALITY_CATEGORIES } from './reality';
+import { HIRING_STRATEGY_CATEGORIES } from './strategy';
+import { HIRING_PLAYERS_CATEGORIES } from './players';
+import { HIRING_FUNNEL_CATEGORIES } from './funnel';
+import { HIRING_RESUME_CATEGORIES } from './resume';
+import { HIRING_FIRST_CALL_CATEGORIES } from './first-call';
+import { HIRING_SELF_PRESENTATION_CATEGORIES } from './self-presentation';
+import { HIRING_TECHNICAL_STAGES_CATEGORIES } from './technical-stages';
+import { HIRING_SOFT_SKILLS_CATEGORIES } from './soft-skills';
+import { HIRING_OFFER_NEGOTIATIONS_CATEGORIES } from './offer-negotiations';
+import { HIRING_SURVIVAL_CATEGORIES } from './survival';
+
+export const HIRING_CATEGORIES: Category[] = [
+  ...HIRING_REALITY_CATEGORIES,
+  ...HIRING_STRATEGY_CATEGORIES,
+  ...HIRING_PLAYERS_CATEGORIES,
+  ...HIRING_FUNNEL_CATEGORIES,
+  ...HIRING_RESUME_CATEGORIES,
+  ...HIRING_FIRST_CALL_CATEGORIES,
+  ...HIRING_SELF_PRESENTATION_CATEGORIES,
+  ...HIRING_TECHNICAL_STAGES_CATEGORIES,
+  ...HIRING_SOFT_SKILLS_CATEGORIES,
+  ...HIRING_OFFER_NEGOTIATIONS_CATEGORIES,
+  ...HIRING_SURVIVAL_CATEGORIES
+];
