@@ -450,5 +450,355 @@ form.querySelectorAll('input').forEach(input => {
     relatedTopics: ['event-api', 'dom-api', 'performance-optimization'],
     funFact: 'Делегирование событий экономит память и CPU при большом количестве элементов. Вместо создания обработчика для каждого элемента, создается один обработчик на родителе, который проверяет event.target. Это особенно полезно для динамически добавляемых элементов.',
     isFrontendEssential: true
+  },
+  {
+    id: 'canvas-api',
+    title: 'Canvas API',
+    difficulty: 'intermediate',
+    description: 'Canvas API позволяет рисовать графику через JavaScript. Получаем контекст через getContext("2d") или getContext("webgl"). 2D контекст: прямоугольники (fillRect, strokeRect), пути (beginPath, moveTo, lineTo, arc), текст (fillText, strokeText), изображения (drawImage). Состояние: fillStyle, strokeStyle, lineWidth, font. Используется для графиков, анимаций, игр, обработки изображений.',
+    keyPoints: [
+      'canvas.getContext("2d"): получение 2D контекста для рисования.',
+      'fillRect(x, y, width, height): закрашенный прямоугольник, strokeRect: контур.',
+      'beginPath(), moveTo(x, y), lineTo(x, y), arc(x, y, radius, start, end): создание путей.',
+      'fill() и stroke(): заливка и обводка пути.',
+      'fillStyle, strokeStyle: цвета, lineWidth: толщина линии, font: шрифт для текста.',
+      'drawImage(image, x, y): рисование изображений.',
+      'toDataURL(): экспорт canvas в base64, toBlob(): в Blob.'
+    ],
+    tags: ['canvas', 'graphics', '2d', 'drawing', 'animation', 'browser', 'api'],
+    examples: [
+      {
+        title: "Базовое рисование",
+        code: `const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+// Прямоугольники
+ctx.fillStyle = 'red';
+ctx.fillRect(10, 10, 100, 50); // x, y, width, height
+
+ctx.strokeStyle = 'blue';
+ctx.lineWidth = 2;
+ctx.strokeRect(120, 10, 100, 50);
+
+// Очистка
+ctx.clearRect(50, 20, 30, 20); // вырезает прямоугольник
+
+// Круги
+ctx.beginPath();
+ctx.arc(200, 200, 50, 0, Math.PI * 2); // x, y, radius, start, end
+ctx.fillStyle = 'green';
+ctx.fill();
+
+// Линии
+ctx.beginPath();
+ctx.moveTo(0, 0);
+ctx.lineTo(100, 100);
+ctx.lineTo(200, 50);
+ctx.strokeStyle = 'purple';
+ctx.lineWidth = 3;
+ctx.stroke();`
+      },
+      {
+        title: "Пути и формы",
+        code: `const ctx = canvas.getContext('2d');
+
+// Сложный путь
+ctx.beginPath();
+ctx.moveTo(50, 50);
+ctx.lineTo(150, 50);
+ctx.lineTo(100, 150);
+ctx.closePath(); // замыкает путь
+ctx.fillStyle = 'orange';
+ctx.fill();
+
+// Кривые Безье
+ctx.beginPath();
+ctx.moveTo(50, 200);
+ctx.quadraticCurveTo(100, 100, 150, 200); // квадратичная
+ctx.bezierCurveTo(200, 150, 250, 250, 300, 200); // кубическая
+ctx.stroke();
+
+// Дуги
+ctx.beginPath();
+ctx.arc(400, 200, 50, 0, Math.PI / 2); // четверть круга
+ctx.stroke();`
+      },
+      {
+        title: "Текст и изображения",
+        code: `const ctx = canvas.getContext('2d');
+
+// Текст
+ctx.font = '30px Arial';
+ctx.fillStyle = 'black';
+ctx.fillText('Hello Canvas', 10, 50);
+
+ctx.strokeStyle = 'blue';
+ctx.strokeText('Outlined Text', 10, 100);
+
+// Изображение
+const img = new Image();
+img.onload = () => {
+  ctx.drawImage(img, 0, 0); // x, y
+  ctx.drawImage(img, 0, 0, 100, 100); // x, y, width, height
+  ctx.drawImage(img, 50, 50, 200, 200, 0, 0, 100, 100); // source, dest
+};
+img.src = 'image.png';`
+      },
+      {
+        title: "Стили и состояния",
+        code: `const ctx = canvas.getContext('2d');
+
+// Сохранение и восстановление состояния
+ctx.save(); // сохраняет текущее состояние
+
+ctx.fillStyle = 'red';
+ctx.fillRect(10, 10, 50, 50);
+
+ctx.translate(100, 100); // смещение координат
+ctx.rotate(Math.PI / 4); // поворот
+ctx.scale(2, 2); // масштаб
+
+ctx.fillStyle = 'blue';
+ctx.fillRect(0, 0, 50, 50);
+
+ctx.restore(); // восстанавливает сохраненное состояние
+
+// Градиенты
+const gradient = ctx.createLinearGradient(0, 0, 200, 0);
+gradient.addColorStop(0, 'red');
+gradient.addColorStop(1, 'blue');
+ctx.fillStyle = gradient;
+ctx.fillRect(0, 0, 200, 100);
+
+// Тени
+ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+ctx.shadowBlur = 10;
+ctx.shadowOffsetX = 5;
+ctx.shadowOffsetY = 5;
+ctx.fillRect(250, 10, 100, 100);`
+      },
+      {
+        title: "Анимация",
+        code: `const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+let x = 0;
+
+function animate() {
+  // Очистка
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Рисование
+  ctx.fillStyle = 'red';
+  ctx.beginPath();
+  ctx.arc(x, canvas.height / 2, 20, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Обновление позиции
+  x += 2;
+  if (x > canvas.width) {
+    x = 0;
+  }
+  
+  // Следующий кадр
+  requestAnimationFrame(animate);
+}
+
+animate();`
+      },
+      {
+        title: "Экспорт canvas",
+        code: `const canvas = document.querySelector('canvas');
+const ctx = canvas.getContext('2d');
+
+// Рисуем что-то
+ctx.fillRect(0, 0, 100, 100);
+
+// Экспорт в base64
+const dataURL = canvas.toDataURL('image/png');
+console.log(dataURL); // "data:image/png;base64,..."
+
+// Использование в img
+const img = document.createElement('img');
+img.src = dataURL;
+document.body.appendChild(img);
+
+// Экспорт в Blob
+canvas.toBlob((blob) => {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'canvas.png';
+  a.click();
+}, 'image/png');`
+      }
+    ],
+    relatedTopics: ['dom-api', 'animation-event-loop', 'requestAnimationFrame'],
+    isFrontendEssential: true
+  },
+  {
+    id: 'svg-api',
+    title: 'SVG API',
+    difficulty: 'intermediate',
+    description: 'SVG API позволяет работать с SVG элементами через JavaScript. SVG — векторная графика, масштабируется без потери качества. Создание элементов через createElementNS, установка атрибутов через setAttribute. Анимация через SMIL или JavaScript. Используется для иконок, графиков, интерактивной графики.',
+    keyPoints: [
+      'SVG — векторная графика, масштабируется без потери качества.',
+      'createElementNS("http://www.w3.org/2000/svg", "circle"): создание SVG элементов.',
+      'setAttribute(name, value): установка атрибутов (cx, cy, r для круга, x, y, width, height для rect).',
+      'SVG элементы можно стилизовать через CSS или атрибуты.',
+      'Анимация: SMIL (animate, animateTransform) или JavaScript.',
+      'Использование: иконки, графики, интерактивная графика.'
+    ],
+    tags: ['svg', 'vector-graphics', 'graphics', 'dom', 'animation', 'browser', 'api'],
+    examples: [
+      {
+        title: "Создание SVG элементов",
+        code: `// Создание SVG контейнера
+const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg.setAttribute('width', '200');
+svg.setAttribute('height', '200');
+svg.setAttribute('viewBox', '0 0 200 200');
+
+// Круг
+const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+circle.setAttribute('cx', '100');
+circle.setAttribute('cy', '100');
+circle.setAttribute('r', '50');
+circle.setAttribute('fill', 'red');
+svg.appendChild(circle);
+
+// Прямоугольник
+const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+rect.setAttribute('x', '10');
+rect.setAttribute('y', '10');
+rect.setAttribute('width', '80');
+rect.setAttribute('height', '80');
+rect.setAttribute('fill', 'blue');
+svg.appendChild(rect);
+
+// Добавление в DOM
+document.body.appendChild(svg);`
+      },
+      {
+        title: "SVG в HTML",
+        code: `<!-- SVG можно встраивать прямо в HTML -->
+<svg width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="50" fill="red" />
+  <rect x="10" y="10" width="80" height="80" fill="blue" />
+  <path d="M 10 150 L 100 50 L 190 150" stroke="green" stroke-width="2" fill="none" />
+</svg>
+
+<!-- Или через JavaScript -->
+const svg = document.querySelector('svg');
+const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+circle.setAttribute('cx', '100');
+circle.setAttribute('cy', '100');
+circle.setAttribute('r', '30');
+circle.setAttribute('fill', 'yellow');
+svg.appendChild(circle);`
+      },
+      {
+        title: "Стилизация SVG",
+        code: `const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+circle.setAttribute('cx', '100');
+circle.setAttribute('cy', '100');
+circle.setAttribute('r', '50');
+
+// Через атрибуты
+circle.setAttribute('fill', 'red');
+circle.setAttribute('stroke', 'blue');
+circle.setAttribute('stroke-width', '3');
+
+// Через CSS класс
+circle.setAttribute('class', 'my-circle');
+// CSS: .my-circle { fill: red; stroke: blue; }
+
+// Через style
+circle.setAttribute('style', 'fill: red; stroke: blue;');
+
+// Через JavaScript свойства
+circle.style.fill = 'red';
+circle.style.stroke = 'blue';`
+      },
+      {
+        title: "Анимация SVG",
+        code: `// SMIL анимация (встроенная)
+<svg width="200" height="200">
+  <circle cx="100" cy="100" r="30" fill="red">
+    <animate attributeName="r" from="30" to="50" dur="1s" repeatCount="indefinite" />
+    <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="2s" repeatCount="indefinite" />
+  </circle>
+</svg>
+
+// JavaScript анимация
+const circle = document.querySelector('circle');
+let scale = 1;
+let direction = 1;
+
+function animate() {
+  scale += 0.02 * direction;
+  if (scale > 1.5 || scale < 0.5) {
+    direction *= -1;
+  }
+  circle.setAttribute('r', 30 * scale);
+  requestAnimationFrame(animate);
+}
+animate();`
+      },
+      {
+        title: "Интерактивность",
+        code: `const svg = document.querySelector('svg');
+const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+circle.setAttribute('cx', '100');
+circle.setAttribute('cy', '100');
+circle.setAttribute('r', '50');
+circle.setAttribute('fill', 'red');
+svg.appendChild(circle);
+
+// События
+circle.addEventListener('click', () => {
+  const colors = ['red', 'blue', 'green', 'yellow'];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  circle.setAttribute('fill', randomColor);
+});
+
+circle.addEventListener('mouseenter', () => {
+  circle.setAttribute('r', '60');
+});
+
+circle.addEventListener('mouseleave', () => {
+  circle.setAttribute('r', '50');
+});`
+      },
+      {
+        title: "Сложные формы",
+        code: `const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svg.setAttribute('width', '200');
+svg.setAttribute('height', '200');
+
+// Path (путь) - самый гибкий элемент
+const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+path.setAttribute('d', 'M 10 10 L 100 10 L 100 100 L 10 100 Z'); // прямоугольник
+path.setAttribute('fill', 'blue');
+svg.appendChild(path);
+
+// Полигон
+const polygon = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+polygon.setAttribute('points', '100,10 150,90 50,90'); // треугольник
+polygon.setAttribute('fill', 'green');
+svg.appendChild(polygon);
+
+// Полилиния
+const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+polyline.setAttribute('points', '10,10 50,50 90,10 130,50 170,10');
+polyline.setAttribute('fill', 'none');
+polyline.setAttribute('stroke', 'red');
+polyline.setAttribute('stroke-width', '2');
+svg.appendChild(polyline);
+
+document.body.appendChild(svg);`
+      }
+    ],
+    relatedTopics: ['dom-api', 'canvas-api', 'animation-event-loop'],
+    isFrontendEssential: true
   }
 ];

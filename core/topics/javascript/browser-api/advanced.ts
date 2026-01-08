@@ -183,5 +183,185 @@ export const JS_BROWSER_API_ADVANCED_TOPICS: Topic[] = [
     ],
     relatedTopics: ['event-api', 'performance-optimization', 'dom-api'],
     isFrontendEssential: true
+  },
+  {
+    id: 'webgl-api',
+    title: 'WebGL API',
+    difficulty: 'advanced',
+    description: 'WebGL API предоставляет 3D графику через OpenGL ES 2.0 в браузере. Работает через шейдеры (вершинные и фрагментные) на GPU. getContext("webgl") или getContext("webgl2") получает контекст. Вершины определяют геометрию, шейдеры — как они рендерятся. Используется для 3D игр, визуализаций, сложной графики. Требует знания OpenGL/GLSL.',
+    keyPoints: [
+      'canvas.getContext("webgl") или getContext("webgl2"): получение WebGL контекста.',
+      'Шейдеры: вершинный (vertex shader) определяет позиции, фрагментный (fragment shader) — цвета пикселей.',
+      'Буферы: vertex buffer (VBO) для вершин, index buffer для индексов.',
+      'Программы: создание и компиляция шейдеров, связывание в программу.',
+      'Матрицы: для трансформаций (translation, rotation, scale, projection).',
+      'Используется для 3D игр, визуализаций, сложной графики.',
+      'Требует знания OpenGL/GLSL, сложнее чем Canvas 2D.'
+    ],
+    tags: ['webgl', '3d', 'graphics', 'opengl', 'shaders', 'gpu', 'browser', 'api'],
+    examples: [
+      {
+        title: "Базовая настройка WebGL",
+        code: `const canvas = document.querySelector('canvas');
+const gl = canvas.getContext('webgl') || canvas.getContext('webgl2');
+
+if (!gl) {
+  console.error('WebGL not supported');
+}
+
+// Очистка canvas
+gl.clearColor(0.0, 0.0, 0.0, 1.0); // черный цвет
+gl.clear(gl.COLOR_BUFFER_BIT);
+
+// Установка viewport
+gl.viewport(0, 0, canvas.width, canvas.height);`
+      },
+      {
+        title: "Вершинный шейдер",
+        code: `// Вершинный шейдер (GLSL)
+const vertexShaderSource = \`
+  attribute vec2 a_position;
+  
+  void main() {
+    gl_Position = vec4(a_position, 0.0, 1.0);
+  }
+\`;
+
+// Компиляция шейдера
+function createShader(gl, type, source) {
+  const shader = gl.createShader(type);
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.error('Shader compile error:', gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+    return null;
+  }
+  
+  return shader;
+}
+
+const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertexShaderSource);`
+      },
+      {
+        title: "Фрагментный шейдер",
+        code: `// Фрагментный шейдер (GLSL)
+const fragmentShaderSource = \`
+  precision mediump float;
+  
+  uniform vec4 u_color;
+  
+  void main() {
+    gl_FragColor = u_color;
+  }
+\`;
+
+const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
+
+// Создание программы
+function createProgram(gl, vertexShader, fragmentShader) {
+  const program = gl.createProgram();
+  gl.attachShader(program, vertexShader);
+  gl.attachShader(program, fragmentShader);
+  gl.linkProgram(program);
+  
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.error('Program link error:', gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+    return null;
+  }
+  
+  return program;
+}
+
+const program = createProgram(gl, vertexShader, fragmentShader);
+gl.useProgram(program);`
+      },
+      {
+        title: "Рисование треугольника",
+        code: `// Вершины треугольника
+const positions = [
+  0, 0.5,   // верх
+  -0.5, -0.5, // левый низ
+  0.5, -0.5   // правый низ
+];
+
+// Создание буфера
+const positionBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+
+// Установка атрибута
+const positionLocation = gl.getAttribLocation(program, 'a_position');
+gl.enableVertexAttribArray(positionLocation);
+gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+// Установка цвета
+const colorLocation = gl.getUniformLocation(program, 'u_color');
+gl.uniform4f(colorLocation, 1.0, 0.0, 0.0, 1.0); // красный
+
+// Отрисовка
+gl.drawArrays(gl.TRIANGLES, 0, 3);`
+      },
+      {
+        title: "Матрицы и трансформации",
+        code: `// Матрица проекции (упрощенная)
+function createProjectionMatrix(width, height) {
+  return [
+    2 / width, 0, 0, 0,
+    0, 2 / height, 0, 0,
+    0, 0, 1, 0,
+    -1, -1, 0, 1
+  ];
+}
+
+// Вершинный шейдер с матрицей
+const vertexShaderWithMatrix = \`
+  attribute vec2 a_position;
+  uniform mat4 u_matrix;
+  
+  void main() {
+    gl_Position = u_matrix * vec4(a_position, 0.0, 1.0);
+  }
+\`;
+
+// Установка матрицы
+const matrixLocation = gl.getUniformLocation(program, 'u_matrix');
+const matrix = createProjectionMatrix(canvas.width, canvas.height);
+gl.uniformMatrix4fv(matrixLocation, false, matrix);`
+      },
+      {
+        title: "Текстуры",
+        code: `// Создание текстуры
+const texture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, texture);
+
+// Загрузка изображения
+const image = new Image();
+image.onload = () => {
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+};
+image.src = 'texture.png';
+
+// Использование в шейдере
+const fragmentShaderWithTexture = \`
+  precision mediump float;
+  uniform sampler2D u_texture;
+  varying vec2 v_texCoord;
+  
+  void main() {
+    gl_FragColor = texture2D(u_texture, v_texCoord);
+  }
+\`;`
+      }
+    ],
+    relatedTopics: ['canvas-api', 'animation-event-loop', 'performance-optimization'],
+    funFact: 'WebGL использует GPU для рендеринга, что позволяет обрабатывать миллионы полигонов в реальном времени. WebGL основан на OpenGL ES 2.0, который используется в мобильных устройствах, что делает его кроссплатформенным решением для 3D графики.',
+    isFrontendEssential: false
   }
 ];

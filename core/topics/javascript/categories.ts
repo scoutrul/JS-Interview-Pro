@@ -8,6 +8,7 @@ import { JS_ASYNC_TOPICS } from './async';
 import { JS_COLLECTIONS_TOPICS } from './collections';
 import { JS_ADVANCED_TOPICS } from './advanced';
 import { JS_BROWSER_API_TOPICS } from './browser-api';
+import { JS_NODEJS_TOPICS } from './nodejs';
 import { JS_SECURITY_TOPICS } from './security';
 
 export const JS_KNOWLEDGE_BASE: Category[] = [
@@ -55,6 +56,11 @@ export const JS_KNOWLEDGE_BASE: Category[] = [
     id: 'browser-api',
     title: 'Browser API',
     topics: JS_BROWSER_API_TOPICS
+  },
+  {
+    id: 'nodejs',
+    title: 'Node.js',
+    topics: JS_NODEJS_TOPICS
   },
   {
     id: 'security',
