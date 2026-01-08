@@ -7,6 +7,7 @@ import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
 import { highlightText } from '../utils/highlightText';
 import { TopicWithMeta } from '../hooks/useContentSearch';
 import TopicCard from './TopicCard';
+import ChatAssistant from './ChatAssistant';
 import { findTopicMeta } from '../utils/findTopicMeta';
 import { hasHighlightedWords } from '../utils/hasHighlightedWords';
 import { hasTitleMatch } from '../utils/hasTitleMatch';
@@ -351,6 +352,8 @@ const Content: React.FC<ContentProps> = (props) => {
       </section>
 
       {topic.id === 'scope-chain' && <ScopeChainVisualizer />}
+
+      <ChatAssistant topic={topic} />
 
       <div className="flex flex-col sm:flex-row gap-3">
         <button

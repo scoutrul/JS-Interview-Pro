@@ -87,7 +87,13 @@ ${(article.keyPoints || []).map((point, i) => `${i + 1}. ${point}`).join('\n')}
 
 ${article.funFact ? `Fun fact: ${Array.isArray(article.funFact) ? article.funFact.join(' ') : article.funFact}` : ''}
 
-${article.examples && article.examples.length > 0 ? `Code examples:\n${article.examples.map((ex, i) => `${i + 1}. ${ex.title}\n${ex.code}`).join('\n\n')}` : ''}
+${article.examples && article.examples.length > 0 ? `Code examples:\n${article.examples.map((ex, i) => {
+  // Если код не передан (оптимизация токенов), показываем только заголовок
+  if (!ex.code || ex.code.trim() === '') {
+    return `${i + 1}. ${ex.title}`
+  }
+  return `${i + 1}. ${ex.title}\n${ex.code}`
+}).join('\n\n')}` : ''}
 
 ${article.tags && article.tags.length > 0 ? `Tags: ${article.tags.join(', ')}` : ''}
 `.trim()

@@ -102,6 +102,10 @@
   animation: fadeInSidebar 0.4s ease-out forwards;
 }
 
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
 /* Кастомные правки для Prism, чтобы вписаться в дизайн */
 pre[class*="language-"] {
   margin: 0 !important;
