@@ -18,15 +18,16 @@ const fastify = Fastify({
 
 // Чтение конфигурации из .env
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY
-const API_SECRET = process.env.API_SECRET
+const API_SECRET = process.env.API_SECRET // Опционален - нужен только для localhost
 const ALLOWED_ORIGINS_STR = process.env.ALLOWED_ORIGINS || ''
 
 if (!GEMINI_API_KEY) {
   throw new Error('GEMINI_API_KEY not found in .env')
 }
 
+// API_SECRET опционален - требуется только для localhost запросов
 if (!API_SECRET) {
-  throw new Error('API_SECRET not found in .env')
+  console.warn('API_SECRET not found in .env - localhost requests will be rejected')
 }
 
 // Парсинг разрешенных origin'ов
@@ -126,17 +127,31 @@ Assistant:
   }
 }
 
-// Проверка секретного ключа
+// Проверка секретного ключа (только для localhost)
 const checkApiSecret = async (request, reply) => {
-  const apiKey = request.headers['x-api-key']
+  // Получаем origin из заголовков
+  const origin = request.headers.origin || request.headers.referer || ''
   
-  if (!apiKey) {
-    return reply.code(401).send({ error: 'X-API-Key header is required' })
-  }
+  // Определяем, является ли origin localhost
+  const isLocalhost = origin.startsWith('http://localhost:') || 
+                      origin.startsWith('https://localhost:')
   
-  if (apiKey !== API_SECRET) {
-    return reply.code(401).send({ error: 'Invalid API secret' })
+  if (isLocalhost) {
+    // Для localhost требуем X-API-Key
+    if (!API_SECRET) {
+      return reply.code(500).send({ error: 'API_SECRET not configured for localhost' })
+    }
+    
+    const apiKey = request.headers['x-api-key']
+    if (!apiKey) {
+      return reply.code(401).send({ error: 'X-API-Key header is required for localhost' })
+    }
+    
+    if (apiKey !== API_SECRET) {
+      return reply.code(401).send({ error: 'Invalid API secret for localhost' })
+    }
   }
+  // Для prod (не localhost) просто пропускаем без проверки
 }
 
 fastify.post('/api/chat', {

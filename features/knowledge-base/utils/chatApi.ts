@@ -24,6 +24,7 @@ if (!API_URL) {
   console.warn('VITE_API_URL is not set');
 }
 
+// API_SECRET опционален - нужен только для localhost
 if (!API_SECRET) {
   console.warn('VITE_API_SECRET is not set');
 }
@@ -32,18 +33,31 @@ export async function sendChatMessage(request: ChatRequest): Promise<ChatRespons
   if (!API_URL) {
     throw new Error('API URL is not configured');
   }
-  
-  if (!API_SECRET) {
-    throw new Error('API secret is not configured');
+
+  // Определяем, является ли текущий origin localhost
+  const isLocalhost = typeof window !== 'undefined' && (
+    window.location.origin.startsWith('http://localhost:') ||
+    window.location.origin.startsWith('https://localhost:')
+  );
+
+  // Для localhost требуем API_SECRET
+  if (isLocalhost && !API_SECRET) {
+    throw new Error('API secret is required for localhost');
+  }
+
+  // Формируем заголовки: X-API-Key только для localhost
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json'
+  };
+
+  if (isLocalhost && API_SECRET) {
+    headers['X-API-Key'] = API_SECRET;
   }
 
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-API-Key': API_SECRET
-      },
+      headers,
       body: JSON.stringify(request)
     });
 
