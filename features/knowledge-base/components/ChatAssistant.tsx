@@ -169,7 +169,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ topic }) => {
   ];
 
   return (
-    <section className="mt-16 mb-10 bg-slate-800 border border-slate-700 rounded-xl p-6 lg:p-8 shadow-xl">
+    <section className="mt-16 mb-10 bg-slate-800 border border-slate-700 rounded-xl p-4 md:p-6 lg:p-8 shadow-xl">
       {/* Заголовок */}
       <div className="mb-4">
         <h2 className="text-white text-lg font-black mb-1">AI-ассистент по этой теме</h2>
@@ -177,7 +177,7 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ topic }) => {
       </div>
 
       {/* Чат */}
-      <div className="mb-4 min-h-[200px] space-y-3">
+      <div className="mb-4 mx-4">
         {/* Приветственное сообщение от бота */}
         {messages.length === 0 && !loading && (
           <div className="flex justify-start animate-fade-in">
@@ -288,16 +288,16 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ topic }) => {
         <button
           onClick={() => handleSend()}
           disabled={loading || !input.trim()}
-          className="h-[48px] px-4 py-3 bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 rounded-lg font-medium hover:bg-emerald-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 text-xs"
+          className="w-[48px] h-[48px] flex items-center justify-center bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 rounded-lg font-medium hover:bg-emerald-500/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Отправить"
         >
           <i className="fa-solid fa-paper-plane text-xs"></i>
-          <span className="hidden sm:inline">Отправить</span>
         </button>
         {messages.length > 0 && (
           <button
             onClick={handleClear}
             disabled={loading}
-            className="h-[48px] px-3 py-3 bg-slate-700/30 border border-slate-600/50 text-slate-400 rounded-lg hover:bg-slate-700/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-[48px] h-[48px] flex items-center justify-center bg-slate-700/30 border border-slate-600/50 text-slate-400 rounded-lg hover:bg-slate-700/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             title="Очистить чат"
           >
             <i className="fa-solid fa-trash text-xs"></i>

@@ -134,6 +134,19 @@ code[class*="language-"] {
   padding: 0 2px;
   border-radius: 2px;
   font-style: normal !important;
+  font-size: 12px;
+}
+
+/* Когда код состоит только из комментариев - делаем текст более заметным */
+.code-only-comments code {
+  color: #fefefe !important;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.code-only-comments .token {
+  color: #fefefe !important;
 }
 
 .code-block-container {

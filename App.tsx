@@ -338,7 +338,7 @@ const KnowledgeBaseContent: React.FC = () => {
   return (
     <>
       <SEOHead topic={currentTopic} category={selectedMetaCategory} topicId={urlTopicId} />
-      <div className="flex h-screen bg-[#0a0f1d] overflow-hidden pb-16">
+      <div className="flex h-screen bg-[#0a0f1d] overflow-hidden pb-12">
       {/* Overlay для мобильных */}
       {isSidebarOpen && (
         <div 

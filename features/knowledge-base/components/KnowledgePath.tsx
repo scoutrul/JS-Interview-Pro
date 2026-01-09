@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { META_CATEGORIES, MetaCategoryId } from '../../../core/metaCategories';
 import { useKnowledgeBaseStore } from '../../../store/knowledgeBaseStore';
@@ -7,6 +7,8 @@ import { getKnowledgeBaseByCategory } from '../../../core/constants';
 const KnowledgePath: React.FC = () => {
   const navigate = useNavigate();
   const { selectedMetaCategory, setSelectedMetaCategory, setSelectedTopicId, getProgress, clearFilters } = useKnowledgeBaseStore();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const activeButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleCategorySelect = (categoryId: MetaCategoryId) => {
     setSelectedMetaCategory(categoryId);
@@ -28,10 +30,34 @@ const KnowledgePath: React.FC = () => {
     return knowledgeBase.flatMap(cat => cat.topics).length;
   };
 
+  // Скролл активной кнопки в видимую область на мобильных устройствах
+  const scrollToActive = () => {
+    if (activeButtonRef.current && scrollContainerRef.current) {
+      activeButtonRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'center',
+      });
+    }
+  };
+
+  // При инициализации страницы
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      scrollToActive();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // При изменении активной категории
+  useEffect(() => {
+    scrollToActive();
+  }, [selectedMetaCategory]);
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm border-t border-slate-800/80 shadow-2xl">
-      <div className="w-full px-2 lg:px-4 py-2">
-        <div className="flex items-center justify-start lg:justify-center gap-2 overflow-x-auto lg:overflow-x-hidden">
+      <div className="w-full px-0 lg:px-4 py-2">
+        <div ref={scrollContainerRef} className="flex items-center justify-start px-2 lg:justify-center gap-2 overflow-x-auto lg:overflow-x-hidden">
           {META_CATEGORIES.map((category) => {
             const totalTopics = getTotalTopics(category.id);
             const progress = getProgress(category.id, totalTopics);
@@ -40,6 +66,7 @@ const KnowledgePath: React.FC = () => {
             return (
               <button
                 key={category.id}
+                ref={isActive ? activeButtonRef : null}
                 onClick={() => handleCategorySelect(category.id)}
                 className={`
                   flex items-center gap-2 px-2 lg:px-3 py-1.5 rounded-md transition-all lg:min-w-[70px]

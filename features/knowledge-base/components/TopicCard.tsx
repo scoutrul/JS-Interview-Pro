@@ -95,7 +95,7 @@ const TopicCard: React.FC<TopicCardProps> = ({
             {labels.length > 0 && (
               <div className="flex items-center gap-1 self-center">
                 {labels.map((label, index) => (
-                  <span key={index} className="px-1 text-[9px] text-emerald-500">
+                  <span key={index} className="px-1 text-[9px] text-emerald-500 whitespace-nowrap">
                     {label.icon && <i className={`${label.icon} mr-1`}></i>}
                     {label.title}
                   </span>

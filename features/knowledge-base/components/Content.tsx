@@ -232,7 +232,7 @@ const Content: React.FC<ContentProps> = (props) => {
 
 
   return (
-    <article ref={contentRef} key={topic.id} className="w-full max-w-[min(90vw,80rem)] mx-auto py-12 px-2 lg:px-6 animate-content relative pb-20 lg:pb-12" style={{ minWidth: '255px', width: '100%' }}>
+    <article ref={contentRef} key={topic.id} className="w-full mx-auto py-16 mt-6 md:mt-0 px-4 lg:px-6 animate-content relative pb-20 lg:pb-12" style={{ minWidth: '255px', width: '100%' }}>
       {/* Фейковая строка поиска */}
       <div className="mb-6 -mt-4">
         <div 
@@ -244,13 +244,13 @@ const Content: React.FC<ContentProps> = (props) => {
             type="text" 
             placeholder="Поиск по контенту..." 
             readOnly
-            className="w-full bg-slate-800/30 border border-slate-700/50 rounded-lg py-2.5 pl-11 pr-4 text-sm text-slate-400 outline-none hover:border-slate-600/50 placeholder:text-slate-600 transition-colors cursor-pointer"
+            className="w-full max-w-[calc(100%-3rem)] bg-slate-800/30 border border-slate-700/50 rounded-lg py-2.5 pl-11 pr-4 text-sm text-slate-400 outline-none hover:border-slate-600/50 placeholder:text-slate-600 transition-colors cursor-pointer"
           />
         </div>
       </div>
 
       <header className="mb-10 relative">
-        <div className="flex items-start gap-2 mb-2 flex-wrap">
+        <div className="flex items-start gap-4 mb-4 flex-wrap">
           <Badge variant={topic.difficulty} className="px-3 py-1.5" />
           {topic.tags && topic.tags.length > 0 && (
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -358,24 +358,23 @@ const Content: React.FC<ContentProps> = (props) => {
       <div className="flex flex-col sm:flex-row gap-3">
         <button
           onClick={() => toggleLearned(topic.id, selectedMetaCategory)}
-          className={`flex-[1] flex items-center justify-center gap-2 px-6 py-3 rounded-lg border transition-all ${
+          className={`flex-[1] flex items-center justify-center gap-2 px-6 py-3 rounded-lg border transition-all font-bold ${
             learned
-              ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400 hover:bg-emerald-500/20'
-              : 'bg-slate-800/40 border-slate-700/50 text-slate-400 hover:bg-slate-700/40 hover:text-slate-300'
+              ? 'bg-emerald-500/20 border-emerald-500/70 text-emerald-300 hover:bg-emerald-500/30 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
+              : 'bg-blue-500/20 border-blue-500/60 text-blue-300 hover:bg-blue-500/30 hover:border-blue-500/80 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
           }`}
         >
-          <i className={`fa-solid ${learned ? 'fa-check-circle' : 'fa-circle'} text-base`}></i>
-          <span className="text-sm font-bold">{learned ? 'Изучено' : 'Отметить как изученное'}</span>
+          <i className={`fa-solid ${learned ? 'fa-check-circle' : 'fa-circle'} text-lg`}></i>
+          <span className="text-sm">{learned ? 'Изучено' : 'Отметить как изученное'}</span>
         </button>
         
         {nextTopic && (
           <button
             onClick={() => props.onTopicJump(nextTopic.id)}
-            className="flex-[2] w-full text-left px-6 py-3 rounded-lg transition-all border flex items-center justify-between group bg-emerald-500/5 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.05)] hover:bg-emerald-500/10"
-            style={{ borderColor: 'rgba(59, 130, 246, 1)' }}
+            className="flex-[2] w-full text-right px-6 py-3 rounded-lg transition-all flex items-center justify-end gap-2 group bg-transparent text-blue-400 hover:text-blue-300 border-0 hover:underline underline-offset-4"
           >
-            <span className="text-sm font-bold truncate">Следующая тема: "{nextTopic.title}"</span>
-            <i className="fa-solid fa-arrow-right text-base flex-shrink-0 ml-2"></i>
+            <span className="text-sm font-medium truncate">Следующая тема: "{nextTopic.title}"</span>
+            <i className="fa-solid fa-arrow-right text-sm flex-shrink-0 group-hover:translate-x-1 transition-transform"></i>
           </button>
         )}
       </div>
