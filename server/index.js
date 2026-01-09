@@ -4,6 +4,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import dotenv from 'dotenv'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import { runTelegramPosting, postTopicById } from './telegram/runPosting.js'
+import { setupTelegramCron } from './telegram/schedule.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -168,6 +170,52 @@ fastify.post('/api/chat', {
   },
   preHandler: checkApiSecret
 }, chatHandler)
+
+// Telegram posting endpoint (для ручного запуска и отладки)
+const TELEGRAM_SECRET = process.env.TELEGRAM_SECRET || API_SECRET
+
+fastify.post('/api/telegram/trigger', {
+  preHandler: async (request, reply) => {
+    const apiKey = request.headers['x-api-key']
+    if (!apiKey || apiKey !== TELEGRAM_SECRET) {
+      return reply.code(401).send({ error: 'Invalid API secret' })
+    }
+  }
+}, async (request, reply) => {
+  try {
+    const count = request.body?.count || 2
+    const result = await runTelegramPosting(count)
+    return result
+  } catch (error) {
+    request.log.error(error)
+    reply.code(500).send({ error: 'Telegram posting failed', message: error.message })
+  }
+})
+
+// Endpoint для постинга конкретной темы по ID
+fastify.post('/api/telegram/post-topic', {
+  preHandler: async (request, reply) => {
+    const apiKey = request.headers['x-api-key']
+    if (!apiKey || apiKey !== TELEGRAM_SECRET) {
+      return reply.code(401).send({ error: 'Invalid API secret' })
+    }
+  }
+}, async (request, reply) => {
+  try {
+    const topicId = request.body?.topicId
+    if (!topicId) {
+      return reply.code(400).send({ error: 'topicId is required' })
+    }
+    
+    const result = await postTopicById(topicId)
+    return result
+  } catch (error) {
+    request.log.error(error)
+    reply.code(500).send({ error: 'Telegram posting failed', message: error.message })
+  }
+})
+// Настройка cron для автоматического постинга
+setupTelegramCron()
 
 fastify.listen({ port: 30024, host: '0.0.0.0' }, err => {
   if (err) {

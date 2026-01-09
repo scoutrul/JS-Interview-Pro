@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-topics": "tsx scripts/generate-topics-json.js"
   },
   "dependencies": {
     "prismjs": "^1.30.0",
@@ -24,6 +25,7 @@
     "autoprefixer": "^10.4.23",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.0",
+    "tsx": "^4.7.0",
     "typescript": "~5.6.2",
     "vite": "^6.0.5"
   }
