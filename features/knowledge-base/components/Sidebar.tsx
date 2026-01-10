@@ -19,15 +19,21 @@ const SidebarHeader: React.FC<SidebarHeaderProps> = ({ categoryIcon, selectedMet
         <div className="w-8 h-8 rounded-lg flex items-center justify-center border border-emerald-500">
           <i className={`${categoryIcon} text-emerald-500 text-base`}></i>
         </div>
-        <h1 className="font-bold text-white text-lg tracking-tight">
-          Front <span className="text-emerald-500">Start</span>
-          {selectedMetaCategory && (
-            <>
-              <span className="text-slate-500 text-sm"> / </span>
-              <span className="text-amber-500 text-sm">{META_CATEGORIES.find(c => c.id === selectedMetaCategory)?.title}</span>
-            </>
-          )}
-        </h1>
+        <div className="flex flex-col">
+          <h1 className="font-bold text-white text-lg tracking-tight">
+            <span className="relative">            
+              Front
+              <span className="text-emerald-500 font-bold">Start</span>
+            </span>
+
+            {selectedMetaCategory && (
+              <>
+                <span className="text-slate-500 text-sm"> / </span>
+                <span className="text-amber-500 text-sm">{META_CATEGORIES.find(c => c.id === selectedMetaCategory)?.title}</span>
+              </>
+            )}
+          </h1>
+        </div>
       </div>
     </div>
   );
