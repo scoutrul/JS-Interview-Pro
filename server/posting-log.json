@@ -1,0 +1,72 @@
+[
+  {
+    "timestamp": "2026-01-10T11:27:33.010Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "topics.json not found at C:\\git\\JS-Interview-Pro\\server\\topics.json. Run: node scripts/generate-topics-json.js"
+  },
+  {
+    "timestamp": "2026-01-10T11:27:58.395Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: can't parse entities: Character '.' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "timestamp": "2026-01-10T11:28:13.322Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: can't parse entities: Character '#' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "timestamp": "2026-01-10T11:28:28.035Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: can't parse entities: Character '-' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "timestamp": "2026-01-10T11:28:36.571Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: can't parse entities: Character '!' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "timestamp": "2026-01-10T11:28:57.209Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: group chat was upgraded to a supergroup chat"
+  },
+  {
+    "timestamp": "2026-01-10T11:31:08.789Z",
+    "topicId": null,
+    "status": "error",
+    "messageId": null,
+    "error": "Telegram API error: Bad Request: chat not found"
+  },
+  {
+    "timestamp": "2026-01-10T11:31:23.249Z",
+    "topicId": "frameworks-performance-memoization",
+    "status": "success",
+    "messageId": 3,
+    "error": null
+  },
+  {
+    "timestamp": "2026-01-10T11:34:47.454Z",
+    "topicId": "cors-advanced-config",
+    "status": "success",
+    "messageId": 4,
+    "error": null
+  },
+  {
+    "timestamp": "2026-01-10T11:51:24.022Z",
+    "topicId": "operating-systems",
+    "status": "success",
+    "messageId": 4,
+    "error": null
+  }
+]

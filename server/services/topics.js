@@ -1,4 +1,4 @@
-// JS версия getAllTopics для сервера
+// Сервис для работы с темами
 // Читает данные из topics.json (генерируется скриптом generate-topics-json.js)
 import { readFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -7,7 +7,7 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const TOPICS_JSON_FILE = join(__dirname, 'topics.json');
+const TOPICS_JSON_FILE = join(__dirname, '..', 'topics.json');
 
 let cachedTopicsData = null;
 

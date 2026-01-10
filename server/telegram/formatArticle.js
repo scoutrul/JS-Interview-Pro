@@ -1,28 +1,16 @@
-import { findTopicMetaCategory } from '../getAllTopics.js';
+import { findTopicMetaCategory } from '../services/topics.js';
 
 /**
- * Экранирование специальных символов для Telegram MarkdownV2
+ * Экранирование HTML для Telegram
+ * Нужно экранировать только: <, >, &, "
  */
-function escapeMarkdownV2(text) {
+function escapeHtml(text) {
   if (!text) return '';
   return String(text)
-    .replace(/\\/g, '\\\\')
-    .replace(/_/g, '\\_')
-    .replace(/\*/g, '\\*')
-    .replace(/\[/g, '\\[')
-    .replace(/\]/g, '\\]')
-    .replace(/\(/g, '\\(')
-    .replace(/\)/g, '\\)')
-    .replace(/~/g, '\\~')
-    .replace(/`/g, '\\`')
-    .replace(/>/g, '\\>')
-    .replace(/#/g, '\\#')
-    .replace(/\+/g, '\\+')
-    .replace(/-/g, '\\-')
-    .replace(/=/g, '\\=')
-    .replace(/\|/g, '\\|')
-    .replace(/\{/g, '\\{')
-    .replace(/\}/g, '\\}');
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 /**
@@ -34,20 +22,20 @@ function truncateCode(code, maxLength = 1500) {
 }
 
 /**
- * Форматировать сложность
+ * Форматировать сложность (звезды)
  */
 function formatDifficulty(difficulty) {
-  const emoji = {
-    beginner: '🟢',
-    intermediate: '🟡',
-    advanced: '🔴'
+  const stars = {
+    beginner: '⭐',
+    intermediate: '⭐⭐',
+    advanced: '⭐⭐⭐'
   };
   const labels = {
     beginner: 'Начальный',
     intermediate: 'Средний',
     advanced: 'Продвинутый'
   };
-  return `${emoji[difficulty] || ''} ${labels[difficulty] || difficulty}`;
+  return `${stars[difficulty] || '⭐'} ${labels[difficulty] || difficulty}`;
 }
 
 /**
@@ -60,13 +48,13 @@ export function formatArticleForTelegram(topic, frontendBaseUrl) {
   const parts = [];
   
   // Заголовок
-  parts.push(`*${escapeMarkdownV2(topic.title)}*`);
+  parts.push(`<b>${escapeHtml(topic.title)}</b>`);
   parts.push(`\n${formatDifficulty(topic.difficulty)}`);
   parts.push('');
   
   // Описание
   if (topic.description) {
-    parts.push(escapeMarkdownV2(topic.description));
+    parts.push(escapeHtml(topic.description));
     parts.push('');
   }
   
@@ -74,60 +62,62 @@ export function formatArticleForTelegram(topic, frontendBaseUrl) {
   if (topic.funFact) {
     const funFacts = Array.isArray(topic.funFact) ? topic.funFact : [topic.funFact];
     if (funFacts.length > 0) {
-      parts.push(`💡 *Интересный факт:*`);
-      parts.push(escapeMarkdownV2(funFacts[0]));
+      parts.push(`💡 <b>Интересный факт:</b>`);
+      parts.push(escapeHtml(funFacts[0]));
       parts.push('');
     }
   }
   
   // KeyPoints
   if (topic.keyPoints && topic.keyPoints.length > 0) {
-    parts.push('*Ключевые моменты:*');
+    parts.push('<b>Ключевые моменты:</b>');
     topic.keyPoints.forEach((point, index) => {
-      parts.push(`${index + 1}\\. ${escapeMarkdownV2(point)}`);
+      parts.push(`${index + 1}. ${escapeHtml(point)}`);
     });
     parts.push('');
   }
   
   // FunFact после KeyPoints (если есть второй факт)
   if (topic.funFact && Array.isArray(topic.funFact) && topic.funFact.length > 1) {
-    parts.push(`💡 *Еще один факт:*`);
-    parts.push(escapeMarkdownV2(topic.funFact[1]));
+    parts.push(`💡 <b>Еще один факт:</b>`);
+    parts.push(escapeHtml(topic.funFact[1]));
     parts.push('');
   }
   
   // AdditionalDescription
   if (topic.additionalDescription) {
-    parts.push(escapeMarkdownV2(topic.additionalDescription));
+    parts.push(escapeHtml(topic.additionalDescription));
     parts.push('');
   }
   
   // Examples
   if (topic.examples && topic.examples.length > 0) {
-    parts.push('*Примеры кода:*');
+    parts.push('<b>Примеры кода:</b>');
     topic.examples.forEach((example, index) => {
-      parts.push(`\n*${escapeMarkdownV2(example.title)}:*`);
+      parts.push(`\n<b>${escapeHtml(example.title)}:</b>`);
       const code = truncateCode(example.code);
-      // Для кода используем блок кода (внутри блока экранирование не требуется)
-      // Но нужно экранировать обратные кавычки вокруг блока
-      parts.push(`\`\`\`\n${code}\n\`\`\``);
+      // Для кода используем <pre><code>
+      parts.push(`<pre><code>${escapeHtml(code)}</code></pre>`);
     });
     parts.push('');
   }
   
   // Теги
   if (topic.tags && topic.tags.length > 0) {
-    const tagsStr = topic.tags.map(tag => `#${tag.replace(/\s+/g, '_')}`).join(' ');
+    const tagsStr = topic.tags.map(tag => {
+      const tagName = tag.replace(/\s+/g, '_');
+      return `#${escapeHtml(tagName)}`;
+    }).join(' ');
     parts.push(tagsStr);
     parts.push('');
   }
   
-  // Ссылка на статью (в MarkdownV2 нужно экранировать URL и текст ссылки)
-  const linkText = escapeMarkdownV2('Читать полную версию на сайте');
-  parts.push(`📖 [${linkText}](${articleUrl})`);
+  // Ссылка на статью
+  const linkText = escapeHtml('Читать полную версию на сайте');
+  parts.push(`📖 <a href="${articleUrl}">${linkText}</a>`);
   
   // Мета-информация для аудита
-  parts.push(`\n\\#js\\_interview\\_pro • id: ${topic.id}`);
+  parts.push(`\n#js_interview_pro • id: ${escapeHtml(topic.id)}`);
   
   return parts.join('\n');
 }

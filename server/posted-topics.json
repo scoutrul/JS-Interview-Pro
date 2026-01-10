@@ -1,7 +1,11 @@
 {
   "lastIndex": 0,
-  "posted": [],
-  "lastPostDate": null,
+  "posted": [
+    "frameworks-performance-memoization",
+    "cors-advanced-config",
+    "operating-systems"
+  ],
+  "lastPostDate": "2026-01-10",
   "metaCategoryRotation": {},
   "lastMetaCategories": []
 }

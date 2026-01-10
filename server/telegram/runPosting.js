@@ -1,18 +1,8 @@
-import { getAllTopics, getTopicsByMetaCategory, getTopicById } from '../getAllTopics.js';
-import { getNextTopics, getTopicByIdForPosting, saveState } from '../postingState.js';
+import { getAllTopics, getTopicsByMetaCategory, getTopicById } from '../services/topics.js';
+import { getNextTopics, getTopicByIdForPosting, saveState } from '../services/telegram/state.js';
 import { formatArticleForTelegram } from './formatArticle.js';
 import { sendMessage } from './client.js';
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Загружаем .env
-dotenv.config({ path: join(__dirname, '..', '.env') });
-
-const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL || 'https://frontstart.ru';
+import { FRONTEND_BASE_URL } from '../config/env.js';
 
 /**
  * Отправить одну тему в Telegram

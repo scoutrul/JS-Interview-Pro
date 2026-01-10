@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch index.js",
-    "start": "tsx index.js"
+    "start": "tsx index.js",
+    "test:telegram": "tsx test-telegram.js"
   },
   "dependencies": {
     "@fastify/cors": "^10.0.1",

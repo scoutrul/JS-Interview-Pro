@@ -1,5 +1,6 @@
 import cron from 'node-cron'
-import { runTelegramPosting } from './runPosting.js'
+import { postRandomTopic } from './mvpPosting.js'
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CRON_1, TELEGRAM_CRON_2 } from '../config/env.js'
 
 /**
  * Инициализация cron-задач для автопостинга в Telegram
@@ -12,20 +13,24 @@ import { runTelegramPosting } from './runPosting.js'
  *  - TELEGRAM_CRON_1
  *  - TELEGRAM_CRON_2
  */
+/**
+ * Инициализация cron-задач для автопостинга в Telegram (MVP версия)
+ *
+ * По умолчанию:
+ *  - 09:00 МСК (06:00 UTC)
+ *  - 18:00 МСК (15:00 UTC)
+ */
 export function setupTelegramCron() {
-  const CRON_SCHEDULE_1 = process.env.TELEGRAM_CRON_1 || '0 6 * * *'  // 09:00 МСК
-  const CRON_SCHEDULE_2 = process.env.TELEGRAM_CRON_2 || '0 15 * * *' // 18:00 МСК
-
-  if (!process.env.TELEGRAM_BOT_TOKEN) {
+  if (!TELEGRAM_BOT_TOKEN) {
     console.warn('TELEGRAM_BOT_TOKEN not found - cron jobs disabled')
     return
   }
 
   // Первый пост в день
-  cron.schedule(CRON_SCHEDULE_1, async () => {
-    console.log('Cron job 1 triggered: posting first article')
+  cron.schedule(TELEGRAM_CRON_1, async () => {
+    console.log('Cron job 1 triggered: posting random article')
     try {
-      const result = await runTelegramPosting(1)
+      const result = await postRandomTopic()
       console.log('Cron job 1 result:', result)
     } catch (error) {
       console.error('Cron job 1 error:', error)
@@ -33,16 +38,16 @@ export function setupTelegramCron() {
   })
 
   // Второй пост в день
-  cron.schedule(CRON_SCHEDULE_2, async () => {
-    console.log('Cron job 2 triggered: posting second article')
+  cron.schedule(TELEGRAM_CRON_2, async () => {
+    console.log('Cron job 2 triggered: posting random article')
     try {
-      const result = await runTelegramPosting(1)
+      const result = await postRandomTopic()
       console.log('Cron job 2 result:', result)
     } catch (error) {
       console.error('Cron job 2 error:', error)
     }
   })
 
-  console.log(`Telegram cron jobs scheduled: ${CRON_SCHEDULE_1} and ${CRON_SCHEDULE_2}`)
+  console.log(`Telegram cron jobs scheduled: ${TELEGRAM_CRON_1} and ${TELEGRAM_CRON_2}`)
 }
 

@@ -1,15 +1,4 @@
-import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-// Загружаем .env из папки server
-dotenv.config({ path: join(__dirname, '..', '.env') });
-
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHANNEL_ID = process.env.TELEGRAM_CHANNEL_ID;
+import { TELEGRAM_BOT_TOKEN, TELEGRAM_CHANNEL_ID } from '../config/env.js';
 
 if (!TELEGRAM_BOT_TOKEN) {
   throw new Error('TELEGRAM_BOT_TOKEN not found in .env');
@@ -26,7 +15,7 @@ const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
  */
 export async function sendMessage(text, options = {}) {
   const {
-    parse_mode = 'MarkdownV2',
+    parse_mode = 'HTML', // Используем HTML вместо MarkdownV2 - проще экранировать
     disable_web_page_preview = false,
     disable_notification = false
   } = options;

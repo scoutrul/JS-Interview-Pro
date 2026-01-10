@@ -6,7 +6,8 @@ import { dirname, join } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const STATE_FILE = join(__dirname, 'posted-topics.json');
+// Файл состояния находится в корне server/
+const STATE_FILE = join(__dirname, '..', '..', 'posted-topics.json');
 
 const DEFAULT_STATE = {
   lastIndex: 0,
