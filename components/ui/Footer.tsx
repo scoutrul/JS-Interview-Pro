@@ -11,6 +11,9 @@ const Footer: React.FC = () => {
             Front Start — обучающий проект для фронтенд-разработчиков. Повторение, закрепление и систематизация знаний для подготовки к техническим интервью.
           </p>
           <p className="text-slate-500 text-xs">
+            <a href="https://t.me/frontstart_ru" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors"><i className="fa-brands fa-telegram"></i> Telegram канал</a>
+          </p>
+          <p className="text-slate-500 text-xs">
             © {currentYear} www.frontstart.online / <a href="https://www.antongolova.ru" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">antongolova.ru</a>
           </p>
         </div>

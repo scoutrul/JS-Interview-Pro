@@ -44,9 +44,13 @@ const ProjectInfoModal: React.FC<ProjectInfoModalProps> = ({ isOpen, onClose }) 
                   закрепления и систематизации теоретических знаний, чтобы повысить успешность прохождения 
                   технических интервью.
                 </p>
-                <p className="text-sm leading-relaxed text-slate-400">
+                <p className="text-sm leading-relaxed text-slate-400 mb-3">
                   Проект ориентирован на разработчиков, которые хотят быстро освежить знания, закрыть пробелы 
                   и иметь удобную интерактивную шпаргалку для подготовки к собеседованию.
+                </p>
+                <p className="text-sm leading-relaxed text-slate-400">
+                  Следите за обновлениями и новыми материалами в нашем{' '}
+                  <a href="https://t.me/frontstart_ru" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300 transition-colors underline"><i className="fa-brands fa-telegram"></i> Telegram канале</a>.
                 </p>
               </div>
 
@@ -162,7 +166,7 @@ const ProjectInfoModal: React.FC<ProjectInfoModalProps> = ({ isOpen, onClose }) 
                   Проект некоммерческий, создаётся для образовательных целей и удобства разработчиков.
                 </p>
                 <p className="text-xs text-slate-500 text-center mt-2">
-                  © {new Date().getFullYear()} Front Start by <a href="https://www.antongolova.ru" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">antongolova.ru</a>
+                  <a href="https://t.me/frontstart_ru" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">Telegram канал</a> • © {new Date().getFullYear()} Front Start by <a href="https://www.antongolova.ru" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-400 transition-colors">antongolova.ru</a>
                 </p>
               </div>
             </div>

@@ -232,19 +232,28 @@ const Content: React.FC<ContentProps> = (props) => {
 
 
   return (
-    <article ref={contentRef} key={topic.id} className="w-full mx-auto py-16 mt-6 md:mt-0 px-4 lg:px-6 animate-content relative pb-20 lg:pb-12" style={{ minWidth: '255px', width: '100%' }}>
-      {/* Фейковая строка поиска */}
-      <div className="mb-6 -mt-4">
+    <article ref={contentRef} key={topic.id} className="w-full mx-auto py-16 mt-6 md:mt-0 px-4 lg:px-6 animate-content relative pb-20 lg:pb-12">
+      <a 
+        href="https://t.me/frontstart_ru" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-slate-400 hover:text-emerald-400 transition-colors text-sm whitespace-nowrap flex items-center gap-2 absolute top-4 right-[5rem]"
+      >
+        <i className="fa-brands fa-telegram"></i>
+        <span>Telegram канал</span>
+      </a>
+
+      <div className="mb-6 -mt-4 flex items-center justify-between gap-4">
         <div 
           onClick={() => setContentSearchQuery('')}
-          className="relative cursor-pointer"
+          className="relative cursor-pointer flex-1"
         >
           <i className="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
           <input 
             type="text" 
             placeholder="Поиск по контенту..." 
             readOnly
-            className="w-full max-w-[calc(100%-3rem)] bg-slate-800/30 border border-slate-700/50 rounded-lg py-2.5 pl-11 pr-4 text-sm text-slate-400 outline-none hover:border-slate-600/50 placeholder:text-slate-600 transition-colors cursor-pointer"
+            className="w-full max-w-[calc(100%-3.5rem)] bg-slate-800/30 border border-slate-700/50 rounded-lg py-2.5 pl-11 pr-4 text-sm text-slate-400 outline-none hover:border-slate-600/50 placeholder:text-slate-600 transition-colors cursor-pointer"
           />
         </div>
       </div>
